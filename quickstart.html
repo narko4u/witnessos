@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Installation Guide - WitnessOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+ :root {
+--bg-body: #0d1117;
+ --bg-card: #161b22;
+ --bg-section-alt: #161b22;
+ --bg-toggle: rgba(110,98,255,0.15);
+ --bg-toggle-hover: rgba(110,98,255,0.25);
+ --text-heading: #e6edf3;
+ --text-body: #8b949e;
+ --text-label: #8b949e;
+ --color-primary: #6e62ff;
+ --color-primary-hover: #5a4ee8;
+ --color-primary-light: rgba(110,98,255,0.08);
+ --color-primary-border: rgba(110,98,255,0.2);
+ --border-color: #30363d;
+ --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+ --nav-bg: rgba(13,17,23,0.88);
+ --nav-border: #30363d;
+ --hero-gradient: radial-gradient(ellipse at center, rgba(110,98,255,0.07) 0%, rgba(110,98,255,0.02) 40%, transparent 70%);
+ --input-bg: #161b22;
+ --input-border: #30363d;
+ --input-border-focus: #6e62ff;
+ --input-text: #e6edf3;
+ --input-placeholder: #6a737d;
+ --tier-card-border: #30363d;
+ --tier-card-bg: #161b22;
+ --tier-card-active-border: #6e62ff;
+ --tier-card-active-bg: rgba(110,98,255,0.04);
+ --success-color: #34d399;
+ --error-color: #f87171;
+ --badge-bg: rgba(110,98,255,0.15);
+ --badge-text: #6e62ff;
+}
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+ body {
+ font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+ background: var(--bg-body);
+ color: var(--text-body);
+ font-weight: 300;
+ font-feature-settings: "ss01";
+ line-height: 1.5;
+}
+
+/* === NAV === */
+nav {
+ position: sticky; top: 0; z-index: 100;
+ background: var(--nav-bg);
+ backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+ border-bottom: 1px solid var(--nav-border);
+}
+.nav-inner {
+ display: flex; align-items: center; justify-content: space-between;
+ height: 84px; max-width: 1080px; margin: 0 auto; padding: 0 24px;
+}
+.nav-logo {
+ display: flex; align-items: center; gap: 8px;
+ text-decoration: none;
+}
+.nav-logo img { height: 28px; width: 28px; object-fit: cover; object-position: 0 0; border-radius: 6px; }
+.nav-logo img.logo-full { height: 84px; width: auto; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-links a { font-size: 0.875rem; font-weight: 400; color: var(--text-heading); transition: color 0.15s; text-decoration: none; }
+.nav-links a:hover { color: var(--color-primary); }
+.nav-cta { display: inline-flex; align-items: center; padding: 8px 16px; background: var(--color-primary); color: #ffffff !important; border-radius: 4px; font-size: 0.875rem !important; font-weight: 400 !important; transition: background 0.15s; }
+.nav-cta:hover { background: var(--color-primary-hover) !important; }
+
+/* === TYPOGRAPHY === */
+.display-large { font-size: 2.5rem; font-weight: 300; line-height: 1.15; letter-spacing: -0.64px; color: var(--text-heading); }
+.section-heading { font-size: 1.625rem; font-weight: 300; line-height: 1.15; letter-spacing: -0.4px; color: var(--text-heading); }
+.sub-heading { font-size: 1.25rem; font-weight: 400; line-height: 1.25; letter-spacing: -0.22px; color: var(--text-heading); }
+.body-text { font-size: 1rem; font-weight: 300; line-height: 1.65; color: var(--text-body); }
+.body-text strong { font-weight: 500; color: var(--text-label); }
+.code-label { font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.75rem; font-weight: 500; line-height: 2.00; text-transform: uppercase; letter-spacing: 0.02em; }
+
+/* === HERO === */
+.quickstart-hero { padding: 80px 0 0; text-align: center; position: relative; overflow: hidden; }
+.quickstart-hero::before {
+ content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+ width: 600px; height: 500px;
+ background: var(--hero-gradient);
+ pointer-events: none;
+}
+.quickstart-hero .meta { font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-top: 12px; }
+.quickstart-hero .body-text { max-width: 600px; margin: 16px auto 0; color: var(--text-body); }
+
+/* === TOC === */
+.toc-bar { max-width: 720px; margin: 40px auto 0; padding: 0 24px; }
+.toc-card {
+ background: var(--toc-bg);
+ border: 1px solid var(--border-color);
+ border-radius: 8px;
+ padding: 24px 32px;
+}
+.toc-card h3 { font-size: 0.8125rem; font-weight: 400; color: var(--text-heading); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+.toc-card ol { list-style: none; counter-reset: toc-counter; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 32px; }
+.toc-card ol li { counter-increment: toc-counter; font-size: 0.9375rem; font-weight: 400; }
+.toc-card ol li::before { content: counter(toc-counter); display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: var(--step-num-bg); color: var(--step-num-text); border-radius: 4px; font-size: 0.75rem; font-weight: 500; margin-right: 10px; }
+.toc-card ol li a { color: var(--text-heading); text-decoration: none; transition: color 0.15s; }
+.toc-card ol li a:hover { color: var(--color-primary); }
+ @media (max-width: 600px) {
+.toc-card ol { grid-template-columns: 1fr; }
+ }
+
+/* === DOCUMENT === */
+:root { --toc-bg: #161b22; --step-num-bg: #6e62ff; --step-num-text: #ffffff; --divider-color: #30363d; --blockquote-border: #6e62ff; --inline-code-bg: #1a1f29; --inline-code-text: #e6edf3; --code-block-bg: #0d1117; --code-block-border: #30363d; --callout-info-bg: rgba(110,98,255,0.08); --callout-info-border: #6e62ff; --callout-warn-bg: rgba(234,34,97,0.08); --callout-warn-border: #ea2261; --tag-bg: rgba(110,98,255,0.15); --tag-text: #6e62ff; }
+.document { padding-top: 48px; padding-bottom: 64px; max-width: 720px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+.document hr { border: none; border-top: 1px solid var(--divider-color); margin: 40px 0; }
+.document h2.section-heading { margin-top: 48px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--divider-color); }
+.document h3.sub-heading { margin-top: 28px; margin-bottom: 10px; }
+.document p.body-text { margin-bottom: 14px; }
+.document ul,.document ol { margin: 10px 0 14px 20px; font-size: 1rem; font-weight: 300; line-height: 1.65; color: var(--text-body); }
+.document li { margin-bottom: 6px; }
+.document li strong { font-weight: 500; color: var(--text-label); }
+
+/* === CODE BLOCKS === */
+.code-block {
+ background: var(--code-block-bg);
+ border: 1px solid var(--code-block-border);
+ border-radius: 8px;
+ margin: 16px 0 20px;
+ overflow: hidden;
+}
+.code-block-header {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 6px 16px;
+ background: rgba(255,255,255,0.04);
+ border-bottom: 1px solid var(--code-block-border);
+}
+.code-block-header span {
+ font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+ font-size: 0.6875rem;
+ font-weight: 500;
+ color: #8b949e;
+ text-transform: uppercase;
+ letter-spacing: 0.02em;
+}
+.code-block-header .lang-tag { color: var(--color-primary); }
+.code-block pre {
+ padding: 16px;
+ overflow-x: auto;
+ margin: 0;
+ font-size: 0.875rem;
+ line-height: 1.55;
+}
+.code-block code {
+ font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+ color: #e6edf3;
+ font-weight: 400;
+}
+.code-block code.comment { color: #6a737d; font-style: italic; }
+.code-block code.keyword { color: #ff79c6; }
+.code-block code.string { color: #a5d6ff; }
+.code-block code.function { color: #d2a8ff; }
+.code-block code.number { color: #79c0ff; }
+.code-block code.variable { color: #ffa657; }
+.code-block code.operator { color: #ff79c6; }
+.code-block code.punctuation { color: #8b949e; }
+.inline-code {
+ font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+ font-size: 0.875rem;
+ font-weight: 400;
+ background: var(--inline-code-bg);
+ color: var(--inline-code-text);
+ padding: 2px 6px;
+ border-radius: 3px;
+}
+
+/* === STEPS === */
+.step { margin-bottom: 40px; }
+.step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.step-num {
+ display: inline-flex; align-items: center; justify-content: center;
+ width: 32px; height: 32px;
+ background: var(--step-num-bg); color: var(--step-num-text);
+ border-radius: 6px;
+ font-size: 0.875rem; font-weight: 500;
+ flex-shrink: 0;
+}
+.step-header h3 { font-size: 1.125rem; font-weight: 400; color: var(--text-heading); margin: 0; }
+.step p.body-text { margin-bottom: 10px; }
+
+/* === CALLOUTS === */
+.callout {
+ padding: 14px 18px;
+ border-radius: 6px;
+ margin: 16px 0;
+ font-size: 0.9375rem;
+ font-weight: 300;
+ line-height: 1.55;
+ border-left: 3px solid;
+}
+.callout.info {
+ background: var(--callout-info-bg);
+ border-color: var(--callout-info-border);
+ color: var(--text-body);
+}
+.callout.warn {
+ background: var(--callout-warn-bg);
+ border-color: var(--callout-warn-border);
+ color: var(--text-body);
+}
+.callout strong { font-weight: 500; }
+.callout.info strong { color: var(--color-primary); }
+.callout.warn strong { color: var(--callout-warn-border); }
+
+/* === DIVIDER === */
+.section-divider { border: none; border-top: 1px solid var(--divider-color); margin: 48px 0; }
+
+/* === FOOTER === */
+ footer { padding: 48px 0; border-top: 1px solid var(--border-color); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.footer-brand p { font-size: 0.8125rem; font-weight: 300; color: var(--text-body); margin-top: 8px; max-width: 280px; }
+.footer-col h4 { font-size: 0.8125rem; font-weight: 400; color: var(--text-heading); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-col a { display: block; font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-bottom: 8px; transition: color 0.15s; text-decoration: none; }
+.footer-col a:hover { color: var(--color-primary); }
+
+/* === RESPONSIVE === */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+ @media (max-width: 768px) {
+.display-large { font-size: 2rem; letter-spacing: -0.4px; }
+.section-heading { font-size: 1.375rem; }
+.nav-links { display: none; }
+.quickstart-hero { padding: 48px 0 0; }
+.footer-grid { grid-template-columns: 1fr; gap: 24px; }
+.document { padding-left: 16px; padding-right: 16px; }
+.toc-card ol { grid-template-columns: 1fr; }
+ }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+ <div class="nav-inner">
+ <a href="index.html" class="nav-logo">
+ <img src="witnessos-logo.png" alt="WitnessOS" class="logo-full">
+ </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="whitepaper.html">Whitepaper</a>
+          <a href="quickstart.html" style="color:var(--color-primary);">Docs</a>
+          <a href="whitepaper.html">Spec</a>
+          <a href="casestudy.html">Case Study</a>
+          <a href="demo.html">Demo</a>
+          <a href="manifesto.html">Manifesto</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="signup.html" class="nav-cta">Sign Up</a>
+        </div>
+ </div>
+</nav>
+
+<!-- HERO -->
+<section class="quickstart-hero">
+ <div class="container">
+ <h1 class="display-large">Install WitnessOS in 15 minutes</h1>
+ <p class="body-text">Deploy the credential-brokered enforcement gateway on your own infrastructure. No cloud dependency, no third-party API, no vendor lock-in.</p>
+ <p class="meta">Python 3.12+ &bull; Docker optional &bull; Linux or macOS</p>
+ </div>
+</section>
+
+<!-- TOC -->
+<div class="toc-bar">
+ <div class="toc-card">
+ <h3>Setup Steps</h3>
+ <ol>
+ <li><a href="#step-1">Get access to the gateway engine</a></li>
+ <li><a href="#step-2">Read the specification</a></li>
+ <li><a href="#step-3">Use the public Python SDK</a></li>
+ <li><a href="#step-4">Evaluate the architecture without the source</a></li>
+ </ol>
+ </div>
+</div>
+
+<!-- DOCUMENT -->
+<article class="document">
+
+<h2 class="section-heading" id="step-1">1. Get access to the gateway engine</h2>
+
+<p class="body-text">The WitnessOS gateway engine (credential broker, policy enforcement, evidence chaining) is <strong>proprietary and kept in a private repository</strong> while the patent (AU 2026906017) is pending. This protects the implementation without hiding the design.</p>
+
+<p class="body-text">We provide <strong>NDA-protected access</strong> to:</p>
+<ul style="margin:12px 0 12px 20px;color:var(--text-body);">
+<li>Security researchers and infrastructure teams evaluating the architecture</li>
+<li>Enterprise design partners integrating WitnessOS</li>
+<li>Qualified investors conducting technical due diligence</li>
+</ul>
+
+<div class="callout info">
+<strong>Access process.</strong> Email <a href="mailto:contact@empirelabs.com.au" style="color:var(--color-primary);">contact@empirelabs.com.au</a> with your organisation and use case, we schedule a 30-minute intro call, and following mutual fit we share our standard mutual NDA before granting repository access. Access is revocable at any time.
+</div>
+
+<h2 class="section-heading" id="step-2">2. Read the specification</h2>
+
+<p class="body-text">No install required. The public specification at <a href="whitepaper.html" style="color:var(--color-primary);">whitepaper.html</a> describes the evidence-grade record format, the schema, and the grading model. The interactive demo is available under NDA with the gateway access process.</p>
+
+<h2 class="section-heading" id="step-3">3. Use the public Python SDK</h2>
+
+<p class="body-text">The SDK is open source and works against the hosted demo endpoint:</p>
+
+<div class="code-block">
+<div class="code-block-header">
+<span class="lang-tag">Bash</span>
+<span>Install</span>
+</div>
+<pre><code>cd witnessos-sdk
+pip install -e .
+</code></pre>
+</div>
+
+<div class="code-block">
+<div class="code-block-header">
+<span class="lang-tag">Python</span>
+<span>Fire a governed action</span>
+</div>
+<pre><code>from witnessos_sdk import WitnessOSClient
+
+with WitnessOSClient("http://localhost:8400") as client:
+    resp = client.fire_and_approve(
+        to="partner@example.com",
+        subject="Hello from WitnessOS",
+        body="This email was governed by WitnessOS."
+    )
+    print(f"Case: {resp.case_id}, Receipt: {resp.receipt_id}")
+
+    receipt = client.get_receipt(resp.case_id)
+    print(f"Evidence grade: {receipt.evidence_grade}")
+</code></pre>
+</div>
+
+<h2 class="section-heading" id="step-4">4. Evaluate the architecture without the source</h2>
+
+<p class="body-text">The public repository contains everything needed to evaluate the design without exposing the implementation:</p>
+<ul style="margin:12px 0 12px 20px;color:var(--text-body);">
+<li><a href="SPEC.md" style="color:var(--color-primary);">SPEC.md</a> - frozen receipt specification v1.0 (E0-E4 evidence grades)</li>
+<li><a href="SECURITY.md" style="color:var(--color-primary);">SECURITY.md</a> - full security posture</li>
+<li><a href="security-review/" style="color:var(--color-primary);">security-review/</a> - R0-R7.1 adversarial review findings and mitigations</li>
+<li><a href="whitepaper.html" style="color:var(--color-primary);">Whitepaper</a> - technical deep-dive</li>
+</ul>
+
+<div class="callout info">
+<strong>Deployment.</strong> The full stack (<code>docker compose up</code>) requires the proprietary gateway engine and is available to NDA partners. Public users run the demo and SDK against the hosted demo.
+</div>
+
+<!-- FOOTER -->
+<footer>
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="nav-logo" style="margin-bottom:8px;">
+<img src="witnessos-logo.png" alt="WitnessOS" style="height:72px;width:auto;object-fit:contain;">
+</div>
+<p>Guardrails for autonomous AI. Built by Empire Labs Pty Ltd.</p>
+</div>
+<div class="footer-col">
+<h4>Product</h4>
+<a href="index.html">Home</a>
+<a href="pricing.html">Pricing</a>
+<a href="quickstart.html" style="color:var(--color-primary);">Quickstart</a>
+<a href="demo.html">Demo</a>
+<a href="whitepaper.html">Whitepaper</a>
+</div>
+<div class="footer-col">
+<h4>Legal</h4>
+<a href="terms.html">Terms of Service</a>
+<a href="privacy.html">Privacy Policy</a>
+</div>
+<div class="footer-col">
+<h4>Company</h4>
+<a href="mailto:contact@empirelabs.com.au">Contact</a>
+</div>
+</div>
+</footer>
+
+</body>
+</html>

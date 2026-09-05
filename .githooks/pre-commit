@@ -1,0 +1,32 @@
+#!/bin/bash
+# Pre-commit hook: Prevent accidental staging of .env or credential files
+# Install: cp this file to .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+BLOCKED_PATTERNS=(
+  "^\.env$"
+  "^\.env\.local$"
+  "^\.oauth\.env$"
+  "^config\.yaml$"
+)
+
+for pattern in "${BLOCKED_PATTERNS[@]}"; do
+  if git diff --cached --name-only | grep -q "$pattern"; then
+    echo "❌ BLOCKED: '$pattern' is staged for commit!"
+    echo "   This file contains secrets and must NOT be committed."
+    echo "   Run: git restore --staged $pattern"
+    exit 1
+  fi
+done
+
+# Also scan for any file containing "sk_live_" or real credential patterns
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+for file in $STAGED_FILES; do
+  if [ -f "$file" ]; then
+    if grep -q 'sk_live_' "$file" 2>/dev/null; then
+      echo "❌ BLOCKED: '$file' contains a Stripe live key pattern!"
+      exit 1
+    fi
+  fi
+done
+
+exit 0

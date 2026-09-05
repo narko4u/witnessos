@@ -1,0 +1,47 @@
+# WitnessOS Policy Pack: External Communications
+# Governs all outbound communication actions (email, messaging, etc.)
+# D3.0 - uses action_type matching, risk_tier thresholds
+
+pack_id: empire/external-comms/v1
+pack_version: "1.0"
+name: External Communications Governance
+description: >
+  Governs all outbound communication actions through WitnessOS gateway.
+  Requires human approval for external email sends, auto-allows internal
+  emails at low/medium risk. Default-deny for unmatched actions.
+author: Empire Labs
+tenant_id: default
+environment: test
+enabled: true
+
+connector_kill_switch: []
+monthly_governed_action_cap: null
+
+rules:
+  - rule_id: ext-email-internal-allow
+    description: Internal empirelabs.com.au emails auto-approved
+    priority: 50
+    binding:
+      action_type: gmail.send
+      min_risk_tier: low
+      max_risk_tier: medium
+    decision: allow
+    reason: Internal communications are low-risk
+    recipient_pattern: ".*@empirelabs\\.com\\.au$"
+    capture_profile: restricted-redacted-v1
+
+  - rule_id: ext-email-requires-approval
+    description: High-risk email sends require human approval
+    priority: 100
+    binding:
+      action_type: gmail.send
+      min_risk_tier: high
+    decision: approval_required
+    reason: External communications require human oversight
+    approval:
+      approver_role: admin
+      timeout_minutes: 15
+      require_mfa: false
+      monthly_action_cap: 100
+      note_required: false
+    capture_profile: restricted-redacted-v1

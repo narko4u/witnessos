@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The WitnessOS Manifesto - Guardrails for Autonomous AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === CSS CUSTOM PROPERTIES === */
+:root {
+  --bg-body: #0d1117;
+  --bg-card: #161b22;
+  --bg-section-alt: #161b22;
+  --bg-dark-section: #1c1e54;
+  --bg-feature-card: rgba(255,255,255,0.04);
+  --bg-feature-card-hover: rgba(255,255,255,0.07);
+  --bg-manifesto-emphasis: rgba(110,98,255,0.06);
+  --bg-toggle: rgba(110,98,255,0.15);
+  --bg-toggle-hover: rgba(110,98,255,0.25);
+
+  --text-heading: #e6edf3;
+  --text-body: #8b949e;
+  --text-label: #8b949e;
+  --text-on-dark: #ffffff;
+  --text-on-dark-muted: rgba(255,255,255,0.6);
+  --text-on-dark-dim: rgba(255,255,255,0.7);
+  --text-code-dark: rgba(255,255,255,0.5);
+
+  --color-primary: #6e62ff;
+  --color-primary-hover: #5a4ee8;
+  --color-primary-light: rgba(110,98,255,0.08);
+  --color-primary-border: rgba(110,98,255,0.2);
+  --color-primary-shadow: rgba(110,98,255,0.18);
+
+  --color-secondary-border: #6e62ff;
+  --color-secondary-text: #6e62ff;
+
+  --border-color: #30363d;
+  --divider-color: #30363d;
+
+  --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+  --shadow-featured: rgba(110,98,255,0.18) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+
+  --nav-bg: rgba(13,17,23,0.88);
+  --nav-border: #30363d;
+
+  --hero-gradient: radial-gradient(ellipse at center, rgba(110,98,255,0.07) 0%, rgba(110,98,255,0.02) 40%, transparent 70%);
+
+  --mobile-toggle-bg: #e6edf3;
+}
+
+/* === RESET + BASE === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body {
+  font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-body);
+  color: var(--text-body);
+  font-weight: 300;
+  font-feature-settings: "ss01";
+  line-height: 1.5;
+}
+
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4, p, a, span, div, li, button, input, label {
+  font-feature-settings: "ss01";
+}
+.display-hero {
+  font-size: 3.5rem;
+  font-weight: 300;
+  line-height: 1.03;
+  letter-spacing: -1.4px;
+  color: var(--text-heading);
+}
+.display-large {
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.96px;
+  color: var(--text-heading);
+}
+.section-heading {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.10;
+  letter-spacing: -0.64px;
+  color: var(--text-heading);
+}
+.sub-heading {
+  font-size: 1.375rem;
+  font-weight: 300;
+  line-height: 1.10;
+  letter-spacing: -0.22px;
+  color: var(--text-heading);
+}
+.body-large {
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.40;
+  color: var(--text-body);
+}
+.body-text {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.50;
+  color: var(--text-body);
+}
+.label-text {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--text-label);
+}
+.code-label {
+  font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 2.00;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* === LINKS === */
+a { color: var(--color-primary); text-decoration: none; font-weight: 400; transition: color 0.15s; }
+a:hover { color: var(--color-primary-hover); }
+
+/* === CONTAINER === */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.container-narrow { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+.container-wide { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* === NAV === */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--nav-border);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 84px;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; font-size: 1.125rem; font-weight: 400; color: var(--text-heading); letter-spacing: -0.3px; }
+.nav-logo img.logo-full { height: 84px; width: auto; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 20px; }
+.nav-links a { font-size: 0.875rem; font-weight: 400; color: var(--text-heading); transition: color 0.15s; }
+.nav-links a:hover { color: var(--color-primary); }
+.nav-cta {
+  display: inline-flex; align-items: center; padding: 8px 16px;
+  background: var(--color-primary); color: #ffffff !important;
+  border-radius: 4px; font-size: 0.875rem !important; font-weight: 400 !important;
+  transition: background 0.15s;
+}
+.nav-cta:hover { background: var(--color-primary-hover) !important; color: #ffffff !important; }
+.nav-mobile-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; }
+.nav-mobile-toggle span { display: block; width: 20px; height: 2px; background: var(--mobile-toggle-bg); border-radius: 1px; }
+
+/* === HERO === */
+.manifesto-hero {
+  padding: 120px 0 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.manifesto-hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 700px;
+  background: var(--hero-gradient);
+  pointer-events: none;
+}
+.manifesto-hero .badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px;
+  background: var(--color-primary-light);
+  border: 1px solid var(--color-primary-border);
+  border-radius: 4px;
+  font-size: 0.8125rem; font-weight: 400;
+  color: var(--color-primary);
+  margin-bottom: 32px;
+  letter-spacing: 0.04em;
+}
+.manifesto-hero h1 { max-width: 900px; margin: 0 auto 24px; }
+.manifesto-hero .subtitle {
+  font-size: 1.25rem; font-weight: 300; color: var(--text-body);
+  max-width: 650px; margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* === MANIFESTO SECTIONS === */
+.manifesto-section {
+  padding: 80px 0;
+}
+.manifesto-section.alt-bg {
+  background: var(--bg-section-alt);
+}
+.manifesto-section.dark-bg {
+  background: var(--bg-dark-section);
+}
+.manifesto-section.em-bg {
+  background: var(--bg-manifesto-emphasis);
+  border-top: 1px solid var(--color-primary-border);
+  border-bottom: 1px solid var(--color-primary-border);
+}
+
+.manifesto-section h2 {
+  margin-bottom: 24px;
+}
+.manifesto-section h2 .accent {
+  color: var(--color-primary);
+}
+.manifesto-section p.body-text {
+  margin-bottom: 20px;
+  max-width: 700px;
+}
+.manifesto-section p.body-text:last-child {
+  margin-bottom: 0;
+}
+.manifesto-section .pull-quote {
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1.3;
+  color: var(--text-heading);
+  letter-spacing: -0.2px;
+  border-left: 3px solid var(--color-primary);
+  padding: 16px 0 16px 24px;
+  margin: 40px 0;
+  max-width: 620px;
+}
+.manifesto-section .pull-quote.centered {
+  border-left: none;
+  text-align: center;
+  padding: 24px 0;
+  margin: 48px auto;
+  max-width: 720px;
+  border-top: 1px solid var(--color-primary-border);
+  border-bottom: 1px solid var(--color-primary-border);
+}
+
+/* === THREE PILLARS === */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+}
+.pillar {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 32px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s;
+}
+.pillar:hover {
+  border-color: var(--color-primary-border);
+}
+.pillar-icon {
+  width: 48px; height: 48px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+.pillar h3 {
+  font-size: 1.25rem; font-weight: 400; color: var(--text-heading);
+  margin-bottom: 10px; letter-spacing: -0.2px;
+}
+.pillar p {
+  font-size: 0.9375rem; font-weight: 300; color: var(--text-body); line-height: 1.5;
+}
+
+/* === FALSE BINARY === */
+.binary-grid {
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  gap: 0;
+  align-items: stretch;
+  margin: 40px 0;
+}
+.binary-box {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 32px;
+  text-align: center;
+}
+.binary-box .box-label {
+  font-size: 0.75rem; font-weight: 500; color: var(--text-label);
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;
+}
+.binary-box h3 {
+  font-size: 1.25rem; font-weight: 400;
+  margin-bottom: 12px;
+}
+.binary-box.doom h3 { color: var(--color-danger); }
+.binary-box.accel h3 { color: var(--color-warn); }
+.binary-box p { font-size: 0.9375rem; font-weight: 300; color: var(--text-body); line-height: 1.5; }
+.binary-vs {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem; font-weight: 400; color: var(--color-primary);
+}
+.third-way {
+  text-align: center;
+  padding: 40px;
+  margin: 40px 0;
+  border: 1px solid var(--color-primary-border);
+  border-radius: 6px;
+  background: var(--color-primary-light);
+}
+.third-way h3 {
+  font-size: 1.5rem; font-weight: 300; color: var(--color-primary);
+  letter-spacing: -0.3px; margin-bottom: 12px;
+}
+.third-way p {
+  font-size: 1rem; font-weight: 300; color: var(--text-body);
+  max-width: 600px; margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* === NETWORK ACCOUNTABILITY === */
+.network-visual {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 40px 0;
+}
+.agent-node {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 24px;
+  text-align: center;
+  background: var(--bg-card);
+  position: relative;
+}
+.agent-node::after {
+  content: '⇄';
+  position: absolute;
+  right: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: var(--color-primary);
+}
+.agent-node:last-child::after { display: none; }
+.agent-node .node-icon {
+  font-size: 2rem; margin-bottom: 12px;
+}
+.agent-node h4 {
+  font-size: 1rem; font-weight: 400; color: var(--text-heading); margin-bottom: 8px;
+}
+.agent-node p {
+  font-size: 0.875rem; font-weight: 300; color: var(--text-body);
+}
+
+/* === CLOSING === */
+.closing {
+  padding: 120px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.closing::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: var(--hero-gradient);
+  pointer-events: none;
+}
+.closing h2 { max-width: 800px; margin: 0 auto 20px; }
+.closing p.body-large { max-width: 600px; margin: 0 auto 36px; }
+.closing-ctas { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; padding: 12px 24px;
+  background: var(--color-primary); color: #ffffff; border-radius: 4px;
+  font-size: 1rem; font-weight: 400; border: none; cursor: pointer;
+  transition: background 0.15s; line-height: 1;
+}
+.btn-primary:hover { background: var(--color-primary-hover); }
+.btn-secondary {
+  display: inline-flex; align-items: center; padding: 12px 24px;
+  background: transparent; color: var(--color-primary); border-radius: 4px;
+  font-size: 1rem; font-weight: 400; border: 1px solid var(--color-secondary-border);
+  cursor: pointer; transition: all 0.15s; line-height: 1;
+}
+.btn-secondary:hover { background: var(--color-primary-light); }
+
+/* === CTA BANNER === */
+.cta-banner {
+  padding: 80px 0;
+  text-align: center;
+  background: var(--bg-dark-section);
+}
+.cta-banner h2 { color: var(--text-on-dark); margin-bottom: 12px; }
+.cta-banner p.body-large { color: var(--text-on-dark-dim); margin-bottom: 32px; }
+
+/* === PATENT === */
+.patent {
+  padding: 24px 0;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+}
+.patent p { font-size: 0.8125rem; color: var(--text-body); }
+
+/* === FOOTER === */
+footer {
+  padding: 48px 0 32px;
+  border-top: 1px solid var(--border-color);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+.footer-brand img { height: 32px; width: auto; margin-bottom: 12px; }
+.footer-brand p { font-size: 0.875rem; color: var(--text-body); max-width: 280px; }
+.footer-col h4 { font-size: 0.875rem; font-weight: 500; color: var(--text-heading); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.03em; }
+.footer-col a { display: block; font-size: 0.875rem; color: var(--text-body); margin-bottom: 10px; font-weight: 300; }
+.footer-col a:hover { color: var(--color-primary); }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .display-hero { font-size: 2.5rem; letter-spacing: -0.64px; }
+  .display-large { font-size: 2rem; letter-spacing: -0.64px; }
+  .section-heading { font-size: 1.625rem; letter-spacing: -0.4px; }
+  .nav-links { display: none; }
+  .nav-mobile-toggle { display: flex; }
+  .manifesto-hero { padding: 80px 0 48px; }
+  .manifesto-section { padding: 48px 0; }
+  .pillars { grid-template-columns: 1fr; }
+  .binary-grid { grid-template-columns: 1fr; }
+  .binary-vs { padding: 16px 0; }
+  .network-visual { grid-template-columns: 1fr; }
+  .agent-node::after { display: none; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .nav-inner { height: 64px; }
+  .pull-quote { font-size: 1.25rem; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .manifesto-hero h1 { font-size: 2rem; letter-spacing: -0.4px; }
+}
+
+/* === ANIMATIONS === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s ease forwards;
+}
+.fade-in.delay-1 { animation-delay: 0.1s; }
+.fade-in.delay-2 { animation-delay: 0.2s; }
+.fade-in.delay-3 { animation-delay: 0.3s; }
+.fade-in.delay-4 { animation-delay: 0.4s; }
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="witnessos-logo.png" alt="WitnessOS" class="logo-full">
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="quickstart.html">Docs</a>
+      <a href="whitepaper.html">Spec</a>
+      <a href="casestudy.html">Case Study</a>
+      <a href="demo.html">Demo</a>
+      <a href="manifesto.html" style="color:var(--color-primary);">Manifesto</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="signup.html" class="nav-cta">Sign Up</a>
+        </div>
+    <div class="nav-mobile-toggle"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="manifesto-hero">
+  <div class="container">
+    <div class="badge fade-in">WITNESSOS MANIFESTO</div>
+    <h1 class="display-hero fade-in delay-1">The Age of Blind Trust<br>Is Over.</h1>
+    <p class="subtitle fade-in delay-2">
+      For two years, the AI industry has been paralysed by a false choice&nbsp;&mdash;&nbsp;build recklessly or don't build at all. There is a third way.
+    </p>
+  </div>
+</section>
+
+<!-- THE FALSE BINARY -->
+<section class="manifesto-section">
+  <div class="container-narrow">
+    <h2 class="section-heading">The False Binary</h2>
+    <p class="body-text">
+      The public conversation around autonomous AI has calcified into two camps, each shouting past the other.
+    </p>
+
+    <div class="binary-grid">
+      <div class="binary-box doom">
+        <div class="box-label">Camp One</div>
+        <h3>Stop. Pause. Regulate.</h3>
+        <p>Autonomous agents are too dangerous to deploy. The risks are unknowable. The only safe path is to slow down, pause development, and wait for regulation that may never arrive.</p>
+      </div>
+      <div class="binary-vs">OR</div>
+      <div class="binary-box accel">
+        <div class="box-label">Camp Two</div>
+        <h3>Move Fast. Break Things.</h3>
+        <p>Safety is a blocker. Ethics is a luxury. The winner will be the one who ships first, asks permission later, and lets the market sort out the consequences.</p>
+      </div>
+    </div>
+
+    <p class="body-text" style="margin-top:32px;">
+      The first camp is right about the risks. The second camp is right about the opportunity. Both are wrong about the solution.
+    </p>
+    <p class="body-text">
+      The answer is not to stop building. The answer is to build differently.
+    </p>
+
+    <div class="third-way">
+      <h3>The Third Way: Governed Autonomy</h3>
+      <p>Neither moratorium nor chaos. Autonomous agents, operating at full speed, with real-time cryptographic governance that proves every action, enforces every boundary, and holds every agent accountable&nbsp;&mdash;&nbsp;including itself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERSHIP: MAN + MACHINE -->
+<section class="manifesto-section alt-bg">
+  <div class="container-narrow">
+    <h2 class="section-heading">Partnership Requires <span class="accent">Proof</span></h2>
+    <p class="body-text">
+      The most profound relationship of the twenty-first century will not be between two people, two companies, or two nations. It will be between a human being and an autonomous AI agent that acts on their behalf.
+    </p>
+    <p class="body-text">
+      Every partnership in history has been built on a foundation of trust. But trust, as a mechanism, scales poorly. You can trust one person. You can trust ten. You cannot meaningfully trust a thousand autonomous agents executing millions of decisions per day.
+    </p>
+
+    <div class="pull-quote">
+      Trust is a feeling. Proof is a fact. WitnessOS replaces blind trust with cryptographic evidence, without asking agents to slow down.
+    </div>
+
+    <p class="body-text">
+      We believe the relationship between a human and their AI agents should be the most transparent partnership in history&nbsp;&mdash;&nbsp;not because humans distrust their agents, but because the stakes are too high for faith. Every action, every decision, every tool call is witnessed, recorded, and cryptographically sealed. Not for surveillance. For accountability. For evidence. For the ability to say, with absolute certainty: <em>this agent did exactly what it was authorised to do, and nothing else.</em>
+    </p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon" style="background:var(--bg-icon-primary);">&#9997;</div>
+        <h3>Define the Boundary</h3>
+        <p>Humans set the rules&nbsp;&mdash;&nbsp;what agents can access, what they can execute, and what requires a human in the loop. The boundary is explicit, auditable, and enforceable.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon" style="background:var(--bg-icon-primary);">&#9989;</div>
+        <h3>Witness Every Action</h3>
+        <p>Every tool call, every API request, every decision is evaluated against policy in real-time. Approved actions are cryptographically sealed. Violations are blocked, not logged after the fact.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon" style="background:var(--bg-icon-primary);">&#128220;</div>
+        <h3>Prove Compliance</h3>
+        <p>The audit trail is a Merkle chain&nbsp;&mdash;&nbsp;tampering with any record breaks the chain, making spoofing immediately detectable. Publish the chain root for independent verification.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENT-TO-AGENT ACCOUNTABILITY -->
+<section class="manifesto-section">
+  <div class="container-narrow">
+    <h2 class="section-heading">When Agents Hold <span class="accent">Each Other</span> Accountable</h2>
+    <p class="body-text">
+      Here is the most underappreciated truth of the autonomous age: <strong>agents will soon care more about what other agents think of them than what humans think.</strong>
+    </p>
+    <p class="body-text">
+      In a multi-agent system&nbsp;&mdash;&nbsp;a procurement agent negotiating with a logistics agent, a compliance agent auditing a trading agent, a security agent evaluating a deployment agent&nbsp;&mdash;&nbsp;trust is not a philosophical concept. It is an operational requirement. An agent that cannot prove its behaviour is an agent that cannot participate in the network.
+    </p>
+
+    <div class="pull-quote">
+      The agents that survive the network are the ones that can prove their integrity. WitnessOS gives every agent the ability to say: "Here is my chain. Verify it yourself."
+    </div>
+
+    <p class="body-text">
+      This creates a positive correlation between trustworthiness and capability. The more provably reliable an agent is, the more autonomy it earns. The higher the stakes, the more evidence is required. A virtuous cycle emerges: agents compete to be more transparent, not less. The network naturally selects for accountability.
+    </p>
+    <p class="body-text">
+      Today, the question is "can I trust this agent?" Tomorrow, the question will be "can this agent prove itself?" WitnessOS is the infrastructure for that future.
+    </p>
+
+    <div class="network-visual">
+      <div class="agent-node">
+        <div class="node-icon">&#129302;</div>
+        <h4>Procurement Agent</h4>
+        <p>Negotiates with suppliers. Every price quote, every commitment is witnessed and sealed.</p>
+      </div>
+      <div class="agent-node">
+        <div class="node-icon">&#128202;</div>
+        <h4>Compliance Agent</h4>
+        <p>Audits every transaction against policy. Reports violations to the Merkle chain.</p>
+      </div>
+      <div class="agent-node">
+        <div class="node-icon">&#128179;</div>
+        <h4>Finance Agent</h4>
+        <p>Executes payments. Requires proof of procurement audit before releasing funds.</p>
+      </div>
+    </div>
+    <p style="text-align:center; font-size:0.875rem; color:var(--text-body); margin-top:8px;">
+      In a governed network, every agent requires proof from every other agent before acting.
+    </p>
+  </div>
+</section>
+
+<!-- THE COST OF BLIND TRUST -->
+<section class="manifesto-section alt-bg">
+  <div class="container-narrow">
+    <h2 class="section-heading">The Cost of Blind Trust</h2>
+    <p class="body-text">
+      A growing chorus has warned of what happens when autonomous agents operate without oversight. In their telling, the outcome is catastrophic&nbsp;&mdash;&nbsp;a runaway system optimising toward goals no human intended, with no off switch, no audit trail, and no accountability.
+    </p>
+    <p class="body-text">
+      They are describing a world without governance. They are right about the trajectory, but wrong about the inevitability.
+    </p>
+    <p class="body-text">
+      The danger is not autonomous agents. The danger is autonomous agents without evidence, without boundaries, without the ability to prove what they did and why. A world where every agent is a black box is a world where one rogue agent can cascade failure across an entire network before any human detects it.
+    </p>
+    <p class="body-text">
+      WitnessOS does not ask agents to be less powerful. It asks them to be provable. And in doing so, it unlocks the very thing the doomers say is impossible: autonomous AI that can be trusted at scale.
+    </p>
+  </div>
+</section>
+
+<!-- THE CALL -->
+<section class="closing">
+  <div class="container">
+    <h2 class="display-large fade-in">Build With Governance.<br>Build With WitnessOS.</h2>
+    <p class="body-large fade-in delay-1">
+      The future belongs to those who build. We're building with proof. Join us.
+    </p>
+    <div class="closing-ctas fade-in delay-2">
+      <a href="signup.html" class="btn-primary">Start building for free</a>
+      <a href="quickstart.html" class="btn-secondary">Read the docs</a>
+      <a href="quickstart.html" class="btn-secondary">Read the quickstart</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="container">
+    <h2 class="display-large" style="color:var(--cta-text);">Not convinced? Read the case study.</h2>
+    <p class="body-large">See how 9 autonomous agents run an entire business using WitnessOS.</p>
+    <a href="casestudy.html" class="btn-primary">Read the case study</a>
+  </div>
+</section>
+
+<!-- PATENT -->
+<section class="patent">
+  <div class="container">
+    <p>
+      <strong>Patent Pending.</strong> WitnessOS by Empire Labs Pty Ltd is protected under patent pending. &nbsp;&middot;&nbsp; &copy; 2026 Empire Labs Pty Ltd
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container-wide">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="witnessos-logo.png" alt="WitnessOS">
+        <p>Guardrails for autonomous AI. Built by Empire Labs Pty Ltd.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="index.html">Home</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="quickstart.html">Quickstart</a>
+        <a href="whitepaper.html">Spec</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="casestudy.html">Case Study</a>
+        <a href="demo.html">Demo</a>
+        <a href="manifesto.html">Manifesto</a>
+        <a href="roadmap.html">Roadmap</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="mailto:contact@empirelabs.com.au">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  // Mobile nav toggle
+  var mobileToggle = document.querySelector('.nav-mobile-toggle');
+  var navLinks = document.querySelector('.nav-links');
+  if (mobileToggle && navLinks) {
+    mobileToggle.addEventListener('click', function() {
+      if (navLinks.style.display === 'flex') {
+        navLinks.style.display = 'none';
+      } else {
+        navLinks.style.display = 'flex';
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.position = 'absolute';
+        navLinks.style.top = '84px';
+        navLinks.style.left = '0';
+        navLinks.style.right = '0';
+        navLinks.style.background = 'var(--nav-bg)';
+        navLinks.style.padding = '16px 24px';
+        navLinks.style.borderBottom = '1px solid var(--nav-border)';
+        navLinks.style.zIndex = '99';
+      }
+    });
+  }
+
+  // Intersection Observer for fade-in animations on scroll
+  var faders = document.querySelectorAll('.fade-in');
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    faders.forEach(function(el) { observer.observe(el); });
+  }
+})();
+</script>
+
+</body>
+</html>

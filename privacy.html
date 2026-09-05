@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy - WitnessOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-body: #0d1117;
+  --bg-card: #161b22;
+  --bg-section-alt: #161b22;
+  --bg-dark-section: #1c1e54;
+  --bg-toggle: rgba(110,98,255,0.15);
+  --bg-toggle-hover: rgba(110,98,255,0.25);
+  --text-heading: #e6edf3;
+  --text-body: #8b949e;
+  --text-label: #8b949e;
+  --text-on-dark: #ffffff;
+  --text-on-dark-muted: rgba(255,255,255,0.6);
+  --color-primary: #6e62ff;
+  --color-primary-hover: #5a4ee8;
+  --color-primary-light: rgba(110,98,255,0.08);
+  --color-primary-border: rgba(110,98,255,0.2);
+  --color-secondary-border: #6e62ff;
+  --border-color: #30363d;
+  --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+  --nav-bg: rgba(13,17,23,0.88);
+  --nav-border: #30363d;
+  --hero-gradient: radial-gradient(ellipse at center, rgba(110,98,255,0.07) 0%, rgba(110,98,255,0.02) 40%, transparent 70%);
+  --mobile-toggle-bg: #e6edf3;
+  --divider-color: #30363d;
+  --blockquote-border: #6e62ff;
+  --inline-code-bg: #1a1f29;
+  --inline-code-text: #e6edf3;
+  --toc-bg: #161b22;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body {
+  font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-body);
+  color: var(--text-body);
+  font-weight: 300;
+  line-height: 1.5;
+}
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--nav-border);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 84px; max-width: 1080px; margin: 0 auto; padding: 0 24px;
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.nav-logo img.logo-full { height: 84px; width: auto; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-links a { font-size: 0.875rem; font-weight: 400; color: var(--text-heading); transition: color 0.15s; text-decoration: none; }
+.nav-links a:hover { color: var(--color-primary); }
+.nav-cta { display: inline-flex; align-items: center; padding: 8px 16px; background: var(--color-primary); color: #ffffff !important; border-radius: 4px; font-size: 0.875rem !important; transition: background 0.15s; }
+.nav-cta:hover { background: var(--color-primary-hover) !important; }
+.display-large { font-size: 3rem; font-weight: 300; line-height: 1.1; letter-spacing: -0.8px; color: var(--text-heading); }
+.section-heading { font-size: 1.625rem; font-weight: 300; line-height: 1.15; letter-spacing: -0.4px; color: var(--text-heading); }
+.sub-heading { font-size: 1.25rem; font-weight: 400; line-height: 1.25; letter-spacing: -0.22px; color: var(--text-heading); }
+.body-text { font-size: 1rem; font-weight: 300; line-height: 1.65; color: var(--text-body); }
+.body-text strong { font-weight: 500; color: var(--text-label); }
+.code-label { font-family: 'Source Code Pro', monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; }
+.highlight-box {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border: 1px solid var(--color-primary-border);
+  background: var(--color-primary-light);
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+.legal-hero { padding: 80px 0 48px; text-align: center; position: relative; overflow: hidden; }
+.legal-hero::before {
+  content: ''; position: absolute; top: -300px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 600px;
+  background: var(--hero-gradient);
+  pointer-events: none;
+}
+.legal-hero .meta { font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-top: 12px; }
+.document { padding-bottom: 64px; max-width: 720px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+.document hr { border: none; border-top: 1px solid var(--divider-color); margin: 40px 0; }
+.document h2.section-heading { margin-top: 40px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--divider-color); }
+.document h3.sub-heading { margin-top: 28px; margin-bottom: 10px; }
+.document h4 { font-size: 1rem; font-weight: 500; color: var(--text-heading); margin-top: 20px; margin-bottom: 8px; }
+.document p.body-text { margin-bottom: 14px; }
+.document ul, .document ol { margin: 10px 0 14px 20px; font-size: 1rem; font-weight: 300; line-height: 1.65; color: var(--text-body); }
+.document li { margin-bottom: 6px; }
+.document li strong { font-weight: 500; color: var(--text-label); }
+.document .last-updated { font-size: 0.875rem; font-weight: 300; color: var(--text-body); font-style: italic; margin-top: 8px; }
+.document .definition-term { color: var(--text-heading); font-weight: 500; }
+.document .recital { margin: 16px 0; padding: 12px 18px; border-left: 3px solid var(--color-primary); background: var(--color-primary-light); border-radius: 0 6px 6px 0; font-size: 0.9375rem; }
+footer { padding: 48px 0; border-top: 1px solid var(--border-color); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.footer-brand p { font-size: 0.8125rem; font-weight: 300; color: var(--text-body); margin-top: 8px; max-width: 280px; }
+.footer-col h4 { font-size: 0.8125rem; font-weight: 400; color: var(--text-heading); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-col a { display: block; font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-bottom: 8px; transition: color 0.15s; text-decoration: none; }
+.footer-col a:hover { color: var(--color-primary); }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+@media (max-width: 768px) {
+  .display-large { font-size: 2rem; letter-spacing: -0.4px; }
+  .section-heading { font-size: 1.375rem; }
+  .nav-links { display: none; }
+  .legal-hero { padding: 56px 0 40px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+  .document { padding-left: 16px; padding-right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="witnessos-logo.png" alt="WitnessOS" class="logo-full">
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="quickstart.html">Docs</a>
+      <a href="whitepaper.html">Spec</a>
+      <a href="casestudy.html">Case Study</a>
+      <a href="demo.html">Demo</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html" style="color:var(--color-primary);">Privacy</a>
+      <a href="signup.html" class="nav-cta">Sign Up</a>
+        </div>
+  </div>
+</nav>
+
+<section class="legal-hero">
+  <div class="container">
+    <div class="code-label" style="color:var(--color-primary); text-align:center; display:block; margin-bottom:12px;">Privacy Policy</div>
+    <h1 class="display-large">Privacy Policy</h1>
+    <p class="meta">Last updated: 5 July 2026 | Version 2.1</p>
+  </div>
+</section>
+
+<article class="document">
+
+<div class="highlight-box">
+<strong>Policy in Brief:</strong> WitnessOS is self-hosted software deployed on your own infrastructure. Empire Labs <strong>never</strong> accesses, stores, or processes your agent action data, audit trails, hash chains, or policy configurations. The only personal information we collect is what you voluntarily provide to us - your name, email, organisation, and payment details - which we use exclusively for license management, billing, and support. This Privacy Policy explains our practices in detail.
+</div>
+
+<hr>
+
+<!-- ──────────── 1. SCOPE ──────────── -->
+<h2 class="section-heading" id="scope">1. Scope of This Policy</h2>
+
+<h3 class="sub-heading">1.1 Who We Are</h3>
+<p class="body-text"><strong>Empire Labs Pty Ltd</strong> (ACN 690 601 701) (<strong>"Empire Labs"</strong>, <strong>"we"</strong>, <strong>"us"</strong>, <strong>"our"</strong>) is the developer and distributor of WitnessOS, a self-hosted runtime governance platform for autonomous AI agents. Our registered office is in Townsville, Queensland, Australia.</p>
+
+<h3 class="sub-heading">1.2 Applicability</h3>
+<p class="body-text">This Privacy Policy (<strong>"Policy"</strong>) describes how we collect, hold, use, disclose, and protect <strong>Personal Information</strong> (as defined in the <em>Privacy Act 1988 (Cth)</em>) when you:</p>
+<ol type="a">
+  <li>Visit or interact with our website at witnessos.empirelabs.com.au or any related subdomains (the <strong>"Website"</strong>);</li>
+  <li>Purchase, evaluate, or obtain a license to use WitnessOS (the <strong>"Software"</strong>);</li>
+  <li>Create or manage an account with us (an <strong>"Account"</strong>);</li>
+  <li>Communicate with us for support, inquiries, or other purposes; or</li>
+  <li>Otherwise interact with our business in any manner (collectively, the <strong>"Services"</strong>).</li>
+</ol>
+
+<h3 class="sub-heading">1.3 Commitment</h3>
+<p class="body-text">We are committed to protecting the privacy of your Personal Information in accordance with the <strong>Privacy Act 1988 (Cth)</strong>, the <strong>Australian Privacy Principles (APPs)</strong> set out in Schedule 1 thereof, and all other applicable privacy and data protection laws, including (where applicable) the <strong>General Data Protection Regulation (GDPR) (EU) 2016/679</strong> and the <strong>California Consumer Privacy Act (CCPA) Cal. Civ. Code §1798.100 et seq.</strong>, as amended by the California Privacy Rights Act (CPRA).</p>
+
+<h3 class="sub-heading">1.4 Defined Terms</h3>
+<p class="body-text">Capitalised terms used but not defined in this Policy have the meanings given to them in our <a href="terms.html" style="color:var(--color-primary);">Terms of Service</a>, including but not limited to <strong>"Licensee Data"</strong> (being all data generated, collected, stored, or processed by your instance of the Software) and <strong>"Software"</strong>.</p>
+
+<hr>
+
+<!-- ──────────── 2. WHAT THIS POLICY DOES NOT COVER ──────────── -->
+<h2 class="section-heading" id="not-covered">2. What This Policy Does Not Cover</h2>
+
+<h3 class="sub-heading">2.1 Self-Hosted Software</h3>
+<p class="body-text">The Software is <strong>self-hosted</strong> and is deployed on infrastructure owned, leased, or otherwise controlled by you. Except as expressly provided in Section 4.5 of this Policy and Section 7.1 of our <a href="terms.html" style="color:var(--color-primary);">Terms of Service</a> (Phone-Home and Integrity Reporting), we do not and cannot access, view, store, process, or transmit any Licensee Data. This includes, without limitation:</p>
+<ul>
+  <li>Agent action logs, event histories, or runtime outputs;</li>
+  <li>Audit trail entries, hash chains, or cryptographic proofs generated by the Software;</li>
+  <li>Policy configurations, rules, or governance parameters;</li>
+  <li>Any data, records, or files processed, analysed, or generated by agents being governed by the Software;</li>
+  <li>System logs, performance metrics, or error reports generated by your instance;</li>
+  <li>Any derivative or aggregate data derived from any of the foregoing.</li>
+</ul>
+
+<h3 class="sub-heading">2.2 Your Responsibilities</h3>
+<p class="body-text">You are the <strong>data controller</strong> (as defined in applicable privacy law) for all Licensee Data processed through your instance of the Software. Accordingly, you bear all responsibility and liability under applicable privacy and data protection laws for such Licensee Data, including but not limited to:</p>
+<ol type="a">
+  <li>Providing appropriate privacy notices and obtaining any necessary consents;</li>
+  <li>Responding to access, correction, erasure, portability, and other data subject rights requests;</li>
+  <li>Notifying relevant authorities and affected individuals of any data breaches involving Licensee Data;</li>
+  <li>Ensuring that appropriate technical and organisational measures are in place to protect Licensee Data;</li>
+  <li>Complying with any applicable cross-border data transfer restrictions.</li>
+</ol>
+<p class="body-text">Our <a href="terms.html" style="color:var(--color-primary);">Terms of Service</a> (Sections 9, 10, and 11) further provide that we accept no liability whatsoever for your handling of Licensee Data, and you agree to indemnify us against any claims arising therefrom.</p>
+
+<h3 class="sub-heading">2.3 Third-Party Services</h3>
+<p class="body-text">The Software may include features that enable integration with third-party services, platforms, or APIs. Any data you choose to transmit to such third-party services through the Software is governed by the privacy policies of those third parties, not this Policy. We are not responsible for the privacy practices of any third-party service you connect to the Software.</p>
+
+<hr>
+
+<!-- ──────────── 3. PERSONAL INFORMATION WE COLLECT ──────────── -->
+<h2 class="section-heading" id="collection">3. Personal Information We Collect</h2>
+<p class="body-text">Because we do not host your instance of the Software, the Personal Information we collect is strictly limited to what you provide to us directly, or what is generated through your interactions with our Website, Account, and Services.</p>
+
+<h3 class="sub-heading">3.1 Information You Provide to Us</h3>
+
+<h4>3.1.1 Account and License Information</h4>
+<ul>
+  <li><strong>Identity Information:</strong> Your full name, corporate or organisation name, job title, business address, and telephone number.</li>
+  <li><strong>Contact Information:</strong> Your email address (which we use as your primary Account identifier).</li>
+  <li><strong>Authentication Information:</strong> A hashed and salted password (or third-party OAuth or SSO identifier), session tokens, and audit logs of your login activity on our Account systems.</li>
+  <li><strong>License Information:</strong> License Key identifiers, authorised machine fingerprints, Software version history, license tier, and license term dates.</li>
+  <li><strong>Communication Preferences:</strong> Your preferences regarding product updates, marketing communications, and notification channels.</li>
+</ul>
+
+<h4>3.1.2 Payment Information</h4>
+<ul>
+  <li>Billing name, billing address, and any applicable tax identification numbers (e.g., ABN, VAT ID).</li>
+  <li>Payment method details (credit or debit card type, last four digits, expiration date), which are collected and processed directly by our third-party payment processor (currently Stripe, Inc.). We do not store full credit or debit card numbers, CVV codes, or similar sensitive payment data on our systems.</li>
+  <li>Invoice history, transaction records, and payment receipts.</li>
+</ul>
+
+<h4>3.1.3 Support and Communications</h4>
+<ul>
+  <li>The content and metadata of all emails, support tickets, forum posts, chat messages, and other communications you send to us.</li>
+  <li>Records of telephone calls (if applicable), including call recordings where required for quality assurance or regulatory compliance.</li>
+  <li>Any files, screenshots, system logs, or other materials you voluntarily provide to us in connection with a support request.</li>
+</ul>
+
+<h3 class="sub-heading">3.2 Information Collected Automatically</h3>
+
+<h4>3.2.1 Website Analytics</h4>
+<ul>
+  <li>Internet Protocol (IP) address, which may be used to infer approximate geographic location at the city or regional level;</li>
+  <li>Browser type and version, operating system, device type and model, screen resolution, and language preferences;</li>
+  <li>Referring URL, pages visited on our Website, time and date of visits, time spent on each page, clickstream data, and download activity;</li>
+  <li>Interaction data, such as button clicks, form interactions (without capturing submitted form content), and scroll depth.</li>
+</ul>
+
+<h4>3.2.2 Phone-Home and Integrity Reporting</h4>
+<ul>
+  <li>As described in Section 7.1 of our <a href="terms.html" style="color:var(--color-primary);">Terms of Service</a>, the Software may periodically communicate with our servers solely to transmit: (a) License Key identifier and machine fingerprint; (b) integrity verification result (pass/fail) and file count; (c) Software version and platform information; and (d) a unique environment identifier. These communications do not include any Licensee Data.</li>
+</ul>
+
+<h3 class="sub-heading">3.3 Information We Do Not Collect</h3>
+<p class="body-text">For the avoidance of doubt, we do not collect, and we design our systems to avoid collecting:</p>
+<ul>
+  <li>Trading, transaction, or financial data processed through the Software;</li>
+  <li>Personal information of your customers, end users, or employees from or through your instance of the Software;</li>
+  <li>Sensitive information (as defined in APP 3 of the <em>Privacy Act 1988 (Cth)</em>), such as health information, biometric data, or political opinions;</li>
+  <li>Children's personal information (we do not knowingly collect Personal Information from individuals under the age of 18);</li>
+  <li>Precise geolocation data from your device or your instance of the Software.</li>
+</ul>
+
+<hr>
+
+<!-- ──────────── 4. HOW WE USE PERSONAL INFORMATION ──────────── -->
+<h2 class="section-heading" id="use">4. How We Use Your Personal Information</h2>
+<p class="body-text">We use your Personal Information only for the purposes described in this Policy or as otherwise disclosed to you at the time of collection. Our primary purposes are:</p>
+
+<h3 class="sub-heading">4.1 License Management and Account Administration</h3>
+<p class="body-text">To issue, activate, verify, and manage License Keys; to create and maintain your Account; to verify your identity; to communicate with you regarding your license status, renewals, and Account activity; and to enforce compliance with our <a href="terms.html" style="color:var(--color-primary);">Terms of Service</a>.</p>
+
+<h3 class="sub-heading">4.2 Billing and Payment Processing</h3>
+<p class="body-text">To process payments, generate invoices, manage subscriptions, handle refunds, and maintain financial records in compliance with applicable tax and record-keeping laws, including the <em>Taxation Administration Act 1953 (Cth)</em>.</p>
+
+<h3 class="sub-heading">4.3 Customer Support</h3>
+<p class="body-text">To respond to your inquiries, troubleshoot technical issues, provide product support, and communicate with you about the resolution of support requests.</p>
+
+<h3 class="sub-heading">4.4 Product Improvement and Analytics</h3>
+<p class="body-text">To analyse Website usage trends, diagnose technical issues, improve the functionality and user experience of the Website and Services, and develop new features and products. Analytics are conducted on an aggregated, de-identified basis wherever possible.</p>
+
+<h3 class="sub-heading">4.5 Security and Integrity</h3>
+<p class="body-text">To monitor and verify the security and integrity of the Software (including through Phone-Home communications as described in Section 3.2.2 of this Policy and Section 7.1 of the <a href="terms.html" style="color:var(--color-primary);">Terms of Service</a>); to detect and prevent unauthorised use, tampering, or distribution; to enforce compliance with our <a href="terms.html" style="color:var(--color-primary);">Terms of Service</a>; and to protect our rights, property, and safety, and the rights, property, and safety of our customers and others.</p>
+
+<h3 class="sub-heading">4.6 Legal and Regulatory Compliance</h3>
+<p class="body-text">To comply with all applicable laws, regulations, court orders, subpoenas, and other legal processes; to respond to requests from regulators; and to establish, exercise, or defend legal claims.</p>
+
+<h3 class="sub-heading">4.7 Communications</h3>
+<p class="body-text">To send you service-related communications, including license renewal notices, security alerts, product update notifications, and changes to our terms, conditions, and policies. We may also send you marketing communications about our products and services, but only where you have provided your express consent (opt-in) to receive such communications. You may withdraw your marketing consent at any time by clicking the "unsubscribe" link in any marketing email or by contacting us at contact@empirelabs.com.au.</p>
+
+<hr>
+
+<!-- ──────────── 5. LEGAL BASES FOR PROCESSING ──────────── -->
+<h2 class="section-heading" id="legal-bases">5. Legal Bases for Processing (GDPR)</h2>
+<p class="body-text">If you are located in the European Economic Area (EEA) or the United Kingdom, our processing of your Personal Information is based on the following legal bases under the GDPR:</p>
+<ul>
+  <li><strong>Performance of a Contract (Article 6(1)(b)):</strong> Processing necessary to deliver the Services to you, including license management, Account administration, billing, and support.</li>
+  <li><strong>Legitimate Interests (Article 6(1)(f)):</strong> Processing necessary for our legitimate interests, including product improvement and analytics, security monitoring, fraud prevention, enforcement of our Terms of Service, and direct marketing (where you have not objected). We balance these interests against your privacy rights and do not process where your interests override ours.</li>
+  <li><strong>Compliance with a Legal Obligation (Article 6(1)(c)):</strong> Processing necessary to comply with our legal obligations, including tax and record-keeping requirements and responses to legal process.</li>
+  <li><strong>Consent (Article 6(1)(a)):</strong> Processing for marketing communications where we have obtained your express consent. You have the right to withdraw your consent at any time.</li>
+</ul>
+
+<hr>
+
+<!-- ──────────── 6. DATA SHARING AND DISCLOSURE ──────────── -->
+<h2 class="section-heading" id="sharing">6. Data Sharing and Disclosure</h2>
+
+<h3 class="sub-heading">6.1 No Sale of Personal Information</h3>
+<p class="body-text">We do not and will not sell, rent, trade, or otherwise transfer your Personal Information to third parties for monetary or other valuable consideration, including as "sale" is defined under the CCPA/CPRA, the GDPR, or any other applicable law.</p>
+
+<h3 class="sub-heading">6.2 Service Providers (Data Processors)</h3>
+<p class="body-text">We engage trusted third-party service providers who process Personal Information on our behalf solely for the purposes described in this Policy. These providers are contractually bound by Data Processing Agreements (DPAs) that prohibit them from using your Personal Information for any purpose other than providing the contracted services, and that require them to maintain security standards equivalent to our own. Our current categories of service providers include:</p>
+<ul>
+  <li><strong>Payment Processing:</strong> Stripe, Inc. - processes payment card transactions (we do not store full card numbers).</li>
+  <li><strong>Email Communications:</strong> our email service provider - sends transactional emails (license keys, invoices, support responses) and, where opted in, marketing communications.</li>
+  <li><strong>Website Hosting:</strong> our web hosting provider - hosts our Website and Account portal.</li>
+  <li><strong>Analytics:</strong> our analytics provider - processes aggregated, de-identified Website usage data.</li>
+</ul>
+<p class="body-text">A current list of our sub-processors, together with their locations and processing activities, is available on request by emailing contact@empirelabs.com.au. We will provide at least thirty (30) days' prior notice of any changes to our sub-processors.</p>
+
+<h3 class="sub-heading">6.3 Legal Requirements</h3>
+<p class="body-text">We may disclose your Personal Information if we are required to do so by law, regulation, or legal process (including but not limited to a court order, subpoena, warrant, or regulatory demand). We will, where permitted by law, use reasonable efforts to notify you in advance of such disclosure to allow you to seek a protective order or other appropriate relief.</p>
+
+<h3 class="sub-heading">6.4 Business Transactions</h3>
+<p class="body-text">In the event of a merger, acquisition, divestiture, restructuring, reorganisation, dissolution, or sale of all or substantially all of our assets, your Personal Information may be transferred as part of that transaction. We will provide you with prior written notice (via email and a prominent notice on our Website) of any such change in ownership or control of your Personal Information, and you will be given an opportunity to opt out of any material change in the use of your information resulting from such transaction.</p>
+
+<h3 class="sub-heading">6.5 Protection of Rights</h3>
+<p class="body-text">We may disclose your Personal Information where reasonably necessary to establish, exercise, or defend our legal rights, to protect against fraud or other illegal activity, or to protect the rights, property, or personal safety of Empire Labs, our customers, or the public.</p>
+
+<hr>
+
+<!-- ──────────── 7. CROSS-BORDER DATA TRANSFERS ──────────── -->
+<h2 class="section-heading" id="cross-border">7. Cross-Border Data Transfers</h2>
+
+<h3 class="sub-heading">7.1 Data Storage</h3>
+<p class="body-text">Our primary business systems and data storage are located in Australia. We and our service providers may store and process your Personal Information in Australia, the United States, and other jurisdictions where our service providers operate.</p>
+
+<h3 class="sub-heading">7.2 Adequacy Safeguards</h3>
+<p class="body-text">Where Personal Information is transferred to a jurisdiction that has not been determined by the European Commission or the UK Government (as applicable) to provide an adequate level of data protection, we will implement appropriate safeguards to protect your Personal Information, including but not limited to:</p>
+<ul>
+  <li>Standard Contractual Clauses (SCCs) as adopted by the European Commission under Article 46(2) of the GDPR and/or the UK International Data Transfer Agreement (IDTA);</li>
+  <li>Data Processing Agreements that incorporate equivalent protections.</li>
+</ul>
+<p class="body-text">By providing your Personal Information to us, you acknowledge that we may transfer, store, and process your information in accordance with this Section 7.</p>
+
+<h3 class="sub-heading">7.3 APP Compliance</h3>
+<p class="body-text">For the purposes of Australian Privacy Principle 8 (Cross-border disclosure of personal information), we will take such steps as are reasonable in the circumstances to ensure that any overseas recipient of your Personal Information does not breach the APPs. However, by providing your Personal Information, you consent to the disclosure of your information to overseas recipients as described in this Section 7, with the understanding that such recipients will not be subject to the APPs and that you may not be able to seek redress under the <em>Privacy Act 1988 (Cth)</em> for any mishandling by such recipients.</p>
+
+<hr>
+
+<!-- ──────────── 8. DATA RETENTION ──────────── -->
+<h2 class="section-heading" id="retention">8. Data Retention</h2>
+<p class="body-text">We retain your Personal Information only for as long as reasonably necessary to fulfill the purposes for which it was collected, or as required by applicable law. Our retention periods are as follows:</p>
+<ul>
+  <li><strong>Account and License Data:</strong> Retained for the duration of your Account or license term, plus a period of thirty (30) calendar days after termination of your Account or license, after which it is securely and permanently deleted, except that:</li>
+  <li><strong>Billing and Transaction Records:</strong> Retained for a period of seven (7) years after the end of the financial year in which the transaction occurred, to comply with our obligations under the <em>Taxation Administration Act 1953 (Cth)</em> and the <em>Corporations Act 2001 (Cth)</em>.</li>
+  <li><strong>Support Communications:</strong> Retained for a period of twelve (12) months after the resolution of the applicable support request or the last communication in a series, after which they are securely deleted, provided that we may retain records of systemic issues or feature requests on an anonymised basis for product improvement purposes.</li>
+  <li><strong>Phone-Home and Integrity Records:</strong> Retained for a period of twelve (12) months after receipt, after which they are securely deleted, provided that aggregated statistics (e.g., number of active instances, integrity pass/fail rates) may be retained indefinitely on an anonymised basis.</li>
+  <li><strong>Website Analytics:</strong> Retained in aggregated, de-identified form indefinitely. Raw logs containing IP addresses are deleted after ninety (90) calendar days.</li>
+  <li><strong>Marketing Communications Data:</strong> Retained until you opt out or withdraw consent, or until thirty (30) calendar days after termination of your Account, whichever is earlier.</li>
+</ul>
+
+<hr>
+
+<!-- ──────────── 9. DATA SECURITY ──────────── -->
+<h2 class="section-heading" id="security">9. Data Security</h2>
+<p class="body-text">We implement and maintain industry-standard technical and organisational security measures to protect your Personal Information against unauthorised access, alteration, disclosure, or destruction. These measures include:</p>
+<ul>
+  <li><strong>Encryption at Rest:</strong> All stored Personal Information is encrypted using AES-256 or equivalent industry-standard encryption algorithms.</li>
+  <li><strong>Encryption in Transit:</strong> All communications with our systems are encrypted using TLS 1.3 (or higher) protocol.</li>
+  <li><strong>Access Controls:</strong> Access to Personal Information is restricted to authorised personnel on a strict need-to-know basis, enforced through role-based access controls (RBAC), multi-factor authentication (MFA), and individual accountability.</li>
+  <li><strong>Audit Logging:</strong> All access to and operations on Personal Information are logged and subject to periodic review. Logs are retained for a minimum of twelve (12) months.</li>
+  <li><strong>Incident Response:</strong> We maintain a documented security incident response plan and conduct periodic tabletop exercises and penetration testing.</li>
+  <li><strong>Third-Party Audits:</strong> We conduct regular security assessments of our infrastructure, including vulnerability scanning and, where appropriate, independent penetration testing.</li>
+</ul>
+
+<hr>
+
+<!-- ──────────── 10. DATA BREACH NOTIFICATION ──────────── -->
+<h2 class="section-heading" id="breach">10. Data Breach Notification</h2>
+
+<h3 class="sub-heading">10.1 NDB Scheme (Australia)</h3>
+<p class="body-text">In accordance with the <strong>Notifiable Data Breaches (NDB) scheme</strong> under Part IIIC of the <em>Privacy Act 1988 (Cth)</em>, if we reasonably believe that a data breach has occurred involving your Personal Information that is likely to result in serious harm, we will:</p>
+<ol type="a">
+  <li>Conduct a reasonable and expeditious assessment of the suspected breach (as required by s 26GL of the Act);</li>
+  <li>Notify you as soon as practicable after forming the relevant belief (s 26WH);</li>
+  <li>Provide recommendations to mitigate any potential harm; and</li>
+  <li>Notify the <strong>Office of the Australian Information Commissioner (OAIC)</strong> in accordance with s 26WB of the Act.</li>
+</ol>
+
+<h3 class="sub-heading">10.2 GDPR/EU Breach Notification</h3>
+<p class="body-text">If we are subject to the GDPR in respect of your Personal Information, we will notify the relevant supervisory authority of any breach without undue delay and, where feasible, within seventy-two (72) hours of becoming aware of the breach, in accordance with Article 33 of the GDPR. We will notify you directly where required by Article 34 of the GDPR.</p>
+
+<h3 class="sub-heading">10.3 Scope Limitation</h3>
+<p class="body-text">The obligations in this Section 10 apply solely to breaches of our own systems and the Personal Information we hold. They do not apply to any breach of your self-hosted instance of the Software or any Licensee Data processed through the Software, which remains your sole responsibility as the data controller.</p>
+
+<hr>
+
+<!-- ──────────── 11. YOUR RIGHTS ──────────── -->
+<h2 class="section-heading" id="rights">11. Your Rights</h2>
+
+<h3 class="sub-heading">11.1 Australian Privacy Rights (APPs)</h3>
+<p class="body-text">Under the <em>Privacy Act 1988 (Cth)</em> and the Australian Privacy Principles, you have the following rights in respect of your Personal Information held by us:</p>
+<ul>
+  <li><strong>Right of Access (APP 12):</strong> You have the right to request access to the Personal Information we hold about you. We will respond to your request within a reasonable period (not exceeding thirty (30) calendar days) and provide access in the manner requested unless it is impracticable or unreasonable to do so. A reasonable fee may apply for the retrieval and supply of information.</li>
+  <li><strong>Right of Correction (APP 13):</strong> You have the right to request correction of any Personal Information we hold about you that is inaccurate, out of date, incomplete, irrelevant, or misleading. We will take reasonable steps to correct the information and, where applicable, notify any third parties to whom we have disclosed the incorrect information.</li>
+  <li><strong>Right to Complain:</strong> You have the right to lodge a complaint regarding our handling of your Personal Information (see Section 13).</li>
+</ul>
+
+<h3 class="sub-heading">11.2 Additional Rights (GDPR - EEA/UK)</h3>
+<p class="body-text">If you are located in the European Economic Area or the United Kingdom, you may have the following additional rights under the GDPR:</p>
+<ul>
+  <li><strong>Right to Erasure (Article 17):</strong> The right to request deletion of your Personal Information where it is no longer necessary for the purposes for which it was collected, where you withdraw consent, where you object to processing, or where processing is unlawful.</li>
+  <li><strong>Right to Data Portability (Article 20):</strong> The right to receive your Personal Information in a structured, commonly used, machine-readable format and to transmit that information to another controller.</li>
+  <li><strong>Right to Restriction of Processing (Article 18):</strong> The right to request restriction of processing where you contest the accuracy of the data, where processing is unlawful, or where you have objected to processing pending verification of legitimate grounds.</li>
+  <li><strong>Right to Object (Article 21):</strong> The right to object to processing of your Personal Information based on our legitimate interests, including profiling and direct marketing.</li>
+  <li><strong>Right to Withdraw Consent:</strong> The right to withdraw your consent at any time, without affecting the lawfulness of processing based on consent before its withdrawal.</li>
+</ul>
+
+<h3 class="sub-heading">11.3 California Privacy Rights (CCPA/CPRA)</h3>
+<p class="body-text">If you are a resident of the State of California, the CCPA/CPRA grants you the following additional rights:</p>
+<ul>
+  <li><strong>Right to Know:</strong> The right to request disclosure of the categories and specific pieces of Personal Information we have collected about you, the categories of sources from which it was collected, the business purpose for collecting it, and the categories of third parties with whom it was shared.</li>
+  <li><strong>Right to Delete:</strong> The right to request deletion of Personal Information we have collected about you, subject to certain exceptions.</li>
+  <li><strong>Right to Opt Out of Sale:</strong> As we do not sell Personal Information, there is no opt-out mechanism required. However, we will not sell your Personal Information in the future without providing you with notice and an opportunity to opt out.</li>
+  <li><strong>Right to Non-Discrimination:</strong> We will not discriminate against you for exercising any of your CCPA/CPRA rights.</li>
+</ul>
+
+<h3 class="sub-heading">11.4 Exercising Your Rights</h3>
+<p class="body-text">To exercise any of the rights described in this Section 11, please submit your request to:</p>
+<ul>
+  <li><strong>Email:</strong> contact@empirelabs.com.au with the subject line "Privacy Request"</li>
+  <li><strong>Mail:</strong> Empire Labs Pty Ltd, Townsville, Queensland, Australia</li>
+</ul>
+<p class="body-text">We will verify your identity before processing your request and may require additional information to confirm your identity. We will respond to your request within the timeframe required by applicable law (generally thirty (30) calendar days under Australian law, and within one (1) month under the GDPR, extendable by up to two (2) additional months for complex requests).</p>
+
+<hr>
+
+<!-- ──────────── 12. COOKIES ──────────── -->
+<h2 class="section-heading" id="cookies">12. Cookies and Website Tracking</h2>
+
+<h3 class="sub-heading">12.1 Our Use of Cookies</h3>
+<p class="body-text">Our Website uses only strictly necessary cookies required for the basic operation and security of the Website. We do not use cookies for advertising, cross-site tracking, behavioural profiling, or analytics that identify individual visitors. The types of cookies we use are:</p>
+<ul>
+  <li><strong>Essential Session Cookies:</strong> Required for the operation of the Website, including maintaining session state and enabling secure login to Account portals. These cookies are deleted when you close your browser.</li>
+  <li><strong>Preference Cookies:</strong> Store your theme preference (e.g., dark mode) and other non-identifiable user preferences. These cookies persist for up to twelve (12) months.</li>
+  <li><strong>Security Cookies:</strong> Used to detect and prevent fraudulent or abusive access to our systems.</li>
+</ul>
+
+<h3 class="sub-heading">12.2 Third-Party Cookies</h3>
+<p class="body-text">We do not permit third-party advertising networks, social media platforms, or analytics providers to set cookies on our Website that track your activity across other websites or services. Any third-party cookies used on our Website are limited to those required for the functionality of embedded content (e.g., video players), and such third parties are restricted by contract from using such cookies for any purpose other than providing the embedded service.</p>
+
+<h3 class="sub-heading">12.3 Cookie Controls</h3>
+<p class="body-text">You can control and manage cookies through your browser settings. Most browsers allow you to block or delete cookies, or to receive a warning before a cookie is stored. Please note that disabling essential cookies may affect the functionality of our Website.</p>
+
+<hr>
+
+<!-- ──────────── 13. COMPLAINTS AND DISPUTE RESOLUTION ──────────── -->
+<h2 class="section-heading" id="complaints">13. Complaints and Dispute Resolution</h2>
+
+<h3 class="sub-heading">13.1 Internal Complaint Process</h3>
+<p class="body-text">If you believe that we have breached the <em>Privacy Act 1988 (Cth)</em> or any other applicable privacy law, or that we have otherwise mishandled your Personal Information, please contact us with full details of your concern:</p>
+<ul>
+  <li><strong>Email:</strong> contact@empirelabs.com.au with the subject line "Privacy Complaint"</li>
+  <li><strong>Mail:</strong> Empire Labs Pty Ltd, Attn: Privacy Officer, Townsville, Queensland, Australia</li>
+</ul>
+<p class="body-text">We will acknowledge receipt of your complaint within five (5) business days and will investigate and respond in writing within thirty (30) calendar days, setting out our findings and any remedial action taken or proposed.</p>
+
+<h3 class="sub-heading">13.2 External Dispute Resolution</h3>
+<p class="body-text">If you are not satisfied with our response to your complaint, you may lodge a complaint with the <strong>Office of the Australian Information Commissioner (OAIC)</strong>:</p>
+<ul>
+  <li><strong>Website:</strong> www.oaic.gov.au</li>
+  <li><strong>Phone:</strong> 1300 363 992 (within Australia)</li>
+  <li><strong>Mail:</strong> GPO Box 5218, Sydney NSW 2001, Australia</li>
+</ul>
+
+<h3 class="sub-heading">13.3 GDPR Supervisory Authority</h3>
+<p class="body-text">If you are located in the EEA or UK and are not satisfied with our response, you have the right to lodge a complaint with your local data protection supervisory authority (for EEA residents) or the Information Commissioner's Office (for UK residents).</p>
+
+<hr>
+
+<!-- ──────────── 14. CHANGES ──────────── -->
+<h2 class="section-heading" id="changes">14. Changes to This Policy</h2>
+<p class="body-text">We may update this Policy from time to time to reflect changes in our practices, legal requirements, or industry standards. Material changes will be communicated as follows:</p>
+<ul>
+  <li>We will notify you via email to the address associated with your Account at least fourteen (14) calendar days before the effective date of any material change.</li>
+  <li>We will post a notice on our Website at least fourteen (14) calendar days before the effective date of any material change.</li>
+  <li>The "Last updated" date at the top of this Policy will reflect the date of the most recent revision.</li>
+</ul>
+<p class="body-text">Your continued use of the Services after the effective date of any changes constitutes your acceptance of the updated Policy. If you do not agree to a material change, your sole remedy is to close your Account and cease using the Services before the effective date of such change.</p>
+
+<hr>
+
+<!-- ──────────── 15. CONTACT ──────────── -->
+<h2 class="section-heading" id="contact">15. Contact Information</h2>
+<p class="body-text">If you have any questions, concerns, or requests regarding this Privacy Policy, our data handling practices, or your privacy rights, please contact our Privacy Officer:</p>
+<ul>
+  <li><strong>Email:</strong> contact@empirelabs.com.au</li>
+  <li><strong>Mail:</strong> Empire Labs Pty Ltd, Attn: Privacy Officer, Townsville, Queensland, Australia</li>
+</ul>
+<p class="body-text">We welcome your inquiries and will respond to all legitimate requests within the timeframe required by applicable law.</p>
+
+<br>
+
+<p class="body-text last-updated">Privacy Policy - Version 2.1 - Effective 5 July 2026</p>
+<p class="body-text" style="font-size:0.8125rem; color:var(--text-body); margin-top:12px;">Patent pending AU 2026906017. © 2026 Empire Labs Pty Ltd. All rights reserved.</p>
+
+</article>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="margin-bottom:8px;">
+        <img src="witnessos-logo.png" alt="WitnessOS" style="height:72px;width:auto;object-fit:contain;">
+      </div>
+      <p>Guardrails for autonomous AI. Built by Empire Labs Pty Ltd.</p>
+      <p style="margin-top:4px;font-size:0.7rem;">Patent pending AU 2026906017</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="index.html">Home</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="quickstart.html">Quickstart</a>
+      <a href="demo.html">Demo</a>
+      <a href="whitepaper.html">Spec</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="roadmap.html">Roadmap</a>
+      </div>
+      <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html" style="color:var(--color-primary);">Privacy Policy</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="mailto:contact@empirelabs.com.au">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

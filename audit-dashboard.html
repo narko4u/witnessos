@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WitnessOS - Audit Dashboard</title>
+<style>
+:root {
+  --bg-body: #0b0f17;
+  --bg-card: #131924;
+  --bg-elevated: #1a2130;
+  --bg-hover: #1e2638;
+  --text-heading: #e8edf5;
+  --text-body: #8b95a8;
+  --text-dim: #5a6577;
+  --primary: #6e62ff;
+  --primary-hover: #5a4ee8;
+  --primary-glow: rgba(110,98,255,0.15);
+  --primary-border: rgba(110,98,255,0.25);
+  --green: #34d399;
+  --green-bg: rgba(52,211,153,0.1);
+  --yellow: #fbbf24;
+  --yellow-bg: rgba(251,191,36,0.1);
+  --red: #ef4444;
+  --red-bg: rgba(239,68,68,0.1);
+  --blue: #60a5fa;
+  --blue-bg: rgba(96,165,250,0.1);
+  --orange: #fb923c;
+  --purple: #a78bfa;
+  --border: rgba(255,255,255,0.06);
+  --radius: 8px;
+  --radius-sm: 6px;
+  --radius-lg: 12px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg-body);
+  color: var(--text-body);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── Layout ── */
+.app-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--primary), #a78bfa);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+}
+
+.header h1 {
+  color: var(--text-heading);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-dot.online { background: var(--green); }
+.status-dot.offline { background: var(--red); }
+
+.policy-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.policy-badge.strict { background: var(--yellow-bg); color: var(--yellow); }
+.policy-badge.permissive { background: var(--green-bg); color: var(--green); }
+
+/* ── Controls Bar ── */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  color: var(--text-heading);
+  font-size: 13px;
+  width: 260px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus { border-color: var(--primary); }
+.search-input::placeholder { color: var(--text-dim); }
+
+.filter-select {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  color: var(--text-heading);
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-body);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn:hover { background: var(--bg-hover); color: var(--text-heading); }
+.btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-sm { padding: 4px 10px; font-size: 12px; }
+
+/* ── Stats Grid ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.stat-card .label {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.stat-card .value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.stat-card .sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+.stat-card.total { border-left: 3px solid var(--primary); }
+.stat-card.approved { border-left: 3px solid var(--green); }
+.stat-card.pending { border-left: 3px solid var(--yellow); }
+.stat-card.denied { border-left: 3px solid var(--red); }
+
+/* ── Case List ── */
+.case-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.case-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.case-card:hover {
+  background: var(--bg-hover);
+  border-color: var(--primary-border);
+}
+
+.case-card.selected {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary-border), 0 4px 20px var(--primary-glow);
+}
+
+.case-card-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.case-id {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-heading);
+  min-width: 180px;
+}
+
+.case-type {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: inline-block;
+}
+
+.case-preview {
+  font-size: 13px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.status-badge {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.status-badge.approved { background: var(--green-bg); color: var(--green); }
+.status-badge.pending { background: var(--yellow-bg); color: var(--yellow); }
+.status-badge.denied { background: var(--red-bg); color: var(--red); }
+.status-badge.dispatched { background: var(--blue-bg); color: var(--blue); }
+.status-badge.expired { background: var(--orange); color: #000; }
+
+.case-time {
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  margin-left: 16px;
+}
+
+/* ── Detail Panel ── */
+.detail-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-top: 16px;
+  overflow: hidden;
+  display: none;
+}
+
+.detail-panel.show { display: block; }
+
+.detail-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detail-header h2 {
+  color: var(--text-heading);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.detail-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+
+.detail-tab {
+  padding: 12px 20px;
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.detail-tab:hover { color: var(--text-heading); }
+.detail-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+.detail-content {
+  padding: 24px;
+}
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* ── Event Timeline ── */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline-event {
+  position: relative;
+  padding: 0 0 20px 16px;
+}
+
+.timeline-event:last-child { padding-bottom: 0; }
+
+.timeline-event::before {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--text-dim);
+}
+
+.timeline-event.requested::before { border-color: var(--blue); background: var(--blue-bg); }
+.timeline-event.evaluated::before { border-color: var(--primary); background: var(--primary-glow); }
+.timeline-event.approved::before { border-color: var(--green); background: var(--green-bg); }
+.timeline-event.dispatched::before { border-color: var(--green); background: var(--green); }
+.timeline-event.denied-event::before { border-color: var(--red); background: var(--red-bg); }
+.timeline-event.expired-event::before { border-color: var(--orange); background: var(--orange); }
+
+.timeline-event .event-type {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-heading);
+  font-family: var(--mono);
+  margin-bottom: 2px;
+}
+
+.timeline-event .event-ts {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.timeline-event .event-detail {
+  font-size: 12px;
+  color: var(--text-body);
+}
+
+/* ── JSON Viewer ── */
+.json-panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.json-panel pre {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-body);
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.json-key { color: #60a5fa; }
+.json-string { color: #34d399; }
+.json-number { color: #fbbf24; }
+.json-bool { color: #a78bfa; }
+.json-null { color: #6b7280; }
+
+/* ── Chain Visualizer ── */
+.chain-viz {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0;
+}
+
+.chain-level {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.chain-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  min-width: 40px;
+  font-family: var(--mono);
+}
+
+.chain-nodes {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.chain-node {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-body);
+  white-space: nowrap;
+}
+
+.chain-node.leaf { border-color: var(--primary-border); }
+.chain-node.root { background: var(--primary-glow); border-color: var(--primary); color: var(--primary); }
+.chain-node.proof { border-color: var(--green); color: var(--green); }
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-state .icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+.empty-state h3 {
+  color: var(--text-heading);
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+/* ── Loading ── */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-dim);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .controls-bar { flex-direction: column; align-items: stretch; }
+  .search-input { width: 100%; }
+  .case-card { flex-wrap: wrap; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">W</div>
+      <h1>WitnessOS · Audit Dashboard</h1>
+    </div>
+    <div class="header-right">
+      <div class="status-indicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Connecting...</span>
+      </div>
+      <span class="policy-badge" id="policyBadge">-</span>
+      <button class="btn btn-sm" onclick="refresh()">↻ Refresh</button>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-bar">
+    <input class="search-input" id="searchInput" placeholder="Search case ID, type, status..." oninput="filterCases()">
+    <select class="filter-select" id="statusFilter" onchange="filterCases()">
+      <option value="all">All statuses</option>
+      <option value="pending">Pending</option>
+      <option value="approved">Approved</option>
+      <option value="dispatched">Dispatched</option>
+      <option value="denied">Denied</option>
+      <option value="expired">Expired</option>
+    </select>
+    <select class="filter-select" id="typeFilter" onchange="filterCases()">
+      <option value="all">All types</option>
+      <option value="gmail.send">Email</option>
+      <option value="stripe.refund.create">Refund</option>
+    </select>
+    <span style="color:var(--text-dim);font-size:13px;margin-left:auto" id="caseCount"></span>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-card total"><div class="label">Total Cases</div><div class="value" id="statTotal">-</div></div>
+    <div class="stat-card approved"><div class="label">Approved</div><div class="value" id="statApproved">-</div></div>
+    <div class="stat-card pending"><div class="label">Pending</div><div class="value" id="statPending">-</div></div>
+    <div class="stat-card denied"><div class="label">Denied / Expired</div><div class="value" id="statDenied">-</div></div>
+  </div>
+
+  <!-- Case List -->
+  <div id="caseList" class="case-list">
+    <div class="loading"><div class="spinner"></div>Loading cases...</div>
+  </div>
+
+  <!-- Detail Panel -->
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-header">
+      <h2 id="detailTitle">Case Details</h2>
+      <button class="btn btn-sm" onclick="closeDetail()">✕ Close</button>
+    </div>
+    <div class="detail-tabs">
+      <div class="detail-tab active" onclick="switchTab(this, 'events')">Event Timeline</div>
+      <div class="detail-tab" onclick="switchTab(this, 'receipt')">Receipt</div>
+      <div class="detail-tab" onclick="switchTab(this, 'chain')">Merkle Chain</div>
+      <div class="detail-tab" onclick="switchTab(this, 'raw')">Raw JSON</div>
+    </div>
+    <div class="detail-content">
+      <div class="tab-pane active" id="pane-events"><div class="loading"><div class="spinner"></div></div></div>
+      <div class="tab-pane" id="pane-receipt"><div class="loading"><div class="spinner"></div></div></div>
+      <div class="tab-pane" id="pane-chain"><div class="loading"><div class="spinner"></div></div></div>
+      <div class="tab-pane" id="pane-raw"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──
+const API = window.location.origin;
+let allCases = [];
+let selectedCaseId = null;
+let refreshInterval = null;
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  refresh();
+  // Auto-refresh every 5s
+  refreshInterval = setInterval(refresh, 5000);
+});
+
+// ── API calls ──
+async function apiGet(path) {
+  const resp = await fetch(`${API}${path}`);
+  if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText}`);
+  return resp.json();
+}
+
+// ── Refresh ──
+async function refresh() {
+  try {
+    const health = await apiGet('/demo/health');
+    updateHeader(health);
+
+    const casesResp = await apiGet('/demo/cases');
+    allCases = casesResp.cases || [];
+    renderCases(allCases);
+    updateStats(casesResp);
+    updateCaseCount();
+
+    // Re-render detail if one is selected
+    if (selectedCaseId) {
+      const stillExists = allCases.find(c => c.case_id === selectedCaseId);
+      if (!stillExists) closeDetail();
+      else loadDetail(selectedCaseId);
+    }
+  } catch (e) {
+    document.getElementById('statusDot').className = 'status-dot offline';
+    document.getElementById('statusText').textContent = 'Disconnected';
+    document.getElementById('policyBadge').textContent = '-';
+    document.getElementById('caseList').innerHTML =
+      `<div class="empty-state"><div class="icon">⚠</div><h3>Cannot connect to WitnessOS</h3><p>${e.message}</p></div>`;
+  }
+}
+
+function updateHeader(health) {
+  const dot = document.getElementById('statusDot');
+  const text = document.getElementById('statusText');
+  const badge = document.getElementById('policyBadge');
+
+  dot.className = 'status-dot online';
+  text.textContent = `Connected · ${health.key_count || 0} keys`;
+  badge.textContent = health.policy_mode || '-';
+  badge.className = `policy-badge ${health.policy_mode || ''}`;
+}
+
+function updateStats(data) {
+  document.getElementById('statTotal').textContent = allCases.length;
+  document.getElementById('statApproved').textContent = data.approved ?? '-';
+  document.getElementById('statPending').textContent = data.pending ?? '-';
+  document.getElementById('statDenied').textContent = (allCases.length - (data.approved||0) - (data.pending||0));
+}
+
+function updateCaseCount() {
+  const visible = document.querySelectorAll('.case-card').length;
+  document.getElementById('caseCount').textContent = visible === allCases.length
+    ? `${allCases.length} cases`
+    : `${visible} of ${allCases.length} cases`;
+}
+
+// ── Render ──
+function renderCases(cases) {
+  const container = document.getElementById('caseList');
+
+  if (!cases || cases.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="icon">📋</div><h3>No cases yet</h3><p>Fire an action through the demo to see it here.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = cases.map(c => {
+    const status = (c.queue_status || 'unknown').toLowerCase();
+    const type = c.action_type || '-';
+    const preview = c.action_type === 'gmail.send' ? 'Email' :
+                    c.action_type === 'stripe.refund.create' ? 'Refund' :
+                    c.mime_sha256 ? 'Action' : c.action_type || '-';
+    const time = c.case_id ? c.case_id.split('_').pop()?.slice(0, 8) || '' : '';
+    const selected = c.case_id === selectedCaseId ? 'selected' : '';
+
+    return `<div class="case-card ${selected}" onclick="selectCase('${c.case_id}')">
+      <div class="case-card-left">
+        <span class="case-id">${c.case_id}</span>
+        <span class="case-type">${escHtml(type || preview)}</span>
+        <span class="case-preview">${escHtml(c.approver_note || preview)}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="status-badge ${status}">${status}</span>
+        <span class="case-time">case</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s) {
+  if (!s) return '-';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// ── Filtering ──
+function filterCases() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const statusF = document.getElementById('statusFilter').value;
+  const typeF = document.getElementById('typeFilter').value;
+
+  const filtered = allCases.filter(c => {
+    const s = (c.queue_status || '').toLowerCase();
+    const t = (c.action_type || '').toLowerCase();
+
+    if (statusF !== 'all' && s !== statusF) return false;
+    if (typeF !== 'all' && t !== typeF) return false;
+    if (search) {
+      const id = c.case_id?.toLowerCase() || '';
+      if (!id.includes(search) && !t.includes(search) && !s.includes(search)) return false;
+    }
+    return true;
+  });
+
+  renderCases(filtered);
+  updateCaseCount();
+}
+
+// ── Select Case ──
+async function selectCase(caseId) {
+  selectedCaseId = caseId;
+  document.querySelectorAll('.case-card').forEach(el => el.classList.remove('selected'));
+  const card = document.querySelector(`.case-card[onclick*="${caseId}"]`);
+  if (card) card.classList.add('selected');
+  await loadDetail(caseId);
+}
+
+function closeDetail() {
+  selectedCaseId = null;
+  document.getElementById('detailPanel').classList.remove('show');
+  document.querySelectorAll('.case-card').forEach(el => el.classList.remove('selected'));
+}
+
+// ── Detail Loading ──
+async function loadDetail(caseId) {
+  document.getElementById('detailTitle').textContent = `Case: ${caseId}`;
+  document.getElementById('detailPanel').classList.add('show');
+
+  // Load all tabs in parallel
+  Promise.all([
+    loadEvents(caseId),
+    loadReceipt(caseId),
+    loadChain(caseId),
+    loadRaw(caseId),
+  ]);
+}
+
+async function loadEvents(caseId) {
+  const pane = document.getElementById('pane-events');
+  try {
+    const data = await apiGet(`/demo/cases/${caseId}`);
+    const events = data.events || [];
+
+    if (events.length === 0) {
+      pane.innerHTML = '<div class="empty-state"><p>No events recorded.</p></div>';
+      return;
+    }
+
+    pane.innerHTML = `<div class="timeline">${events.map((e, i) => {
+      const et = (e.event_type || e.detail?.event_type || 'unknown').toLowerCase();
+      let cssClass = 'timeline-event';
+      if (et.includes('request')) cssClass += ' requested';
+      else if (et.includes('policy') || et.includes('evaluated')) cssClass += ' evaluated';
+      else if (et.includes('approve') || et.includes('granted')) cssClass += ' approved';
+      else if (et.includes('dispatch') || et.includes('complete')) cssClass += ' dispatched';
+      else if (et.includes('denied')) cssClass += ' denied-event';
+      else if (et.includes('expired')) cssClass += ' expired-event';
+
+      const detail = e.detail || e.raw || {};
+      const detailText = Object.entries(detail)
+        .filter(([k]) => !k.startsWith('_'))
+        .map(([k, v]) => `${k}: ${typeof v === 'string' ? v : JSON.stringify(v)}`)
+        .join(' · ');
+
+      return `<div class="${cssClass}">
+        <div class="event-type">${escHtml(e.event_type || e.detail?.event_type || 'unknown')}</div>
+        <div class="event-ts">${e.raw?._sequence_num ? `#${e.raw._sequence_num}` : ''} ${e.detail?.ts || ''}</div>
+        <div class="event-detail">${escHtml(detailText.slice(0, 200))}</div>
+      </div>`;
+    }).join('')}</div>`;
+  } catch (e) {
+    pane.innerHTML = `<div class="empty-state"><p>Error: ${e.message}</p></div>`;
+  }
+}
+
+async function loadReceipt(caseId) {
+  const pane = document.getElementById('pane-receipt');
+  try {
+    const data = await apiGet(`/demo/receipt/${caseId}`);
+    pane.innerHTML = `<div class="json-panel"><pre>${renderJson(data)}</pre></div>`;
+  } catch (e) {
+    pane.innerHTML = `<div class="empty-state"><p>Receipt not available: ${e.message}</p></div>`;
+  }
+}
+
+async function loadChain(caseId) {
+  const pane = document.getElementById('pane-chain');
+  try {
+    const data = await apiGet(`/demo/chain/${caseId}`);
+
+    if (!data.levels) {
+      pane.innerHTML = '<div class="empty-state"><p>Chain data not available.</p></div>';
+      return;
+    }
+
+    let html = '<div class="chain-viz">';
+    data.levels.forEach((level, i) => {
+      const isLeaf = i === 0;
+      const isRoot = i === data.levels.length - 1;
+      html += `<div class="chain-level">
+        <span class="chain-label">L${i}</span>
+        <div class="chain-nodes">
+          ${level.nodes.map(n => {
+            const cls = isRoot ? 'chain-node root' : isLeaf ? 'chain-node leaf' : 'chain-node';
+            return `<span class="${cls}" title="${n}">${n.slice(0, 32)}…</span>`;
+          }).join('')}
+        </div>
+      </div>`;
+    });
+
+    // Proof
+    if (data.proof && data.proof.length > 0) {
+      html += `<div style="margin-top:16px;border-top:1px solid var(--border);padding-top:12px;">
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">Inclusion Proof</div>
+        <div class="chain-level">
+          <div class="chain-nodes">
+            ${data.proof.map(p =>
+              `<span class="chain-node proof" title="side: ${p.side}">${p.hash.slice(0, 32)}… (${p.side})</span>`
+            ).join('')}
+          </div>
+        </div>
+      </div>`;
+    }
+
+    html += '</div>';
+    pane.innerHTML = html;
+  } catch (e) {
+    pane.innerHTML = `<div class="empty-state"><p>Chain not available: ${e.message}</p></div>`;
+  }
+}
+
+async function loadRaw(caseId) {
+  const pane = document.getElementById('pane-raw');
+  try {
+    // Try to load case detail
+    const data = await apiGet(`/demo/cases/${caseId}`);
+    pane.innerHTML = `<div class="json-panel"><pre>${renderJson(data)}</pre></div>`;
+  } catch (e) {
+    pane.innerHTML = `<div class="empty-state"><p>Raw data not available: ${e.message}</p></div>`;
+  }
+}
+
+// ── Tab switching ──
+function switchTab(el, paneId) {
+  document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(`pane-${paneId}`).classList.add('active');
+}
+
+// ── JSON renderer ──
+function renderJson(obj) {
+  return syntaxHighlight(JSON.stringify(obj, null, 2));
+}
+
+function syntaxHighlight(json) {
+  return json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+    .replace(/: "([^"]+)"/g, ': <span class="json-string">"$1"</span>')
+    .replace(/: (\d+\.?\d*)/g, ': <span class="json-number">$1</span>')
+    .replace(/: (true|false)/g, ': <span class="json-bool">$1</span>')
+    .replace(/: (null)/g, ': <span class="json-null">$1</span>');
+}
+
+// ── Keyboard shortcuts ──
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeDetail();
+  if (e.key === 'r' && e.metaKey) { e.preventDefault(); refresh(); }
+});
+</script>
+</body>
+</html>

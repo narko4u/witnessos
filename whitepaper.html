@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Whitepaper - WitnessOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+ :root {
+--bg-body: #0d1117;
+ --bg-card: #161b22;
+ --bg-section-alt: #161b22;
+ --bg-dark-section: #1c1e54;
+ --bg-toggle: rgba(110,98,255,0.15);
+ --bg-toggle-hover: rgba(110,98,255,0.25);
+ --text-heading: #e6edf3;
+ --text-body: #8b949e;
+ --text-label: #8b949e;
+ --text-on-dark: #ffffff;
+ --text-on-dark-muted: rgba(255,255,255,0.6);
+ --color-primary: #6e62ff;
+ --color-primary-hover: #5a4ee8;
+ --color-primary-light: rgba(110,98,255,0.08);
+ --color-primary-border: rgba(110,98,255,0.2);
+ --color-secondary-border: #6e62ff;
+ --border-color: #30363d;
+ --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+ --nav-bg: rgba(13,17,23,0.88);
+ --nav-border: #30363d;
+ --hero-gradient: radial-gradient(ellipse at center, rgba(110,98,255,0.07) 0%, rgba(110,98,255,0.02) 40%, transparent 70%);
+ --mobile-toggle-bg: #e6edf3;
+ --divider-color: #30363d;
+ --blockquote-border: #6e62ff;
+ --inline-code-bg: #1a1f29;
+ --inline-code-text: #e6edf3;
+ --toc-bg: #161b22;
+}
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+ body {
+ font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+ background: var(--bg-body);
+ color: var(--text-body);
+ font-weight: 300;
+ font-feature-settings: "ss01";
+ line-height: 1.5;
+ transition: background 0.3s ease, color 0.3s ease;
+ }
+
+ /* === NAV === */
+ nav {
+ position: sticky; top: 0; z-index: 100;
+ background: var(--nav-bg);
+ backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+ border-bottom: 1px solid var(--nav-border);
+ }
+.nav-inner {
+ display: flex; align-items: center; justify-content: space-between;
+ height: 84px; max-width: 1080px; margin: 0 auto; padding: 0 24px;
+ }
+.nav-logo {
+ display: flex; align-items: center; gap: 8px;
+ text-decoration: none;
+ }
+.nav-logo img { height: 28px; width: 28px; object-fit: cover; object-position: 0 0; border-radius: 6px; }
+.nav-logo img.logo-full { height: 84px; width: auto; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-links a { font-size: 0.875rem; font-weight: 400; color: var(--text-heading); transition: color 0.15s; text-decoration: none; }
+.nav-links a:hover { color: var(--color-primary); }
+.nav-cta { display: inline-flex; align-items: center; padding: 8px 16px; background: var(--color-primary); color: #ffffff !important; border-radius: 4px; font-size: 0.875rem !important; font-weight: 400 !important; transition: background 0.15s; }
+.nav-cta:hover { background: var(--color-primary-hover) !important; }
+
+ /* === TYPOGRAPHY === */
+.display-large { font-size: 3rem; font-weight: 300; line-height: 1.1; letter-spacing: -0.8px; color: var(--text-heading); }
+.section-heading { font-size: 1.625rem; font-weight: 300; line-height: 1.15; letter-spacing: -0.4px; color: var(--text-heading); }
+.sub-heading { font-size: 1.25rem; font-weight: 400; line-height: 1.25; letter-spacing: -0.22px; color: var(--text-heading); }
+.body-text { font-size: 1rem; font-weight: 300; line-height: 1.65; color: var(--text-body); }
+.body-text strong { font-weight: 500; color: var(--text-label); }
+.code-label { font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.75rem; font-weight: 500; line-height: 2.00; text-transform: uppercase; letter-spacing: 0.02em; }
+
+ /* === HERO === */
+.legal-hero { padding: 80px 0 48px; text-align: center; position: relative; overflow: hidden; }
+.legal-hero::before {
+ content: ''; position: absolute; top: -300px; left: 50%; transform: translateX(-50%);
+ width: 800px; height: 600px;
+ background: var(--hero-gradient);
+ pointer-events: none;
+ }
+.legal-hero .meta { font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+.legal-hero .hero-sub { font-size: 1rem; font-weight: 300; color: var(--text-body); max-width: 600px; margin: 16px auto 0; line-height: 1.6; }
+
+ /* === DOCUMENT === */
+.document { padding-bottom: 64px; max-width: 720px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+.document hr { border: none; border-top: 1px solid var(--divider-color); margin: 40px 0; }
+.document h2.section-heading { margin-top: 40px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--divider-color); }
+.document h3.sub-heading { margin-top: 28px; margin-bottom: 10px; }
+.document p.body-text { margin-bottom: 14px; }
+.document ul, .document ol { margin: 10px 0 14px 20px; font-size: 1rem; font-weight: 300; line-height: 1.65; color: var(--text-body); }
+.document li { margin-bottom: 6px; }
+.document li strong { font-weight: 500; color: var(--text-label); }
+.document blockquote {
+ margin: 20px 0; padding: 14px 18px;
+ border-left: 3px solid var(--blockquote-border);
+ background: var(--toc-bg);
+ border-radius: 0 4px 4px 0;
+ font-size: 0.9375rem; font-weight: 300; line-height: 1.55; color: var(--text-label);
+ }
+.document blockquote strong { font-weight: 500; }
+.document code {
+ font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+ font-size: 0.8125rem; font-weight: 400;
+ background: var(--inline-code-bg); color: var(--inline-code-text);
+ padding: 1px 6px; border-radius: 3px;
+ }
+.document pre {
+ margin: 16px 0 20px; padding: 14px 18px;
+ background: var(--inline-code-bg); border-radius: 4px;
+ border: 1px solid var(--border-color);
+ overflow-x: auto;
+ }
+.document pre code {
+ background: none; padding: 0; border-radius: 0;
+ font-size: 0.8125rem; line-height: 1.5;
+ }
+
+ /* TOC */
+.toc {
+ background: var(--toc-bg); border: 1px solid var(--border-color);
+ border-radius: 6px; padding: 20px 24px; margin: 24px 0;
+ }
+.toc h3 { font-size: 0.875rem; font-weight: 400; color: var(--text-label); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc ol li { margin-bottom: 3px; }
+.toc ol li a { font-size: 0.9375rem; font-weight: 300; color: var(--color-primary); }
+.toc ol li a:hover { text-decoration: underline; }
+
+ /* === FOOTER === */
+ footer { padding: 48px 0; border-top: 1px solid var(--border-color); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.footer-brand p { font-size: 0.8125rem; font-weight: 300; color: var(--text-body); margin-top: 8px; max-width: 280px; }
+.footer-col h4 { font-size: 0.8125rem; font-weight: 400; color: var(--text-heading); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-col a { display: block; font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-bottom: 8px; transition: color 0.15s; text-decoration: none; }
+.footer-col a:hover { color: var(--color-primary); }
+
+ /* === RESPONSIVE === */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.container-narrow { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+.container-wide { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+ @media (max-width: 768px) {
+.display-large { font-size: 2rem; letter-spacing: -0.4px; }
+.section-heading { font-size: 1.375rem; }
+.nav-links { display: none; }
+.legal-hero { padding: 56px 0 40px; }
+.footer-grid { grid-template-columns: 1fr; gap: 24px; }
+.document { padding-left: 16px; padding-right: 16px; }
+.toc { padding: 14px 18px; }
+ }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+ <div class="nav-inner">
+ <a href="index.html" class="nav-logo">
+ <img src="witnessos-logo.png" alt="WitnessOS" class="logo-full">
+ </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="whitepaper.html" style="color:var(--color-primary);">Whitepaper</a>
+          <a href="quickstart.html">Docs</a>
+          <a href="whitepaper.html">Spec</a>
+          <a href="casestudy.html">Case Study</a>
+          <a href="demo.html">Demo</a>
+          <a href="manifesto.html">Manifesto</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="signup.html" class="nav-cta">Sign Up</a>
+        </div>
+ </div>
+</nav>
+
+<!-- HERO -->
+<section class="legal-hero">
+ <div class="container">
+  <div class="code-label" style="color:var(--color-primary); text-align:center; display:block; margin-bottom:12px;">Security Whitepaper</div>
+  <h1 class="display-large">Runtime Governance for Autonomous AI Agents</h1>
+  <p class="hero-sub">How WitnessOS delivers real-time policy enforcement, immutable audit trails, and cryptographic integrity for agentic AI systems.</p>
+  <div class="meta">
+   <span>Version 1.0</span>
+   <span>&middot;</span>
+   <span>July 2026</span>
+   <span>&middot;</span>
+   <span>Empire Labs Pty Ltd</span>
+  </div>
+ </div>
+</section>
+
+<!-- DOCUMENT -->
+<article class="document">
+
+<!-- TOC -->
+<div class="toc">
+<h3>Contents</h3>
+<ol>
+<li><a href="#executive-summary">Executive Summary</a></li>
+<li><a href="#problem">The Problem: Autonomous Agents Lack Runtime Guardrails</a></li>
+<li><a href="#architecture">Architecture Overview</a></li>
+<li><a href="#policy-enforcement">Policy Enforcement Model</a></li>
+<li><a href="#audit-integrity">Audit Trail Integrity &amp; Cryptographic Signing</a></li>
+<li><a href="#security-model">Security Model &amp; Data Isolation</a></li>
+<li><a href="#deployment">Deployment Models</a></li>
+<li><a href="#compliance">Compliance &amp; Regulatory Framework</a></li>
+<li><a href="#patent">Patent Protection &amp; IP</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ol>
+</div>
+
+<!-- 1. EXECUTIVE SUMMARY -->
+<h2 class="section-heading" id="executive-summary">1. Executive Summary</h2>
+<p class="body-text">
+Autonomous AI agents are being deployed into production at an unprecedented rate. These agents browse the web, execute code, call APIs, access databases, and spend money - all without human oversight at the action level. Existing security tools (API gateways, WAFs, IAM policies) were designed for human-initiated requests, not for autonomous agent loops that can make thousands of decisions per minute.
+</p>
+<p class="body-text">
+<strong>WitnessOS</strong> is a runtime governance layer purpose-built for autonomous AI agents. It sits between an agent and its execution environment, intercepting every action the agent attempts and evaluating it against configurable policy before allowing it to proceed. Every decision - allowed, blocked, or flagged - is cryptographically signed and recorded in an immutable audit trail.
+</p>
+<p class="body-text">
+WitnessOS is protected by patent pending, covering the methodology for real-time policy evaluation and cryptographic attestation of agent decisions.
+</p>
+<blockquote>
+<strong>Key Design Principle:</strong> WitnessOS operates as a transparent middleware layer. Agents connect to it by changing their API endpoint URL - no code changes, no SDK integration, no agent framework fork required.
+</blockquote>
+
+<hr>
+
+<!-- 2. THE PROBLEM -->
+<h2 class="section-heading" id="problem">2. The Problem: Autonomous Agents Lack Runtime Guardrails</h2>
+<p class="body-text">
+Traditional AI safety focuses on <em>model-level</em> guardrails - prompt filtering, output sanitisation, and content moderation. These are necessary but insufficient for autonomous agents that act in the world.
+</p>
+<p class="body-text">
+The critical gap is <strong>action-level governance</strong>. When an agent decides to execute a shell command, call an API, or access a file, the model-level guardrails have already been bypassed - the agent <em>chose</em> that action. The only place to enforce policy is at the moment the action is executed.
+</p>
+<p class="body-text">
+Without runtime governance, organisations face:
+</p>
+<ul>
+<li><strong>Uncontrolled tool execution</strong> - agents running arbitrary shell commands, database writes, or destructive operations</li>
+<li><strong>Data exfiltration</strong> - agents reading sensitive data and sending it to unapproved third-party APIs</li>
+<li><strong>Cost runaway</strong> - agents trapped in loops that burn through API budgets in minutes</li>
+<li><strong>Regulatory exposure</strong> - no audit trail for agent decisions that impact customers, financial systems, or protected data</li>
+<li><strong>No human oversight</strong> - high-risk actions executed without review, approval, or even awareness</li>
+</ul>
+<p class="body-text">
+Existing solutions - API gateways, logging middleware, and custom-built policy engines - are retrofits designed for human workflows. They lack the sub-50ms decision latency, the agent-awareness, and the cryptographic audit integrity that autonomous systems require.
+</p>
+
+<hr>
+
+<!-- 3. ARCHITECTURE -->
+<h2 class="section-heading" id="architecture">3. Architecture Overview</h2>
+<p class="body-text">
+WitnessOS is deployed as a lightweight gateway between AI agents and their execution targets. The architecture consists of three core components:
+</p>
+
+<h3 class="sub-heading">3.1 The Gateway</h3>
+<p class="body-text">
+The gateway is a stateless HTTP/HTTPS proxy that intercepts every agent action in real-time. Agents connect by configuring their API base URL to point at the WitnessOS endpoint. The gateway:
+</p>
+<ul>
+<li>Accepts incoming action requests from any agent framework (OpenAI, Anthropic, LangChain, CrewAI, custom)</li>
+<li>Parses the action into a structured decision record: <code>agent_id</code>, <code>action_type</code>, <code>target</code>, <code>payload_signature</code>, <code>timestamp</code></li>
+<li>Evaluates the action against the active policy set in under 50 milliseconds</li>
+<li>Returns a decision: <code>ALLOW</code>, <code>BLOCK</code>, <code>FLAG</code>, or <code>ESCALATE</code></li>
+</ul>
+
+<h3 class="sub-heading">3.2 The Policy Engine</h3>
+<p class="body-text">
+The policy engine evaluates every action against a configurable rule set defined as YAML. Policies are built from three primitive constructs:
+</p>
+<pre><code>rules:
+- name: block-destructive-commands
+  match:
+    action_type: shell_exec
+    payload_contains: ["rm -rf", "DROP TABLE", "shutdown"]
+  action: BLOCK
+
+- name: flag-high-value-transactions
+  match:
+    action_type: api_call
+    target_domain: "*"
+    payload_value_gt: 1000
+  action: FLAG
+
+- name: require-approval-external-egress
+  match:
+    action_type: api_call
+    target_domain: "!*.internal.corp"
+  action: ESCALATE</code></pre>
+<p class="body-text">
+Policies support: allow lists, block lists, regex pattern matching, rate limiting, token budgets, time-based constraints, and role-based escalation rules. Policies are evaluated in order - first match wins - with a default-deny fallback.
+</p>
+
+<h3 class="sub-heading">3.3 The Audit Store</h3>
+<p class="body-text">
+Every decision produces an audit record that is cryptographically signed and written to the audit store. The store is append-only and tamper-evident. Each record contains:
+</p>
+<pre><code>{
+  "sequence": 104729,
+  "agent_id": "agent-prod-03",
+  "timestamp": "2026-07-04T14:32:17.893Z",
+  "action_hash": "sha256:ab12...ef34",
+  "decision": "BLOCK",
+  "policy_rule": "block-destructive-commands",
+  "signature": "ecdsa:v2:7f9c...2b1a",
+  "prev_signature": "ecdsa:v2:3a8b...c4d2"
+}</code></pre>
+<p class="body-text">
+The <code>prev_signature</code> field chains each record to its predecessor, creating a hash-linked chain that makes retroactive tampering detectable. Any modification to a historical record breaks the chain and is immediately identifiable.
+</p>
+
+<hr>
+
+<!-- 4. POLICY ENFORCEMENT -->
+<h2 class="section-heading" id="policy-enforcement">4. Policy Enforcement Model</h2>
+<p class="body-text">
+WitnessOS implements a four-tier decision model that gives organisations fine-grained control over agent behaviour:
+</p>
+
+<h3 class="sub-heading">Tier 1: ALLOW</h3>
+<p class="body-text">
+The action is permitted and logged. Used for routine, low-risk operations that fall within clearly defined safe parameters - reading approved data sources, calling whitelisted APIs, executing safe commands.
+</p>
+
+<h3 class="sub-heading">Tier 2: BLOCK</h3>
+<p class="body-text">
+The action is rejected with an explanatory error returned to the agent. The agent receives structured feedback: <code>{"error": "POLICY_BLOCK", "rule": "block-destructive-commands", "reason": "Shell command contains destructive pattern"}</code>. This allows agents to self-correct and choose alternative actions.
+</p>
+
+<h3 class="sub-heading">Tier 3: FLAG</h3>
+<p class="body-text">
+The action is permitted but flagged for human review. A notification is sent via the configured channel (Slack, Teams, email, webhook). A human can retroactively approve or reject the action - though the action has already occurred, the flag creates an accountability trail. Flagged actions are automatically summarised in periodic review reports.
+</p>
+
+<h3 class="sub-heading">Tier 4: ESCALATE</h3>
+<p class="body-text">
+The action is paused pending human approval. The agent receives a pending response and must wait. The human receives a decision request via the configured channel with full context - agent identity, action details, risk assessment. If no response is received within a configurable timeout, the action defaults to BLOCK.
+</p>
+<blockquote>
+<strong>Operational Consideration:</strong> Escalation timeout defaults to 5 minutes. For latency-sensitive workflows, organisations can configure a shorter timeout with a conditional allow-after-timeout policy.
+</blockquote>
+
+<hr>
+
+<!-- 5. AUDIT INTEGRITY -->
+<h2 class="section-heading" id="audit-integrity">5. Audit Trail Integrity &amp; Cryptographic Signing</h2>
+<p class="body-text">
+The audit trail is the foundation of WitnessOS's value proposition. Every decision - not just blocks, but every <em>allow</em> - is recorded with full cryptographic integrity.
+</p>
+
+<h3 class="sub-heading">5.1 Hash-Chain Construction</h3>
+<p class="body-text">
+Audit records are linked in a hash chain using SHA-256. Each record's <code>prev_signature</code> field contains the ECDSA signature of the preceding record, creating a tamper-evident sequence:
+</p>
+<pre><code>Record[N] = {
+  ...data...,
+  "prev_signature": signature(N-1)
+}
+
+signature(N) = ECDSA_SIGN(
+  SHA256( Record[N] ),
+  private_key
+)</code></pre>
+<p class="body-text">
+This means:
+</p>
+<ul>
+<li>Changing any field in any historical record breaks that record's signature</li>
+<li>The broken signature no longer matches what's stored in the next record's <code>prev_signature</code></li>
+<li>Re-signing the altered record requires the private key, which is protected by hardware-backed key storage</li>
+<li>The chain can be verified end-to-end by any party with the public verification key</li>
+</ul>
+
+<h3 class="sub-heading">5.2 Key Management</h3>
+<p class="body-text">
+Signing keys are generated and stored per-tenant. For cloud deployments, keys are stored in hardware security module (HSM) backed key vaults. For on-premises deployments, keys are generated on the customer's infrastructure and never leave it. Key rotation is supported without breaking chain integrity - each record includes the key version used for signing.
+</p>
+
+<h3 class="sub-heading">5.3 Independent Verification</h3>
+<p class="body-text">
+The audit store exposes a verification endpoint that accepts any audit record range and returns a verification status. Third parties - auditors, regulators, customers - can independently verify the integrity of the audit trail without accessing the signing keys. The public verification key is published to a tenant-specific endpoint.
+</p>
+
+<hr>
+
+<!-- 6. SECURITY MODEL -->
+<h2 class="section-heading" id="security-model">6. Security Model &amp; Data Isolation</h2>
+
+<h3 class="sub-heading">6.1 Data in Transit</h3>
+<p class="body-text">
+All communication between agents, the WitnessOS gateway, and execution targets uses TLS 1.3 with strong cipher suites (TLS_AES_256_GCM_SHA384). Certificate pinning is supported for organisations with strict transport security requirements.
+</p>
+
+<h3 class="sub-heading">6.2 Data at Rest</h3>
+<p class="body-text">
+Audit records, policy configurations, and agent metadata are encrypted at rest using AES-256-GCM. Each tenant's encryption keys are isolated. For on-premises deployments, customers manage their own encryption keys. The gateway itself stores no agent payloads or responses - only the metadata necessary for policy evaluation and audit.
+</p>
+<blockquote>
+<strong>Critical Design Decision:</strong> WitnessOS never stores agent prompts, LLM responses, or intermediate reasoning traces. Only <em>action metadata</em> - what the agent attempted, what policy was applied, and the decision - is recorded. This minimises data exposure and simplifies compliance.
+</blockquote>
+
+<h3 class="sub-heading">6.3 Authentication &amp; Authorisation</h3>
+<p class="body-text">
+Agents authenticate to the gateway using API keys with role-based access control. Each agent is associated with a set of policies, rate limits, and budget constraints. API keys support rotation, revocation, and granular scoping. The gateway supports mTLS for agent-to-gateway authentication in private deployments.
+</p>
+
+<h3 class="sub-heading">6.4 Tenant Isolation</h3>
+<p class="body-text">
+In multi-tenant cloud deployments, each tenant operates in a logically isolated context with dedicated encryption keys, policy namespace, and audit store. Row-level security is enforced at the database layer. For organisations requiring physical isolation, the Enterprise plan offers dedicated single-tenant infrastructure.
+</p>
+
+<h3 class="sub-heading">6.5 Zero Data Egress</h3>
+<p class="body-text">
+The gateway can be configured to operate in zero-egress mode, where no data - audit records, policy decisions, or telemetry - leaves the customer's network. In this mode, the gateway operates fully disconnected from WitnessOS cloud services. Audit records are stored locally and can be replicated to the customer's SIEM or data lake.
+</p>
+
+<hr>
+
+<!-- 7. DEPLOYMENT MODELS -->
+<h2 class="section-heading" id="deployment">7. Deployment Models</h2>
+<p class="body-text">
+WitnessOS supports three deployment models to accommodate different security, compliance, and operational requirements.
+</p>
+
+<h3 class="sub-heading">Cloud (SaaS)</h3>
+<p class="body-text">
+The default deployment. WitnessOS runs as a managed service on our infrastructure. Your agents connect to <code>https://api.witnessos.dev</code>. We handle availability, scaling, backups, and security patching. Audit records are encrypted at rest with tenant-isolated keys. This model is suitable for most organisations and is available on all tiers.
+</p>
+
+<h3 class="sub-heading">On-Premises (Self-Hosted)</h3>
+<p class="body-text">
+The WitnessOS gateway ships as a Docker container that you deploy on your own infrastructure. The gateway includes the full policy engine, audit store, and verification API. It operates entirely within your network - no data egress to WitnessOS cloud services. Encryption keys are generated and stored on your infrastructure. Available on Starter and Pro plans.
+</p>
+
+<h3 class="sub-heading">Hybrid</h3>
+<p class="body-text">
+A combination of cloud and on-premises deployment. The policy engine and audit store run on your infrastructure for low-latency evaluation, while aggregated telemetry and configuration management are handled via the WitnessOS cloud dashboard. Suitable for organisations that need local evaluation with centralised management.
+</p>
+
+<hr>
+
+<!-- 8. COMPLIANCE -->
+<h2 class="section-heading" id="compliance">8. Compliance &amp; Regulatory Framework</h2>
+<p class="body-text">
+WitnessOS is designed to help organisations meet compliance requirements across multiple regulatory frameworks.
+</p>
+
+<h3 class="sub-heading">8.1 Australian Privacy Principles (APP)</h3>
+<p class="body-text">
+The audit trail generated by WitnessOS supports APP compliance by providing a tamper-evident record of all agent actions that process personal information. Organisations subject to the Privacy Act 1988 (Cth) can use WitnessOS audit trails to demonstrate:
+</p>
+<ul>
+<li><strong>APP 1 - Open and transparent management:</strong> Documented policies governing agent behaviour, with an auditable record of enforcement.</li>
+<li><strong>APP 11 - Security of personal information:</strong> Proven controls preventing unauthorised access, modification, or disclosure by AI agents.</li>
+<li><strong>APP 12 - Access to personal information:</strong> Complete audit trail showing what personal information agents accessed and why.</li>
+</ul>
+
+<h3 class="sub-heading">8.2 SOC 2</h3>
+<p class="body-text">
+For organisations subject to SOC 2 requirements, WitnessOS provides:
+</p>
+<ul>
+<li><strong>Security:</strong> Default-deny policy engine, mTLS agent authentication, and cryptographic audit integrity.</li>
+<li><strong>Availability:</strong> Stateless gateway architecture supporting horizontal scaling and zero-downtime deployments.</li>
+<li><strong>Confidentiality:</strong> Data isolation per tenant, encryption at rest and in transit, zero-egress deployment option.</li>
+</ul>
+
+<h3 class="sub-heading">8.3 GDPR</h3>
+<p class="body-text">
+WitnessOS supports GDPR compliance by providing:
+</p>
+<ul>
+<li>Data processing records via the audit trail for controller obligations</li>
+<li>Data minimisation through configurable audit retention policies</li>
+<li>Right to erasure via audit trail purge capabilities</li>
+<li>Data Processing Agreement (DPA) available for Enterprise customers</li>
+</ul>
+
+<h3 class="sub-heading">8.4 Industry-Specific Compliance</h3>
+<p class="body-text">
+WitnessOS is designed to be deployment-flexible so it can operate within regulated environments including healthcare (HIPAA, My Health Records), financial services (APRA CPS 234), and government (ISM, IRAP). On-premises deployment with customer-managed keys is the recommended model for regulated industries.
+</p>
+
+<hr>
+
+<!-- 9. PATENT PROTECTION -->
+<h2 class="section-heading" id="patent">9. Patent Protection &amp; IP</h2>
+<p class="body-text">
+The methodology underpinning WitnessOS - real-time policy evaluation of autonomous agent actions with cryptographic chain-of-custody - is protected by <strong>patent pending</strong>.
+</p>
+<p class="body-text">
+<strong>Patent Marking:</strong> WitnessOS by Empire Labs Pty Ltd - patent pending. All rights reserved. Unauthorised use, reproduction, or reverse engineering of the patented methodology is prohibited.
+</p>
+<p class="body-text">
+WitnessOS is built on foundational intellectual property developed by Empire Labs Pty Ltd, including:
+</p>
+<ul>
+<li>Real-time action interception and policy evaluation for autonomous AI agents</li>
+<li>Cryptographic chain-of-custody audit trail with tamper-evident integrity verification</li>
+<li>Multi-tier policy model supporting allow, block, flag, and escalate decisions</li>
+<li>Agent-aware context extraction for fine-grained policy enforcement</li>
+<li>Protected by patent pending</li>
+</ul>
+
+<hr>
+
+<!-- 10. CONCLUSION -->
+<h2 class="section-heading" id="conclusion">10. Conclusion</h2>
+<p class="body-text">
+Autonomous AI agents are the next frontier of enterprise automation - and they introduce a new category of risk that existing security tooling was not designed to address. WitnessOS closes that gap by providing a purpose-built runtime governance layer that evaluates every agent action against configurable policies before execution, and generates cryptographic audit trails that stand up to scrutiny.
+</p>
+<p class="body-text">
+We believe that the organisations that succeed with autonomous AI will be those that implement governance from day one - not as an afterthought triggered by an incident. WitnessOS makes that governance practical, performant, and provable.
+</p>
+<p class="body-text">
+ <strong>WitnessOS</strong> by Empire Labs Pty Ltd &middot; patent pending &middot; contact@empirelabs.com.au
+</p>
+
+</article>
+
+<!-- FOOTER -->
+<footer>
+ <div class="footer-grid">
+ <div class="footer-brand">
+ <div class="nav-logo" style="margin-bottom:8px;">
+ <img src="witnessos-logo.png" alt="WitnessOS" style="height:72px;width:auto;object-fit:contain;">
+ </div>
+ <p>Guardrails for autonomous AI. Built by Empire Labs Pty Ltd.</p>
+ </div>
+ <div class="footer-col">
+ <h4>Product</h4>
+ <a href="index.html">Home</a>
+ <a href="pricing.html">Pricing</a>
+ <a href="quickstart.html">Quickstart</a>
+ <a href="demo.html">Demo</a>
+ <a href="whitepaper.html">Spec</a>
+ <a href="whitepaper.html" style="color:var(--color-primary);">Whitepaper</a>
+ </div>
+ <div class="footer-col">
+ <h4>Legal</h4>
+ <a href="terms.html">Terms of Service</a>
+ <a href="privacy.html">Privacy Policy</a>
+ </div>
+ <div class="footer-col">
+ <h4>Company</h4>
+ <a href="#">About</a>
+ <a href="mailto:contact@empirelabs.com.au">Contact</a>
+ </div>
+ </div>
+</footer>
+
+<script>
+(function() {
+ var html = document.documentElement;
+ 
+</script>
+
+</body>
+</html>

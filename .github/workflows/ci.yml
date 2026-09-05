@@ -1,0 +1,108 @@
+name: WitnessOS Site CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dco:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify all commits carry Signed-off-by (DCO)
+        run: |
+          set -e
+          BASE="${GITHUB_EVENT_PULL_REQUEST_BASE_SHA:-${{ github.event.pull_request.base.sha }}}"
+          HEAD="${GITHUB_EVENT_PULL_REQUEST_HEAD_SHA:-${{ github.event.pull_request.head.sha }}}"
+          if [ -z "$BASE" ] || [ -z "$HEAD" ]; then
+            echo "Skipping DCO check outside pull_request context"
+            exit 0
+          fi
+          bad=""
+          for c in $(git rev-list "$BASE..$HEAD"); do
+            if ! git log -1 --format=%B "$c" | grep -q "^Signed-off-by: "; then
+              echo "::error::commit $c is missing Signed-off-by trailer (DCO)"
+              bad=1
+            fi
+          done
+          if [ -n "$bad" ]; then
+            echo "All commits must include a Signed-off-by trailer. Use: git commit -s"
+            exit 1
+          fi
+          echo "DCO check passed"
+
+  validate:
+    name: Site Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify all site pages exist
+        run: |
+          PAGES="index.html pricing.html privacy.html terms.html whitepaper.html
+                 signup.html quickstart.html casestudy.html deck.html"
+          for page in $PAGES; do
+            if [ -f "$page" ]; then
+              echo "PASS: $page exists"
+            else
+              echo "FAIL: $page missing"
+              exit 1
+            fi
+          done
+
+      - name: Verify logo
+        run: |
+          test -f witnessos-logo.png || { echo "FAIL: logo missing"; exit 1; }
+          echo "PASS: logo exists"
+
+      - name: Check no credentials committed
+        run: |
+          if git ls-files | grep -E '\.(env|cred|pem|key)$' | grep -v '.env.example'; then
+            echo "FAIL: Credential files detected in repository"
+            exit 1
+          fi
+          echo "PASS: No credentials in repo"
+
+      - name: Check .gitignore coverage
+        run: |
+          test -f .gitignore || { echo "FAIL: .gitignore missing"; exit 1; }
+          grep -q '__pycache__' .gitignore || { echo "FAIL: __pycache__ not in .gitignore"; exit 1; }
+          grep -q 'src/' .gitignore || { echo "FAIL: src/ not in .gitignore"; exit 1; }
+          grep -q 'tests/' .gitignore || { echo "FAIL: tests/ not in .gitignore"; exit 1; }
+          echo "PASS: .gitignore covers all private paths"
+
+      - name: Verify patent notice
+        run: |
+          if grep -q 'AU 2026906017' README.md; then
+            echo "PASS: Patent notice in README"
+          else
+            echo "FAIL: Patent notice missing from README"
+            exit 1
+          fi
+
+      - name: Verify evidence docs present
+        run: |
+          for f in DESIGN.md THREAT-ASSESSMENT.md VEX.md MAINTAINERS.md CHANGELOG.md TESTING.md SECURITY.md; do
+            test -f "$f" || { echo "FAIL: $f missing"; exit 1; }
+          done
+          echo "PASS: evidence docs present"
+
+  osv-scanner:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run OSV-Scanner
+        uses: google/osv-scanner/actions/scanner@v1
+        with:
+          scan-args: |-
+            --recursive
+            .
+            --fail-on-vuln

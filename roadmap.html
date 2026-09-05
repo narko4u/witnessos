@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap - WitnessOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === CSS CUSTOM PROPERTIES === */
+:root {
+  --bg-body: #0d1117;
+  --bg-card: #161b22;
+  --bg-section-alt: #161b22;
+  --bg-dark-section: #1c1e54;
+  --bg-feature-card: rgba(255,255,255,0.04);
+  --bg-feature-card-hover: rgba(255,255,255,0.07);
+  --bg-toggle: rgba(110,98,255,0.15);
+  --bg-toggle-hover: rgba(110,98,255,0.25);
+
+  --text-heading: #e6edf3;
+  --text-body: #8b949e;
+  --text-label: #8b949e;
+  --text-on-dark: #ffffff;
+  --text-on-dark-muted: rgba(255,255,255,0.6);
+  --text-on-dark-dim: rgba(255,255,255,0.7);
+  --text-code-dark: rgba(255,255,255,0.5);
+
+  --color-primary: #6e62ff;
+  --color-primary-hover: #5a4ee8;
+  --color-primary-light: rgba(110,98,255,0.08);
+  --color-primary-border: rgba(110,98,255,0.2);
+  --color-primary-shadow: rgba(110,98,255,0.18);
+
+  --color-secondary-border: #6e62ff;
+  --color-secondary-text: #6e62ff;
+
+  --border-color: #30363d;
+
+  --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+  --shadow-featured: rgba(110,98,255,0.18) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+  --shadow-horizon: rgba(0,0,0,0.5) 0px 20px 30px -20px, rgba(0,0,0,0.2) 0px 10px 18px -10px;
+
+  --nav-bg: rgba(13,17,23,0.88);
+  --nav-border: #30363d;
+
+  --hero-gradient: radial-gradient(ellipse at center, rgba(110,98,255,0.07) 0%, rgba(110,98,255,0.02) 40%, transparent 70%);
+
+  --mobile-toggle-bg: #e6edf3;
+}
+
+/* === RESET + BASE === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body {
+  font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-body);
+  color: var(--text-body);
+  font-weight: 300;
+  font-feature-settings: "ss01";
+  line-height: 1.5;
+}
+
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4, p, a, span, div, li, button, input, label {
+  font-feature-settings: "ss01";
+}
+.display-hero {
+  font-size: 3.5rem;
+  font-weight: 300;
+  line-height: 1.03;
+  letter-spacing: -1.4px;
+  color: var(--text-heading);
+}
+.display-large {
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.96px;
+  color: var(--text-heading);
+}
+.section-heading {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.10;
+  letter-spacing: -0.64px;
+  color: var(--text-heading);
+}
+.sub-heading {
+  font-size: 1.375rem;
+  font-weight: 300;
+  line-height: 1.10;
+  letter-spacing: -0.22px;
+  color: var(--text-heading);
+}
+.body-large {
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.40;
+  color: var(--text-body);
+}
+.body-text {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.50;
+  color: var(--text-body);
+}
+.label-text {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--text-label);
+}
+.code-label {
+  font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 2.00;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* === LINKS === */
+a { color: var(--color-primary); text-decoration: none; font-weight: 400; transition: color 0.15s; }
+a:hover { color: var(--color-primary-hover); }
+
+/* === CONTAINER === */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.container-narrow { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+.container-wide { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* === NAV === */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--nav-border);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 84px;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; font-size: 1.125rem; font-weight: 400; color: var(--text-heading); letter-spacing: -0.3px; }
+.nav-logo img.logo-full { height: 84px; width: auto; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 20px; }
+.nav-links a { font-size: 0.875rem; font-weight: 400; color: var(--text-heading); transition: color 0.15s; }
+.nav-links a:hover { color: var(--color-primary); }
+.nav-cta {
+  display: inline-flex; align-items: center; padding: 8px 16px;
+  background: var(--color-primary); color: #ffffff !important;
+  border-radius: 4px; font-size: 0.875rem !important; font-weight: 400 !important;
+  transition: background 0.15s;
+}
+.nav-cta:hover { background: var(--color-primary-hover) !important; color: #ffffff !important; }
+.nav-mobile-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; }
+.nav-mobile-toggle span { display: block; width: 20px; height: 2px; background: var(--mobile-toggle-bg); border-radius: 1px; }
+
+/* === HERO === */
+.roadmap-hero {
+  padding: 120px 0 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.roadmap-hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 700px;
+  background: var(--hero-gradient);
+  pointer-events: none;
+}
+.roadmap-hero .badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px;
+  background: var(--color-primary-light);
+  border: 1px solid var(--color-primary-border);
+  border-radius: 4px;
+  font-size: 0.8125rem; font-weight: 400;
+  color: var(--color-primary);
+  margin-bottom: 32px;
+  letter-spacing: 0.04em;
+}
+.roadmap-hero h1 { max-width: 900px; margin: 0 auto 24px; }
+.roadmap-hero .subtitle {
+  font-size: 1.25rem; font-weight: 300; color: var(--text-body);
+  max-width: 650px; margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* === HORIZONS TIMELINE === */
+.horizons {
+  padding: 80px 0;
+}
+.horizons h2.section-heading { text-align: center; margin-bottom: 16px; }
+.horizons > .container > p.body-large { text-align: center; max-width: 600px; margin: 0 auto 64px; }
+
+.timeline-connector {
+  position: relative;
+  margin: 0 0 64px;
+}
+.timeline-connector::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(to right, var(--color-primary), var(--color-primary-border), var(--border-color));
+}
+
+.horizon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  position: relative;
+}
+.horizon-card {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 36px 28px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-horizon);
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.horizon-card:hover {
+  border-color: var(--color-primary-border);
+  transform: translateY(-4px);
+}
+.horizon-card.present {
+  border-top: 3px solid var(--color-primary);
+}
+.horizon-card.next {
+  border-top: 3px solid var(--color-primary-border);
+}
+.horizon-card.future {
+  border-top: 3px solid var(--border-color);
+}
+
+.horizon-phase {
+  font-size: 0.75rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+.horizon-card.present .horizon-phase { color: var(--color-primary); }
+.horizon-card.next .horizon-phase { color: var(--color-primary); opacity: 0.7; }
+.horizon-card.future .horizon-phase { color: var(--text-body); }
+
+.horizon-timeline {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 3px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+.horizon-card.present .horizon-timeline { background: var(--color-primary-light); color: var(--color-primary); }
+.horizon-card.next .horizon-timeline { background: rgba(110,98,255,0.06); color: var(--color-primary); border: 1px solid var(--color-primary-border); }
+.horizon-card.future .horizon-timeline { background: transparent; color: var(--text-body); border: 1px solid var(--border-color); }
+
+.horizon-card h3 {
+  font-size: 1.375rem; font-weight: 300; color: var(--text-heading);
+  letter-spacing: -0.22px; margin-bottom: 20px;
+}
+.horizon-card .tagline {
+  font-size: 0.9375rem; font-weight: 300; color: var(--text-body);
+  line-height: 1.5; margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+}
+
+.horizon-card h4 {
+  font-size: 0.8125rem; font-weight: 500; color: var(--text-label);
+  text-transform: uppercase; letter-spacing: 0.03em;
+  margin-bottom: 12px;
+}
+.horizon-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+.horizon-items li {
+  font-size: 0.9375rem; font-weight: 300; color: var(--text-body);
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.4;
+}
+.horizon-items li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+  font-weight: 400;
+}
+
+.horizon-revenue {
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+.horizon-revenue .rev-label {
+  font-size: 0.75rem; font-weight: 500; color: var(--text-label);
+  text-transform: uppercase; letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+.horizon-revenue .rev-value {
+  font-size: 1rem; font-weight: 400; color: var(--text-heading);
+}
+
+/* === VISION SECTION === */
+.vision {
+  padding: 80px 0;
+  background: var(--bg-section-alt);
+}
+.vision h2.section-heading { text-align: center; margin-bottom: 48px; }
+
+.vision-principle {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 48px;
+  align-items: start;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.vision-principle:last-child { border-bottom: none; }
+.vision-principle .vp-num {
+  font-size: 0.8125rem; font-weight: 400; color: var(--color-primary);
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.vision-principle .vp-content h3 {
+  font-size: 1.25rem; font-weight: 300; color: var(--text-heading);
+  margin-bottom: 8px; letter-spacing: -0.15px;
+}
+.vision-principle .vp-content p {
+  font-size: 1rem; font-weight: 300; color: var(--text-body);
+  line-height: 1.5;
+}
+
+/* === INVESTOR SECTION === */
+.investor {
+  padding: 80px 0;
+}
+.investor h2.section-heading { text-align: center; margin-bottom: 16px; }
+.investor > .container > p.body-large { text-align: center; max-width: 600px; margin: 0 auto 48px; }
+
+.phases-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 48px;
+}
+.phase-card {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 24px;
+  text-align: center;
+  background: var(--bg-card);
+  transition: border-color 0.2s;
+}
+.phase-card:hover {
+  border-color: var(--color-primary-border);
+}
+.phase-card .phase-label {
+  font-size: 0.75rem; font-weight: 500; color: var(--color-primary);
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;
+}
+.phase-card .phase-num {
+  font-size: 2rem; font-weight: 300; color: var(--text-heading);
+  letter-spacing: -0.64px; margin-bottom: 4px;
+}
+.phase-card .phase-title {
+  font-size: 0.9375rem; font-weight: 400; color: var(--text-heading);
+  margin-bottom: 12px;
+}
+.phase-card .phase-desc {
+  font-size: 0.875rem; font-weight: 300; color: var(--text-body);
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+.phase-card .phase-rev {
+  font-size: 0.8125rem; font-weight: 400; color: var(--color-primary);
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.investor-thesis {
+  border: 1px solid var(--color-primary-border);
+  border-radius: 6px;
+  padding: 40px;
+  background: var(--color-primary-light);
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.investor-thesis h3 {
+  font-size: 1.25rem; font-weight: 300; color: var(--color-primary);
+  margin-bottom: 16px; letter-spacing: -0.15px;
+}
+.investor-thesis p {
+  font-size: 1rem; font-weight: 300; color: var(--text-body);
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* === CTA BANNER === */
+.cta-banner {
+  padding: 80px 0;
+  text-align: center;
+  background: var(--bg-dark-section);
+}
+.cta-banner h2 { color: var(--text-on-dark); margin-bottom: 12px; }
+.cta-banner p.body-large { color: var(--text-on-dark-dim); margin-bottom: 32px; }
+.btn-primary {
+  display: inline-flex; align-items: center; padding: 12px 24px;
+  background: var(--color-primary); color: #ffffff; border-radius: 4px;
+  font-size: 1rem; font-weight: 400; border: none; cursor: pointer;
+  transition: background 0.15s; line-height: 1;
+}
+.btn-primary:hover { background: var(--color-primary-hover); }
+.btn-secondary {
+  display: inline-flex; align-items: center; padding: 12px 24px;
+  background: transparent; color: var(--color-primary); border-radius: 4px;
+  font-size: 1rem; font-weight: 400; border: 1px solid var(--color-secondary-border);
+  cursor: pointer; transition: all 0.15s; line-height: 1;
+}
+.btn-secondary:hover { background: var(--color-primary-light); }
+.cta-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+/* === PATENT === */
+.patent {
+  padding: 24px 0;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+}
+.patent p { font-size: 0.8125rem; color: var(--text-body); }
+
+/* === FOOTER === */
+footer {
+  padding: 48px 0 32px;
+  border-top: 1px solid var(--border-color);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+.footer-brand img { height: 32px; width: auto; margin-bottom: 12px; }
+.footer-brand p { font-size: 0.875rem; color: var(--text-body); max-width: 280px; }
+.footer-col h4 { font-size: 0.875rem; font-weight: 500; color: var(--text-heading); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.03em; }
+.footer-col a { display: block; font-size: 0.875rem; color: var(--text-body); margin-bottom: 10px; font-weight: 300; }
+.footer-col a:hover { color: var(--color-primary); }
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .horizon-grid { grid-template-columns: 1fr; gap: 24px; }
+  .phases-grid { grid-template-columns: repeat(2, 1fr); }
+  .timeline-connector::before { display: none; }
+}
+@media (max-width: 768px) {
+  .display-hero { font-size: 2.5rem; letter-spacing: -0.64px; }
+  .display-large { font-size: 2rem; letter-spacing: -0.64px; }
+  .section-heading { font-size: 1.625rem; letter-spacing: -0.4px; }
+  .nav-links { display: none; }
+  .nav-mobile-toggle { display: flex; }
+  .roadmap-hero { padding: 80px 0 48px; }
+  .horizons { padding: 48px 0; }
+  .vision-principle { grid-template-columns: 1fr; gap: 16px; }
+  .phases-grid { grid-template-columns: 1fr; }
+  .investor-thesis { padding: 24px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .nav-inner { height: 64px; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="witnessos-logo.png" alt="WitnessOS" class="logo-full">
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="quickstart.html">Docs</a>
+      <a href="whitepaper.html">Spec</a>
+      <a href="casestudy.html">Case Study</a>
+      <a href="demo.html">Demo</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="roadmap.html" style="color:var(--color-primary);">Roadmap</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="signup.html" class="nav-cta">Sign Up</a>
+        </div>
+    <div class="nav-mobile-toggle"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="roadmap-hero">
+  <div class="container">
+    <div class="badge">PRODUCT ROADMAP</div>
+    <h1 class="display-hero">The Infrastructure for the<br>Autonomous Economy.</h1>
+    <p class="subtitle">
+      WitnessOS is not a compliance tool. It is a trust protocol. This is the path from runtime governance to the attestation economy.
+    </p>
+  </div>
+</section>
+
+<!-- THREE HORIZONS -->
+<section class="horizons">
+  <div class="container">
+    <h2 class="section-heading">The Three Horizons</h2>
+    <p class="body-large">Every horizon unlocks new value for existing customers while expanding the addressable market.</p>
+
+    <div class="timeline-connector">
+      <div class="horizon-grid">
+        <!-- H1: Foundation -->
+        <div class="horizon-card present">
+          <div class="horizon-phase">Horizon 1</div>
+          <div class="horizon-timeline">Shipped &mdash; Now</div>
+          <h3>Foundation</h3>
+          <p class="tagline">Runtime governance. Prove what an agent did.</p>
+          <h4>Capabilities</h4>
+          <ul class="horizon-items">
+            <li>Merkle chain audit trail &mdash; tamper-evident, independently verifiable</li>
+            <li>Real-time policy enforcement &mdash; violations blocked before execution</li>
+            <li>Framework-agnostic &mdash; any agent that makes HTTP calls</li>
+            <li>Self-hosted on customer infrastructure</li>
+            <li>Gmail dispatch for human-in-the-loop approvals</li>
+            <li>Stripe payment processing</li>
+            <li>Product activity logging &amp; webhook subscriptions</li>
+            <li>Integrity verification (Ed25519 signed manifest)</li>
+            <li>Machine-bound license enforcement</li>
+            <li>License tiering: Free, Starter, Pro, Enterprise</li>
+          </ul>
+          <div class="horizon-revenue">
+            <div class="rev-label">Revenue Driver</div>
+            <div class="rev-value">Self-serve subscriptions &mdash; SMBs and mid-market</div>
+          </div>
+        </div>
+
+        <!-- H2: Connector Layer -->
+        <div class="horizon-card next">
+          <div class="horizon-phase">Horizon 2</div>
+          <div class="horizon-timeline">Next 6&ndash;12 Months</div>
+          <h3>The Connector Layer</h3>
+          <p class="tagline">Any channel. Any financial system. Single governance layer.</p>
+          <h4>Capabilities</h4>
+          <ul class="horizon-items">
+            <li>Outlook / Exchange / 365 email integration</li>
+            <li>Slack and Microsoft Teams notification channels</li>
+            <li>SMS and WhatsApp approval flows</li>
+            <li>Xero, MYOB, QuickBooks, SAP &mdash; automated reconciliation with provable audit</li>
+            <li>Square, PayPal, direct bank API payment gateways</li>
+            <li>Lending decisions with cryptographic proof of underwriting reasoning</li>
+            <li>Digital signatures on every agent action</li>
+            <li>Agent identity layer &mdash; "I am who I say I am, here is my chain"</li>
+            <li>Self-serve connector marketplace</li>
+          </ul>
+          <div class="horizon-revenue">
+            <div class="rev-label">Revenue Driver</div>
+            <div class="rev-value">Platform licensing + per-connector fees + enterprise deals</div>
+          </div>
+        </div>
+
+        <!-- H3: Trust Network -->
+        <div class="horizon-card future">
+          <div class="horizon-phase">Horizon 3</div>
+          <div class="horizon-timeline">12&ndash;24 Months</div>
+          <h3>The Trust Network</h3>
+          <p class="tagline">Agents proving themselves to each other. Across organisations.</p>
+          <h4>Capabilities</h4>
+          <ul class="horizon-items">
+            <li>Cross-organisation agent collaboration &mdash; my agent negotiates with yours</li>
+            <li>Cryptographic dispute resolution &mdash; no lawyers, examine the chain</li>
+            <li>Agent reputation layer &mdash; provable track record earns more autonomy</li>
+            <li>Attestation marketplace &mdash; prove agent behaviour to insurers, regulators, partners</li>
+            <li>Dynamic insurance pricing based on provable agent behaviour</li>
+            <li>Regulatory compliance automation &mdash; submit cryptographic proofs, not audit reports</li>
+            <li>Provably governed agent listing &mdash; an "App Store" for accountable AI</li>
+            <li>Network effects &mdash; each new participant increases the value for all existing participants</li>
+          </ul>
+          <div class="horizon-revenue">
+            <div class="rev-label">Revenue Driver</div>
+            <div class="rev-value">Network licensing + transaction fees + data licensing + marketplace</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE VISION -->
+<section class="vision">
+  <div class="container-narrow">
+    <h2 class="section-heading">The Vision</h2>
+
+    <div class="vision-principle">
+      <div class="vp-num">Principle 01</div>
+      <div class="vp-content">
+        <h3>Governance is not a cost centre. It is a competitive advantage.</h3>
+        <p>Every organisation deploying autonomous agents faces the same trust bottleneck. WitnessOS removes it. The first enterprise in every vertical to deploy provably governed agents will have an insurmountable lead in speed, compliance, and partner trust.</p>
+      </div>
+    </div>
+
+    <div class="vision-principle">
+      <div class="vp-num">Principle 02</div>
+      <div class="vp-content">
+        <h3>Every connector increases the value of every other connector.</h3>
+        <p>A Gmail integration alone is useful. A Gmail + Stripe + Xero + Slack integration is a platform. A platform with 40 connectors is a protocol. The value of WitnessOS compounds quadratically with each new connection, not linearly.</p>
+      </div>
+    </div>
+
+    <div class="vision-principle">
+      <div class="vp-num">Principle 03</div>
+      <div class="vp-content">
+        <h3>The network is the product.</h3>
+        <p>Single-organisation governance is worth a subscription fee. Cross-organisation governance is worth a network cut. The attestation economy &mdash; where agents insure, lend, and transact based on cryptographic proof &mdash; is worth a marketplace. Each phase feeds the next.</p>
+      </div>
+    </div>
+
+    <div class="vision-principle">
+      <div class="vp-num">Principle 04</div>
+      <div class="vp-content">
+        <h3>Trustworthy agents earn more autonomy.</h3>
+        <p>The network naturally selects for transparency. Agents that prove their reliability are trusted with higher-value tasks. The virtuous cycle compounds: more proof &rarr; more autonomy &rarr; more value &rarr; more incentive to be provable. Self-reinforcing.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- INVESTOR NARRATIVE -->
+<section class="investor">
+  <div class="container">
+    <h2 class="section-heading">The Investor Thesis</h2>
+    <p class="body-large">Every autonomous agent deployed increases the addressable market for a trust protocol. WitnessOS compounds with the industry.</p>
+
+    <div class="phases-grid">
+      <div class="phase-card">
+        <div class="phase-label">Phase 1</div>
+        <div class="phase-num">Now</div>
+        <div class="phase-title">Runtime Governance</div>
+        <div class="phase-desc">Any agent framework, self-hosted, provable audit trail. The wedge into every organisation deploying AI agents.</div>
+        <div class="phase-rev">Self-serve subscriptions</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label">Phase 2</div>
+        <div class="phase-num">6&ndash;12mo</div>
+        <div class="phase-title">Universal Connectors</div>
+        <div class="phase-desc">Any communication channel, any financial system. The governance layer becomes the nervous system of the autonomous enterprise.</div>
+        <div class="phase-rev">Platform + per-connector licensing</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label">Phase 3</div>
+        <div class="phase-num">12&ndash;24mo</div>
+        <div class="phase-title">Agent Trust Network</div>
+        <div class="phase-desc">Cross-organisation agent collaboration with cryptographic proof. Disputes settled on-chain. Reputation as a primitive.</div>
+        <div class="phase-rev">Network + transaction fees</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label">Phase 4</div>
+        <div class="phase-num">24&ndash;36mo</div>
+        <div class="phase-title">Attestation Economy</div>
+        <div class="phase-desc">Insurance, lending, regulatory compliance, and marketplace fees - all powered by provable agent behaviour at scale.</div>
+        <div class="phase-rev">Data + marketplace fees</div>
+      </div>
+    </div>
+
+    <div class="investor-thesis">
+      <h3>The Core Thesis</h3>
+      <p>
+        WitnessOS is not a compliance tool. It is not a logging platform. It is not a model guardrail. WitnessOS is the <strong>infrastructure for the autonomous economy</strong>. The compliance use case is the wedge. The trust network is the endgame. Every agent deployed in the world grows the addressable market. This business compounds with the industry it serves.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <div class="container">
+    <h2 class="display-large" style="color:var(--cta-text);">Build the future with us.</h2>
+    <p class="body-large" style="color:var(--text-on-dark-dim);">Start with governance. Grow into the network.</p>
+    <div class="cta-actions">
+      <a href="signup.html" class="btn-primary">Start building for free</a>
+      <a href="manifesto.html" class="btn-secondary" style="border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.9);">Read the manifesto</a>
+      <a href="casestudy.html" class="btn-secondary" style="border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.9);">See the case study</a>
+    </div>
+  </div>
+</section>
+
+<!-- PATENT -->
+<section class="patent">
+  <div class="container">
+    <p>
+      <strong>Patent Pending.</strong> WitnessOS by Empire Labs Pty Ltd is protected under patent pending. &nbsp;&middot;&nbsp; &copy; 2026 Empire Labs Pty Ltd
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container-wide">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="witnessos-logo.png" alt="WitnessOS">
+        <p>Guardrails for autonomous AI. Built by Empire Labs Pty Ltd.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="index.html">Home</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="quickstart.html">Quickstart</a>
+        <a href="whitepaper.html">Spec</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="casestudy.html">Case Study</a>
+        <a href="demo.html">Demo</a>
+        <a href="manifesto.html">Manifesto</a>
+        <a href="roadmap.html">Roadmap</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="mailto:contact@empirelabs.com.au">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  // Mobile nav toggle
+  var mobileToggle = document.querySelector('.nav-mobile-toggle');
+  var navLinks = document.querySelector('.nav-links');
+  if (mobileToggle && navLinks) {
+    mobileToggle.addEventListener('click', function() {
+      if (navLinks.style.display === 'flex') {
+        navLinks.style.display = 'none';
+      } else {
+        navLinks.style.display = 'flex';
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.position = 'absolute';
+        navLinks.style.top = '84px';
+        navLinks.style.left = '0';
+        navLinks.style.right = '0';
+        navLinks.style.background = 'var(--nav-bg)';
+        navLinks.style.padding = '16px 24px';
+        navLinks.style.borderBottom = '1px solid var(--nav-border)';
+        navLinks.style.zIndex = '99';
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

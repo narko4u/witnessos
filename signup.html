@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - WitnessOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+ :root {
+--bg-body: #0d1117;
+ --bg-card: #161b22;
+ --bg-section-alt: #161b22;
+ --bg-toggle: rgba(110,98,255,0.15);
+ --bg-toggle-hover: rgba(110,98,255,0.25);
+ --text-heading: #e6edf3;
+ --text-body: #8b949e;
+ --text-label: #8b949e;
+ --color-primary: #6e62ff;
+ --color-primary-hover: #5a4ee8;
+ --color-primary-light: rgba(110,98,255,0.08);
+ --color-primary-border: rgba(110,98,255,0.2);
+ --border-color: #30363d;
+ --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+ --nav-bg: rgba(13,17,23,0.88);
+ --nav-border: #30363d;
+ --hero-gradient: radial-gradient(ellipse at center, rgba(110,98,255,0.07) 0%, rgba(110,98,255,0.02) 40%, transparent 70%);
+ --input-bg: #161b22;
+ --input-border: #30363d;
+ --input-border-focus: #6e62ff;
+ --input-text: #e6edf3;
+ --input-placeholder: #6a737d;
+ --tier-card-border: #30363d;
+ --tier-card-bg: #161b22;
+ --tier-card-active-border: #6e62ff;
+ --tier-card-active-bg: rgba(110,98,255,0.04);
+ --success-color: #34d399;
+ --error-color: #f87171;
+ --badge-bg: rgba(110,98,255,0.15);
+ --badge-text: #6e62ff;
+}
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+ body {
+ font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+ background: var(--bg-body);
+ color: var(--text-body);
+ font-weight: 300;
+ font-feature-settings: "ss01";
+ line-height: 1.5;
+ transition: background 0.3s ease, color 0.3s ease;
+ }
+
+ /* === NAV === */
+ nav {
+ position: sticky; top: 0; z-index: 100;
+ background: var(--nav-bg);
+ backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+ border-bottom: 1px solid var(--nav-border);
+ }
+.nav-inner {
+ display: flex; align-items: center; justify-content: space-between;
+ height: 84px; max-width: 1080px; margin: 0 auto; padding: 0 24px;
+ }
+.nav-logo {
+ display: flex; align-items: center; gap: 8px;
+ text-decoration: none;
+ }
+.nav-logo img { height: 28px; width: 28px; object-fit: cover; object-position: 0 0; border-radius: 6px; }
+.nav-logo img.logo-full { height: 84px; width: auto; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-links a { font-size: 0.875rem; font-weight: 400; color: var(--text-heading); transition: color 0.15s; text-decoration: none; }
+.nav-links a:hover { color: var(--color-primary); }
+.nav-cta { display: inline-flex; align-items: center; padding: 8px 16px; background: var(--color-primary); color: #ffffff !important; border-radius: 4px; font-size: 0.875rem !important; font-weight: 400 !important; transition: background 0.15s; }
+.nav-cta:hover { background: var(--color-primary-hover) !important; }
+
+ /* === PAGE LAYOUT === */
+.signup-layout {
+ display: flex;
+ max-width: 1080px;
+ margin: 0 auto;
+ padding: 64px 24px 80px;
+ gap: 64px;
+ align-items: flex-start;
+ }
+.signup-left {
+ flex: 1;
+ position: sticky;
+ top: 148px;
+ }
+.signup-right {
+ flex: 1;
+ max-width: 480px;
+ }
+
+ /* === LEFT SIDE === */
+.signup-left.display-large { font-size: 2rem; }
+.signup-left.body-text { margin-top: 16px; max-width: 380px; }
+.benefits { margin-top: 32px; display: flex; flex-direction: column; gap: 20px; }
+.benefit { display: flex; gap: 14px; }
+.benefit-icon {
+ flex-shrink: 0;
+ width: 36px; height: 36px;
+ background: var(--color-primary-light);
+ border-radius: 8px;
+ display: flex; align-items: center; justify-content: center;
+ color: var(--color-primary);
+ }
+.benefit-icon svg { display: block; }
+.benefit-text h4 { font-size: 0.9375rem; font-weight: 400; color: var(--text-heading); margin-bottom: 2px; }
+.benefit-text p { font-size: 0.875rem; font-weight: 300; color: var(--text-body); }
+
+ /* === FORM === */
+.signup-card {
+ background: var(--tier-card-bg);
+ border: 1px solid var(--tier-card-border);
+ border-radius: 12px;
+ padding: 32px;
+ box-shadow: var(--shadow-card);
+ }
+
+ /* Tier selector */
+.tier-selector { display: flex; gap: 8px; margin-bottom: 28px; background: var(--bg-section-alt); padding: 4px; border-radius: 8px; }
+.tier-option {
+ flex: 1;
+ text-align: center;
+ padding: 12px 8px;
+ border-radius: 6px;
+ cursor: pointer;
+ border: 1px solid transparent;
+ background: transparent;
+ transition: all 0.15s;
+ font-family: inherit;
+ }
+.tier-option:hover { border-color: var(--color-primary-border); }
+.tier-option.active {
+ background: var(--tier-card-bg);
+ border-color: var(--color-primary);
+ box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+ }
+.tier-option .tier-name { font-size: 0.8125rem; font-weight: 400; color: #ffffff; text-transform: uppercase; letter-spacing: 0.5px; }
+.tier-option .tier-price { font-size: 0.875rem; font-weight: 400; color: var(--color-primary); margin-top: 2px; }
+.tier-option.active .tier-price { color: var(--color-primary); }
+/* active tier name inherits white from .tier-option .tier-name */
+.badge {
+ display: inline-block;
+ font-size: 0.625rem;
+ font-weight: 500;
+ padding: 2px 6px;
+ border-radius: 3px;
+ background: var(--badge-bg);
+ color: var(--badge-text);
+ text-transform: uppercase;
+ letter-spacing: 0.03em;
+ margin-left: 4px;
+ }
+
+ /* Form fields */
+.form-group { margin-bottom: 20px; }
+.form-group label {
+ display: block;
+ font-size: 0.8125rem;
+ font-weight: 400;
+ color: var(--text-heading);
+ margin-bottom: 6px;
+ }
+.form-group input,.form-group select {
+ width: 100%;
+ padding: 10px 14px;
+ background: var(--input-bg);
+ border: 1px solid var(--input-border);
+ border-radius: 6px;
+ font-family: inherit;
+ font-size: 0.9375rem;
+ font-weight: 300;
+ color: var(--input-text);
+ transition: border-color 0.15s, box-shadow 0.15s;
+ outline: none;
+ }
+.form-group input::placeholder { color: var(--input-placeholder); }
+.form-group input:focus,.form-group select:focus {
+ border-color: var(--input-border-focus);
+ box-shadow: 0 0 0 3px var(--color-primary-light);
+ }
+.form-group input.input-error { border-color: var(--error-color); }
+.form-group.error-msg { font-size: 0.8125rem; color: var(--error-color); margin-top: 4px; display: none; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+ /* Submit */
+.submit-btn {
+ width: 100%;
+ padding: 12px 24px;
+ background: var(--color-primary);
+ color: #ffffff;
+ border: none;
+ border-radius: 6px;
+ font-family: inherit;
+ font-size: 1rem;
+ font-weight: 400;
+ cursor: pointer;
+ transition: background 0.15s;
+ }
+.submit-btn:hover { background: var(--color-primary-hover); }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.form-footnote { font-size: 0.75rem; font-weight: 300; color: var(--text-body); text-align: center; margin-top: 16px; line-height: 1.5; }
+.form-footnote a { color: var(--color-primary); }
+
+ /* === SUCCESS STATE === */
+.success-state { display: none; text-align: center; padding: 40px 20px; }
+.success-state.check-icon {
+ width: 56px; height: 56px;
+ background: rgba(16,185,129,0.1);
+ border-radius: 50%;
+ display: flex; align-items: center; justify-content: center;
+ margin: 0 auto 20px;
+ color: var(--success-color);
+ }
+.success-state h3 { font-size: 1.25rem; font-weight: 400; color: var(--text-heading); margin-bottom: 8px; }
+.success-state p.body-text { max-width: 340px; margin: 0 auto; }
+
+ /* === FOOTER === */
+ footer { padding: 48px 0; border-top: 1px solid var(--border-color); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.footer-brand p { font-size: 0.8125rem; font-weight: 300; color: var(--text-body); margin-top: 8px; max-width: 280px; }
+.footer-col h4 { font-size: 0.8125rem; font-weight: 400; color: var(--text-heading); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-col a { display: block; font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-bottom: 8px; transition: color 0.15s; text-decoration: none; }
+.footer-col a:hover { color: var(--color-primary); }
+
+ /* === RESPONSIVE === */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+ @media (max-width: 768px) {
+.display-large { font-size: 1.75rem; }
+.nav-links { display: none; }
+.signup-layout { flex-direction: column; padding: 32px 16px 64px; gap: 40px; }
+.signup-left { position: static; }
+.signup-left.display-large { font-size: 1.625rem; }
+.signup-right { max-width: 100%; }
+.form-row { grid-template-columns: 1fr; }
+.footer-grid { grid-template-columns: 1fr; gap: 24px; }
+ }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+ <div class="nav-inner">
+ <a href="index.html" class="nav-logo">
+ <img src="witnessos-logo.png" alt="WitnessOS" class="logo-full">
+ </a>
+        <div class="nav-links">
+          <a href="index.html" style="color:var(--color-primary);">Home</a>
+          <a href="whitepaper.html">Whitepaper</a>
+          <a href="quickstart.html">Docs</a>
+          <a href="whitepaper.html">Spec</a>
+          <a href="casestudy.html">Case Study</a>
+          <a href="demo.html">Demo</a>
+          <a href="manifesto.html">Manifesto</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="signup.html" class="nav-cta">Sign Up</a>
+        </div>
+ </div>
+</nav>
+
+<!-- SIGNUP -->
+<div class="signup-layout">
+ <div class="signup-left">
+ <h1 class="display-large">Govern your AI agents in minutes</h1>
+ <p class="body-text">Start with the Free tier no credit card. Upgrade when you need more actions, agents, or audit retention.</p>
+ <div class="benefits">
+ <div class="benefit">
+ <div class="benefit-icon">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+ </div>
+ <div class="benefit-text">
+  <h4>Instant API key</h4>
+  <p>Start evaluating actions within 60 seconds of sign-up</p>
+ </div>
+ </div>
+ <div class="benefit">
+ <div class="benefit-icon">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+ </div>
+ <div class="benefit-text">
+  <h4>Tamper-evident by design</h4>
+  <p>Cryptographic audit chain with every action evaluation</p>
+ </div>
+ </div>
+ <div class="benefit">
+ <div class="benefit-icon">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+ </div>
+ <div class="benefit-text">
+  <h4>Any agent framework</h4>
+  <p>Works with LangChain, CrewAI, AutoGen, or custom agents via HTTP API</p>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="signup-right">
+ <div class="signup-card">
+ <!-- Tier selector -->
+ <div class="tier-selector" id="tier-selector">
+ <button class="tier-option active" data-tier="free">
+  <div class="tier-name">Free</div>
+  <div class="tier-price">$0</div>
+ </button>
+ <button class="tier-option" data-tier="starter">
+  <div class="tier-name">Starter</div>
+  <div class="tier-price">$95<span style="font-size:0.75rem;">/mo</span></div>
+ </button>
+ <button class="tier-option" data-tier="pro">
+  <div class="tier-name">Pro</div>
+  <div class="tier-price">$495<span style="font-size:0.75rem;">/mo</span></div>
+ </button>
+ <button class="tier-option" data-tier="enterprise">
+  <div class="tier-name">Enterprise</div>
+  <div class="tier-price">Custom</div>
+ </button>
+ </div>
+
+ <!-- Sign-up form -->
+ <div id="signup-form-container">
+ <form id="signup-form" novalidate>
+  <div class="form-row">
+  <div class="form-group">
+  <label for="first-name">First name</label>
+  <input type="text" id="first-name" placeholder="Jane" required>
+  <div class="error-msg" id="fn-error">Please enter your first name</div>
+  </div>
+  <div class="form-group">
+  <label for="last-name">Last name</label>
+  <input type="text" id="last-name" placeholder="Doe" required>
+  <div class="error-msg" id="ln-error">Please enter your last name</div>
+  </div>
+  </div>
+
+  <div class="form-group">
+  <label for="email">Work email</label>
+  <input type="email" id="email" placeholder="jane@company.com" required>
+  <div class="error-msg" id="email-error">Please enter a valid email address</div>
+  </div>
+
+  <div class="form-group">
+  <label for="organisation">Organisation</label>
+  <input type="text" id="organisation" placeholder="Acme Corp">
+  </div>
+
+  <div class="form-group">
+  <label for="password">Password</label>
+  <input type="password" id="password" placeholder="At least 12 characters" required minlength="12">
+  <div class="error-msg" id="pw-error">Password must be at least 12 characters</div>
+  </div>
+
+  <button type="submit" class="submit-btn" id="submit-btn">Create account</button>
+
+  <p class="form-footnote">
+  By creating an account, you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>.<br>
+  Free tier: 500 actions/month, 1 agent, 3-day audit retention.
+  </p>
+ </form>
+ </div>
+
+ <!-- Success state -->
+ <div class="success-state" id="success-state">
+ <div class="check-icon">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+ </div>
+ <h3>Account created</h3>
+ <p class="body-text">
+  Welcome to WitnessOS. Check your inbox for your API key and getting-started guide.
+ </p>
+ </div>
+ </div>
+ </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+ <div class="footer-grid">
+ <div class="footer-brand">
+ <div class="nav-logo" style="margin-bottom:8px;">
+ <img src="witnessos-logo.png" alt="WitnessOS" style="height:72px;width:auto;object-fit:contain;">
+ </div>
+ <p>Guardrails for autonomous AI. Built by Empire Labs Pty Ltd.</p>
+ </div>
+ <div class="footer-col">
+ <h4>Product</h4>
+ <a href="index.html">Home</a>
+ <a href="pricing.html">Pricing</a>
+ <a href="quickstart.html">Quickstart</a>
+ <a href="demo.html">Demo</a>
+ <a href="whitepaper.html">Whitepaper</a>
+ </div>
+ <div class="footer-col">
+ <h4>Legal</h4>
+ <a href="terms.html">Terms of Service</a>
+ <a href="privacy.html">Privacy Policy</a>
+ </div>
+ <div class="footer-col">
+ <h4>Company</h4>
+ <a href="#">About</a>
+ <a href="mailto:contact@empirelabs.com.au">Contact</a>
+ </div>
+ </div>
+</footer>
+
+<script>
+(function() {
+  var container = document.getElementById('tier-selector');
+  var options = container.querySelectorAll('.tier-option');
+  var selectedTier = 'free';
+
+  options.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      options.forEach(function(o) { o.classList.remove('active'); });
+      btn.classList.add('active');
+      selectedTier = btn.getAttribute('data-tier');
+    });
+  });
+
+  document.getElementById('signup-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var fn = document.getElementById('first-name').value.trim();
+    var ln = document.getElementById('last-name').value.trim();
+    var em = document.getElementById('email').value.trim();
+    var pw = document.getElementById('password').value;
+    var ok = true;
+
+    if (!fn) { document.getElementById('fn-error').style.display = 'block'; ok = false; }
+    else { document.getElementById('fn-error').style.display = 'none'; }
+
+    if (!ln) { document.getElementById('ln-error').style.display = 'block'; ok = false; }
+    else { document.getElementById('ln-error').style.display = 'none'; }
+
+    if (!em || !em.includes('@')) { document.getElementById('email-error').style.display = 'block'; ok = false; }
+    else { document.getElementById('email-error').style.display = 'none'; }
+
+    if (pw.length < 12) { document.getElementById('pw-error').style.display = 'block'; ok = false; }
+    else { document.getElementById('pw-error').style.display = 'none'; }
+
+    if (!ok) return;
+
+    document.getElementById('signup-form-container').style.display = 'none';
+    document.getElementById('success-state').style.display = 'block';
+  });
+})();
+</script>
+
+</body>
+</html>

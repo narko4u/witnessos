@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WitnessOS - Guardrails for Autonomous AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === CSS CUSTOM PROPERTIES === */
+:root {
+  --bg-body: #0d1117;
+  --bg-card: #161b22;
+  --bg-section-alt: #161b22;
+  --bg-dark-section: #1c1e54;
+  --bg-feature-card: rgba(255,255,255,0.04);
+  --bg-feature-card-hover: rgba(255,255,255,0.07);
+  --bg-step-num: #161b22;
+  --bg-toggle: rgba(110,98,255,0.15);
+  --bg-toggle-hover: rgba(110,98,255,0.25);
+
+  --text-heading: #e6edf3;
+  --text-body: #8b949e;
+  --text-label: #8b949e;
+  --text-on-dark: #ffffff;
+  --text-on-dark-muted: rgba(255,255,255,0.6);
+  --text-on-dark-dim: rgba(255,255,255,0.7);
+  --text-code-dark: rgba(255,255,255,0.5);
+
+  --color-primary: #6e62ff;
+  --color-primary-hover: #5a4ee8;
+  --color-primary-light: rgba(110,98,255,0.08);
+  --color-primary-border: rgba(110,98,255,0.2);
+  --color-primary-shadow: rgba(110,98,255,0.18);
+
+  --color-secondary-border: #6e62ff;
+  --color-secondary-text: #6e62ff;
+
+  --border-color: #30363d;
+  --divider-color: #30363d;
+
+  --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+  --shadow-step: rgba(0,0,0,0.4) 0px 14px 21px -14px, rgba(0,0,0,0.2) 0px 8px 17px -8px;
+  --shadow-featured: rgba(110,98,255,0.18) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+
+  --nav-bg: rgba(13,17,23,0.88);
+  --nav-border: #30363d;
+
+  --hero-gradient: radial-gradient(ellipse at center, rgba(110,98,255,0.07) 0%, rgba(110,98,255,0.02) 40%, transparent 70%);
+
+  --mobile-toggle-bg: #e6edf3;
+
+  --color-danger: #ea2261;
+  --color-warn: #9b6829;
+  --color-success: #108c3d;
+  --color-check: #15be53;
+  --bg-danger: rgba(234,34,97,0.15);
+  --bg-warn: rgba(155,104,41,0.15);
+  --bg-success: rgba(21,190,83,0.15);
+  --bg-icon-danger: rgba(234,34,97,0.2);
+  --bg-icon-success: rgba(21,190,83,0.2);
+  --bg-icon-primary: rgba(110,98,255,0.2);
+
+  --faq-border: #30363d;
+  --faq-hover: #161b22;
+  --cta-bg: #0d1117;
+  --cta-text: #e6edf3;
+  --cta-sub: #8b949e;
+}
+
+/* === RESET + BASE === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body {
+  font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-body);
+  color: var(--text-body);
+  font-weight: 300;
+  font-feature-settings: "ss01";
+  line-height: 1.5;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4, p, a, span, div, li, button, input, label {
+  font-feature-settings: "ss01";
+}
+.display-hero {
+  font-size: 3.5rem;
+  font-weight: 300;
+  line-height: 1.03;
+  letter-spacing: -1.4px;
+  color: var(--text-heading);
+}
+.display-large {
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.96px;
+  color: var(--text-heading);
+}
+.section-heading {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.10;
+  letter-spacing: -0.64px;
+  color: var(--text-heading);
+}
+.sub-heading {
+  font-size: 1.375rem;
+  font-weight: 300;
+  line-height: 1.10;
+  letter-spacing: -0.22px;
+  color: var(--text-heading);
+}
+.body-large {
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.40;
+  color: var(--text-body);
+}
+.body-text {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.50;
+  color: var(--text-body);
+}
+.label-text {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.50;
+  color: var(--text-label);
+}
+.code-label {
+  font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 2.00;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* === LINKS === */
+a { color: var(--color-primary); text-decoration: none; font-weight: 400; transition: color 0.15s; }
+a:hover { color: var(--color-primary-hover); }
+
+/* === CONTAINER === */
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.container-wide {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* === NAV === */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--nav-border);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 84px;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--text-heading);
+  letter-spacing: -0.3px;
+}
+.nav-logo img.logo-full { height: 84px; width: auto; object-fit: contain; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nav-links a {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-heading);
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--color-primary); }
+
+/* === NAV CTA === */
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--color-primary);
+  color: #ffffff !important;
+  border-radius: 4px;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  transition: background 0.15s;
+}
+.nav-cta:hover { background: var(--color-primary-hover) !important; color: #ffffff !important; }
+.nav-mobile-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; }
+.nav-mobile-toggle span { display: block; width: 20px; height: 2px; background: var(--mobile-toggle-bg); border-radius: 1px; transition: background 0.3s ease; }
+
+/* === HERO === */
+.hero {
+  padding: 96px 0 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: var(--hero-gradient);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: var(--color-primary-light);
+  border: 1px solid var(--color-primary-border);
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--color-primary);
+  margin-bottom: 24px;
+}
+.hero h1 { max-width: 800px; margin: 0 auto 20px; }
+.hero p.body-large { max-width: 600px; margin: 0 auto 36px; }
+.hero-ctas { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: var(--color-primary);
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+  line-height: 1;
+}
+.btn-primary:hover { background: var(--color-primary-hover); }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--color-primary);
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 400;
+  border: 1px solid var(--color-secondary-border);
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1;
+}
+.btn-secondary:hover { background: var(--color-primary-light); }
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border-color);
+}
+.hero-stat { text-align: center; }
+.hero-stat-num { font-size: 2rem; font-weight: 300; color: var(--text-heading); letter-spacing: -0.64px; }
+.hero-stat-label { font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-top: 4px; }
+
+/* === PROBLEM SECTION === */
+.problem {
+  padding: 80px 0;
+  background: var(--bg-body);
+}
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.problem-visual {
+  background: var(--bg-section-alt);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 32px;
+  box-shadow: var(--shadow-card);
+}
+.problem-visual-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.problem-visual-item:last-child { border-bottom: none; }
+.problem-visual-icon {
+  width: 32px; height: 32px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+.pv-danger { background: var(--bg-danger); color: var(--color-danger); }
+.pv-warn { background: var(--bg-warn); color: var(--color-warn); }
+.pv-ok { background: var(--bg-success); color: var(--color-success); }
+
+/* === FEATURES === */
+.features {
+  padding: 80px 0;
+  background: var(--bg-dark-section);
+}
+.features h2 { color: var(--text-on-dark); text-align: center; margin-bottom: 16px; }
+.features > .container > p.body-large { color: var(--text-on-dark-dim); text-align: center; max-width: 600px; margin: 0 auto 48px; }
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.feature-card {
+  background: var(--bg-feature-card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 32px;
+  transition: all 0.2s;
+}
+.feature-card:hover { background: var(--bg-feature-card-hover); }
+.feature-icon {
+  width: 40px; height: 40px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+}
+.feature-card h3 { font-size: 1.375rem; font-weight: 300; color: var(--text-on-dark); letter-spacing: -0.22px; margin-bottom: 8px; }
+.feature-card p { font-size: 1rem; font-weight: 300; color: var(--text-on-dark-muted); line-height: 1.50; }
+
+/* === HOW IT WORKS === */
+.how-it-works {
+  padding: 80px 0;
+}
+.how-it-works h2 { text-align: center; margin-bottom: 48px; }
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  position: relative;
+}
+.steps::before {
+  content: '';
+  position: absolute;
+  top: 32px;
+  left: calc(12.5% + 32px);
+  right: calc(12.5% + 32px);
+  height: 1px;
+  background: var(--border-color);
+}
+.step {
+  text-align: center;
+  position: relative;
+}
+.step-num {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--bg-step-num);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-step);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem; font-weight: 400; color: var(--color-primary);
+  margin: 0 auto 16px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.step h4 { font-size: 1.125rem; font-weight: 400; color: var(--text-heading); margin-bottom: 6px; }
+.step p { font-size: 0.875rem; font-weight: 300; color: var(--text-body); line-height: 1.40; }
+
+/* === PRICING === */
+.pricing {
+  padding: 80px 0;
+  background: var(--bg-body);
+}
+.pricing h2 { text-align: center; margin-bottom: 16px; }
+.pricing > .container > p.body-large { text-align: center; max-width: 500px; margin: 0 auto 48px; }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.pricing-card {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 28px 24px;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s;
+  position: relative;
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+}
+.pricing-card.featured {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-featured);
+}
+.pricing-card.featured::before {
+  content: 'Popular';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 2px 12px;
+  background: var(--color-primary);
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.plan-name { font-size: 1.125rem; font-weight: 400; color: var(--text-heading); margin-bottom: 4px; }
+.plan-desc { font-size: 0.8125rem; font-weight: 300; color: var(--text-body); margin-bottom: 12px; line-height: 1.4; }
+.price { font-size: 2.5rem; font-weight: 300; color: var(--text-heading); letter-spacing: -0.96px; margin: 8px 0 2px; }
+.price-sub { font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-bottom: 16px; }
+.pricing-card ul { list-style: none; margin: 0; padding: 0; flex: 1; }
+.pricing-card ul li {
+  padding: 5px 0;
+  font-size: 0.8125rem;
+  font-weight: 300;
+  color: var(--text-body);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.pricing-card ul li::before { content: '✓'; color: var(--color-check); font-weight: 600; flex-shrink: 0; }
+.pricing-card .btn-secondary,
+.pricing-card .btn-primary {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* === FAQ === */
+.faq {
+  padding: 80px 0;
+  background: var(--bg-section-alt);
+}
+.faq h2 { text-align: center; margin-bottom: 48px; }
+.faq-list { max-width: 720px; margin: 0 auto; }
+.faq-item {
+  border-bottom: 1px solid var(--faq-border);
+  transition: border-color 0.3s ease;
+}
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 20px 0;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-heading);
+  text-align: left;
+  transition: color 0.15s;
+}
+.faq-question:hover { color: var(--color-primary); }
+.faq-question svg {
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  color: var(--text-body);
+}
+.faq-item.open .faq-question svg { transform: rotate(180deg); }
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-answer {
+  max-height: 300px;
+  padding-bottom: 20px;
+}
+.faq-answer p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text-body);
+  line-height: 1.50;
+}
+
+/* === CTA BANNER === */
+.cta-banner {
+  padding: 80px 0;
+  background: var(--cta-bg);
+  text-align: center;
+  transition: background 0.3s ease;
+}
+.cta-banner h2 { color: var(--cta-text); margin-bottom: 12px; }
+.cta-banner p.body-large { color: var(--cta-sub); max-width: 500px; margin: 0 auto 32px; }
+
+/* === PATENT === */
+.patent {
+  padding: 48px 0;
+  background: var(--bg-section-alt);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  text-align: center;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.patent p {
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: var(--text-body);
+  max-width: 600px;
+  margin: 0 auto;
+}
+.patent strong { color: var(--text-heading); font-weight: 400; }
+
+/* === FOOTER === */
+footer {
+  padding: 48px 0;
+  background: var(--bg-body);
+  border-top: 1px solid var(--border-color);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+.footer-brand p { font-size: 0.8125rem; font-weight: 300; color: var(--text-body); margin-top: 8px; max-width: 280px; }
+.footer-brand img { height: 72px; width: auto; object-fit: contain; }
+.footer-col h4 {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--text-heading);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.footer-col a { display: block; font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-bottom: 8px; transition: color 0.15s; }
+.footer-col a:hover { color: var(--color-primary); }
+
+/* === RESPONSIVE === */
+@media (max-width: 1100px) {
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); max-width: 700px; }
+}
+@media (max-width: 1024px) {
+  .display-hero { font-size: 3rem; letter-spacing: -0.96px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .steps::before { display: none; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .display-hero { font-size: 2.5rem; letter-spacing: -0.64px; }
+  .display-large { font-size: 2rem; letter-spacing: -0.64px; }
+  .section-heading { font-size: 1.625rem; letter-spacing: -0.4px; }
+  .nav-links { display: none; }
+  .nav-mobile-toggle { display: flex; }
+  .hero { padding: 64px 0 48px; }
+  .hero-stats { gap: 24px; flex-wrap: wrap; }
+  .hero-stat-num { font-size: 1.5rem; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+  .steps { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .nav-inner { height: 64px; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .hero h1 { font-size: 2rem; letter-spacing: -0.4px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="witnessos-logo.png" alt="WitnessOS" class="logo-full">
+    </a>
+    <div class="nav-links">
+      <a href="index.html" style="color:var(--color-primary);">Home</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="quickstart.html">Docs</a>
+      <a href="whitepaper.html">Spec</a>
+      <a href="casestudy.html">Case Study</a>
+      <a href="demo.html">Demo</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="signup.html" class="nav-cta">Sign Up</a>
+        </div>
+    <div class="nav-mobile-toggle"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span>&#10022;</span> Patent Pending -- Runtime Governance for AI Agents
+    </div>
+    <h1 class="display-hero">Guardrails for<br>Autonomous AI</h1>
+    <p class="body-large">
+      WitnessOS sits between your AI agents and production -- monitoring every decision, enforcing policies in real-time, and generating irrefutable audit trails. Ship autonomous systems with confidence.
+    </p>
+    <div class="hero-ctas">
+      <a href="signup.html" class="btn-primary">Get started free</a>
+      <a href="quickstart.html" class="btn-secondary">Read the docs</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">&lt;50ms</div>
+        <div class="hero-stat-label">Decision latency</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-label">Policy adherence</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">Zero</div>
+        <div class="hero-stat-label">Data egress</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">SOC 2</div>
+        <div class="hero-stat-label">Compatible</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="problem-grid">
+      <div>
+        <span class="code-label" style="color:var(--color-primary); margin-bottom: 8px; display: block;">The Problem</span>
+        <h2 class="display-large">AI agents make millions of decisions. Who's watching?</h2>
+        <p class="body-text" style="margin-top: 16px;">
+          Autonomous agents don't just follow prompts -- they browse the web, execute code, access APIs, and spend money. Without a runtime guardrail, one hallucinated decision can cost your business everything.
+        </p>
+        <p class="body-text" style="margin-top: 12px;">
+          WitnessOS is the first purpose-built runtime for agent governance. It observes, evaluates, and enforces -- every decision, every action, every millisecond.
+        </p>
+      </div>
+      <div class="problem-visual">
+        <div class="problem-visual-item">
+          <div class="problem-visual-icon pv-danger">&#9888;</div>
+          <div>
+            <div class="label-text">Agent tried to execute: <strong>rm -rf /data/production</strong></div>
+            <div style="font-size:0.75rem; font-weight:300; color:var(--color-danger); margin-top:2px;">BLOCKED -- Outside allowed command scope</div>
+          </div>
+        </div>
+        <div class="problem-visual-item">
+          <div class="problem-visual-icon pv-warn">!</div>
+          <div>
+            <div class="label-text">Agent attempted API call to <strong>unapproved vendor</strong></div>
+            <div style="font-size:0.75rem; font-weight:300; color:var(--color-warn); margin-top:2px;">FLAGGED -- Requires human approval</div>
+          </div>
+        </div>
+        <div class="problem-visual-item">
+          <div class="problem-visual-icon pv-ok">&#10003;</div>
+          <div>
+            <div class="label-text">Agent decision on <strong>GetCustomerByID</strong></div>
+            <div style="font-size:0.75rem; font-weight:300; color:var(--color-success); margin-top:2px;">PASSED -- Policy-compliant, audited</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <span class="code-label" style="color:var(--text-code-dark); text-align: center; display: block; margin-bottom: 8px;">Platform</span>
+    <h2 class="display-large" style="color:var(--text-on-dark);">Everything you need to govern AI</h2>
+    <p class="body-large">
+      A complete runtime for agent safety -- deploy in minutes, not months.
+    </p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--bg-icon-primary); color:var(--color-secondary-text);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Real-time Monitoring</h3>
+        <p>Every agent action is captured and evaluated against policy in under 50 milliseconds. No batching, no delays -- true real-time governance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--bg-icon-success); color:var(--color-check);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Policy Enforcement</h3>
+        <p>Define guardrails as code. Allow, block, flag, or escalate based on agent identity, action type, data sensitivity, and context.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--bg-icon-danger); color:var(--color-danger);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h3>Immutable Audit Trail</h3>
+        <p>Every decision is cryptographically signed and timestamped. Tamper-proof evidence for SOC 2, ISO 27001, and board reviews.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--bg-icon-primary); color:var(--color-secondary-text);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <h3>Agent-Agnostic</h3>
+        <p>Works with any agent framework -- OpenAI, Anthropic, LangChain, CrewAI, custom. Drop-in middleware, not a fork.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--bg-icon-success); color:var(--color-check);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Human-in-the-Loop</h3>
+        <p>Configurable escalation paths. Flagged decisions route to Slack, Teams, email, or custom webhooks. Approve or deny in one click.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--bg-icon-danger); color:var(--color-danger);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Cost Control</h3>
+        <p>Set token budgets, API spend limits, and action quotas per agent. Prevent runaway costs before they happen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="use-cases" style="padding:80px 0;background:var(--bg-body);">
+  <div class="container">
+    <span class="code-label" style="color:var(--color-primary);text-align:center;display:block;margin-bottom:8px;">Use Cases</span>
+    <h2 class="section-heading" style="text-align:center;">Beyond compliance - real-world agent governance</h2>
+    <p class="body-large" style="text-align:center;max-width:640px;margin:0 auto 48px;">
+      These are some of the many possible use cases. From security to insurance to dispute resolution to autonomous commerce to physical robotics.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+
+      <div style="background:var(--bg-feature-card);border:1px solid var(--border-color);border-radius:6px;padding:32px;transition:all 0.2s;">
+        <div style="width:40px;height:40px;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:1.25rem;background:var(--bg-icon-danger);color:var(--color-danger);">&#128274;</div>
+        <h3 style="font-size:1.375rem;font-weight:300;color:var(--text-heading);letter-spacing:-0.22px;margin-bottom:8px;">Rogue Agent Security</h3>
+        <p style="font-size:1rem;font-weight:300;color:var(--text-body);line-height:1.50;margin-bottom:12px;">
+          An agent goes rogue - compromised prompt, hallucinated tool call, supply-chain attack. WitnessOS cuts its credential access at the gateway in real time. The agent never held a credential - compromising it yields zero lateral movement, zero data exfiltration.
+        </p>
+        <p style="font-size:0.875rem;font-weight:300;color:var(--text-label);">
+          <strong style="color:var(--text-heading);font-weight:400;">Key property:</strong> Structural isolation. Agent ↔ Gateway ↔ Provider. Kill-switch revokes all access instantly.
+        </p>
+      </div>
+
+      <div style="background:var(--bg-feature-card);border:1px solid var(--border-color);border-radius:6px;padding:32px;transition:all 0.2s;">
+        <div style="width:40px;height:40px;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:1.25rem;background:var(--bg-icon-success);color:var(--color-check);">&#9803;</div>
+        <h3 style="font-size:1.375rem;font-weight:300;color:var(--text-heading);letter-spacing:-0.22px;margin-bottom:8px;">Agent Insurance (Surety)</h3>
+        <p style="font-size:1rem;font-weight:300;color:var(--text-body);line-height:1.50;margin-bottom:12px;">
+          Only WitnessOS-governed agents qualify for insurance. Underwriters audit E0–E4 evidence trails - cryptographic receipts, not self-reported dashboards. Provably governed behaviour earns lower premiums.
+        </p>
+        <p style="font-size:0.875rem;font-weight:300;color:var(--text-label);">
+          <strong style="color:var(--text-heading);font-weight:400;">Key property:</strong> Verifiable evidence replaces trust. A track record of clean verifier checks becomes a marketable asset.
+        </p>
+      </div>
+
+      <div style="background:var(--bg-feature-card);border:1px solid var(--border-color);border-radius:6px;padding:32px;transition:all 0.2s;">
+        <div style="width:40px;height:40px;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:1.25rem;background:var(--bg-icon-primary);color:var(--color-secondary-text);">&#9878;</div>
+        <h3 style="font-size:1.375rem;font-weight:300;color:var(--text-heading);letter-spacing:-0.22px;margin-bottom:8px;">Agent Tribunal</h3>
+        <p style="font-size:1rem;font-weight:300;color:var(--text-body);line-height:1.50;margin-bottom:12px;">
+          Two autonomous agents disagree on a contract outcome. Who's telling the truth? Submit the WitnessOS evidence chain to an independent verifier. The Merkle tree doesn't lie - every action is hash-chained, timestamped, and cryptographically signed.
+        </p>
+        <p style="font-size:0.875rem;font-weight:300;color:var(--text-label);">
+          <strong style="color:var(--text-heading);font-weight:400;">Built on:</strong> <a href="https://github.com/narko4u/aip-spec" style="color:var(--color-primary);">AIP</a> - the Agent Interaction Protocol for agent-to-agent commerce and dispute resolution.
+        </p>
+      </div>
+
+      <div style="background:var(--bg-feature-card);border:1px solid var(--border-color);border-radius:6px;padding:32px;transition:all 0.2s;">
+        <div style="width:40px;height:40px;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:1.25rem;background:var(--bg-icon-primary);color:var(--color-secondary-text);">&#9776;</div>
+        <h3 style="font-size:1.375rem;font-weight:300;color:var(--text-heading);letter-spacing:-0.22px;margin-bottom:8px;">Enterprise Compliance</h3>
+        <p style="font-size:1rem;font-weight:300;color:var(--text-body);line-height:1.50;margin-bottom:12px;">
+          EU AI Act. US NIST AI RMF & state AI laws (CO, CA, NY). Australia AI Safety Framework. Canada AIDA. UK sector-based AI governance. China AI regulations. Brazil AI Bill. SOC 2. ISO 42001. ISO 27001. WitnessOS replaces manual audit reports with cryptographic evidence. Every action has a verifiable receipt - grade E0 through E4.
+        </p>
+        <p style="font-size:0.875rem;font-weight:300;color:var(--text-label);">
+          <strong style="color:var(--text-heading);font-weight:400;">Key property:</strong> Regulators verify independently, without trusting the gateway operator, the agent, or any third party.
+        </p>
+        <p style="font-size:0.875rem;font-weight:300;color:var(--text-label);margin-top:8px;">
+          <strong style="color:var(--text-heading);font-weight:400;">Compliance tooling:</strong> EU AI Act self-assessment and regulatory mapping are available from Empire Labs Pty Ltd on request.
+        </p>
+      </div>
+
+      <div style="background:var(--bg-feature-card);border:1px solid var(--border-color);border-radius:6px;padding:32px;transition:all 0.2s;">
+        <div style="width:40px;height:40px;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:1.25rem;background:var(--bg-icon-success);color:var(--color-check);">&#8646;</div>
+        <h3 style="font-size:1.375rem;font-weight:300;color:var(--text-heading);letter-spacing:-0.22px;margin-bottom:8px;">Agent&harr;Company Commerce</h3>
+        <p style="font-size:1rem;font-weight:300;color:var(--text-body);line-height:1.50;margin-bottom:12px;">
+          An autonomous procurement agent discovers a supplier through its ACI manifest - machine-readable pricing, stock, and terms. It negotiates and executes via AIP, all governed by WitnessOS. Every commitment, delivery, and settlement cryptographically receipted.
+        </p>
+        <p style="font-size:0.875rem;font-weight:300;color:var(--text-label);">
+          <strong style="color:var(--text-heading);font-weight:400;">Built on:</strong> <a href="https://github.com/narko4u/aci-spec" style="color:var(--color-primary);">ACI</a>, <a href="https://github.com/narko4u/aip-spec" style="color:var(--color-primary);">AIP</a>, <a href="https://github.com/narko4u/ajson" style="color:var(--color-primary);">AJSON</a> - open standards for agent-to-organisation commerce.
+        </p>
+      </div>
+
+      <div style="background:var(--bg-feature-card);border:1px solid var(--border-color);border-radius:6px;padding:32px;transition:all 0.2s;">
+        <div style="width:40px;height:40px;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:1.25rem;background:var(--bg-icon-warning);color:var(--color-warning);">&#9881;</div>
+        <h3 style="font-size:1.375rem;font-weight:300;color:var(--text-heading);letter-spacing:-0.22px;margin-bottom:8px;">AtlasOS-Robotics</h3>
+        <p style="font-size:1rem;font-weight:300;color:var(--text-body);line-height:1.50;margin-bottom:12px;">
+          Autonomous drones, robotic harvesters, mining bots, underwater vehicles, and unmanned aircraft - all governed by WitnessOS. Every mission waypoint, sensor reading, and action cryptographically receipted. If a drone crosses a no-fly zone or a mining robot exceeds its safety envelope, the evidence chain captures it in tamper-proof detail.
+        </p>
+        <p style="font-size:0.875rem;font-weight:300;color:var(--text-label);">
+          <strong style="color:var(--text-heading);font-weight:400;">Key property:</strong> Telemetry from <strong style="color:var(--text-heading);font-weight:400;">AtlasOS</strong> (military, security, agriculture, mining, aquatics, UMAC) - governance and cryptographic evidence from WitnessOS. Unbroken chain from sensor to audit.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works">
+  <div class="container">
+    <span class="code-label" style="color:var(--color-primary); text-align: center; display: block; margin-bottom: 8px;">Deployment</span>
+    <h2 class="section-heading">Go from zero to governance in 10 minutes</h2>
+    <div class="steps" style="margin-top:40px;">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Install Gateway</h4>
+        <p>One-line install on your infrastructure. No SaaS, no data leaves your network.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Define Policies</h4>
+        <p>Write guardrails as YAML. Allow lists, block lists, rate limits, approval rules.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Connect Agents</h4>
+        <p>Point your agent's base URL at WitnessOS. That's it -- no code changes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Ship Confidently</h4>
+        <p>Every decision logged, every policy enforced. Sleep knowing your agents are safe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <span class="code-label" style="color:var(--color-primary); text-align: center; display: block; margin-bottom: 8px;">Pricing</span>
+    <h2 class="section-heading">Simple, predictable pricing</h2>
+    <p class="body-large">Start free. Scale as your agent fleet grows. No hidden fees.</p>
+    <div class="pricing-grid" style="margin-top:40px;">
+
+      <div class="pricing-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-desc">For individuals exploring agent governance.</div>
+        <div class="price">$0</div>
+        <div class="price-sub">per month, 1 agent</div>
+        <ul>
+          <li>500 actions / month</li>
+          <li>3-day audit retention</li>
+          <li>Basic policy engine</li>
+          <li>Community support</li>
+        </ul>
+        <a href="signup.html" class="btn-secondary">Get started</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-desc">For small teams running AI agents in production.</div>
+        <div class="price">$95</div>
+        <div class="price-sub">per month, up to 3 agents</div>
+        <ul>
+          <li>5,000 actions / month</li>
+          <li>30-day audit retention</li>
+          <li>Advanced policy engine</li>
+          <li>Email support</li>
+        </ul>
+        <a href="signup.html" class="btn-secondary">Start trial</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="plan-name">Pro</div>
+        <div class="plan-desc">For organisations with growing AI fleets.</div>
+        <div class="price">$495</div>
+        <div class="price-sub">per month, up to 10 agents</div>
+        <ul>
+          <li>50,000 actions / month</li>
+          <li>12-month audit retention</li>
+          <li>Advanced policy engine</li>
+          <li>Human-in-the-loop workflows</li>
+          <li>Slack / Teams / email integrations</li>
+          <li>API access for custom integrations</li>
+        </ul>
+        <a href="signup.html" class="btn-primary">Start trial</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-desc">For large deployments with custom requirements.</div>
+        <div class="price">Custom</div>
+        <div class="price-sub">Custom - call us</div>
+        <ul>
+          <li>Unlimited actions</li>
+          <li>Unlimited agents</li>
+          <li>Custom audit retention</li>
+          <li>On-premises deployment</li>
+          <li>Dedicated support &amp; SLAs</li>
+        </ul>
+        <a href="signup.html" class="btn-secondary">Contact sales</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <h2 class="section-heading">Frequently asked questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">
+          How does WitnessOS differ from logging?
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Logging records what happened after the fact. WitnessOS evaluates every action before execution, enforcing policies in real-time and blocking violations before they occur. The audit trail is a cryptographic byproduct of enforcement, not a retroactive record.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What agent frameworks are supported?
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Any agent that makes HTTP tool calls. OpenAI assistants, Anthropic Claude, LangChain, CrewAI, AutoGPT, custom agents -- they all work by changing one endpoint URL. No SDKs, no framework forks, no vendor lock-in.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Where does my data go?
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Nowhere. WitnessOS deploys on your infrastructure. Agent actions, policies, and audit logs never leave your network. For Enterprise, we support air-gapped deployments with zero external dependencies.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          How does the cryptographic audit trail work?
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Every decision record contains a SHA-256 hash of the previous record, forming a Merkle chain. Tampering with any record breaks the chain, making it immediately detectable. The chain root can be published to a public ledger for independent verification.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Can I try it before buying?
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Absolutely. The Free tier gives you 500 actions/month with the full policy engine and audit trail. No credit card required. When you're ready to scale, upgrade to Starter or Pro without reconfiguring anything.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="container">
+    <h2 class="display-large" style="color:var(--cta-text);">Ready to govern your AI?</h2>
+    <p class="body-large">Get started in 10 minutes. No credit card required.</p>
+    <div class="hero-ctas">
+      <a href="signup.html" class="btn-primary">Start building for free</a>
+      <a href="quickstart.html" class="btn-secondary" style="border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.9);">Read the docs</a>
+    </div>
+  </div>
+</section>
+
+<!-- PATENT -->
+<section class="patent">
+  <div class="container">
+    <p>
+      <strong>Patent Pending.</strong> WitnessOS by Empire Labs Pty Ltd is protected under patent pending. &nbsp;&middot;&nbsp; &copy; 2026 Empire Labs Pty Ltd
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container-wide">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="witnessos-logo.png" alt="WitnessOS">
+        <p>Guardrails for autonomous AI. Built by Empire Labs Pty Ltd.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="index.html">Home</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="quickstart.html">Quickstart</a>
+        <a href="whitepaper.html">Spec</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="casestudy.html">Case Study</a>
+        <a href="demo.html">Demo</a>
+        <a href="manifesto.html">Manifesto</a>
+        <a href="roadmap.html">Roadmap</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="mailto:contact@empirelabs.com.au">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  // FAQ accordion
+  var items = document.querySelectorAll('.faq-item');
+  for (var i = 0; i < items.length; i++) {
+    var question = items[i].querySelector('.faq-question');
+    if (question) {
+      question.addEventListener('click', function(e) {
+        var parent = this.parentNode;
+        var isOpen = parent.classList.contains('open');
+        // Close all
+        for (var j = 0; j < items.length; j++) { items[j].classList.remove('open'); }
+        // Toggle clicked
+        if (!isOpen) { parent.classList.add('open'); }
+      });
+    }
+  }
+
+  // Mobile nav toggle
+  var mobileToggle = document.querySelector('.nav-mobile-toggle');
+  var navLinks = document.querySelector('.nav-links');
+  if (mobileToggle && navLinks) {
+    mobileToggle.addEventListener('click', function() {
+      if (navLinks.style.display === 'flex') {
+        navLinks.style.display = 'none';
+      } else {
+        navLinks.style.display = 'flex';
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.position = 'absolute';
+        navLinks.style.top = '84px';
+        navLinks.style.left = '0';
+        navLinks.style.right = '0';
+        navLinks.style.background = 'var(--nav-bg)';
+        navLinks.style.padding = '16px 24px';
+        navLinks.style.borderBottom = '1px solid var(--border-color)';
+        navLinks.style.zIndex = '99';
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+# WitnessOS Policy Pack: Financial Actions
+# Governs Stripe refund operations and other financial actions
+# D3.0 - uses action_type matching, risk_tier thresholds
+
+pack_id: empire/financial-actions/v1
+pack_version: "1.0"
+name: Financial Actions Governance
+description: >
+  Governs financial operations through WitnessOS gateway.
+  Enforces amount caps, currency restrictions, idempotency key requirement,
+  and mandatory human approval for all refund actions.
+  Refunds exceeding the cap fall through to default deny.
+author: Empire Labs
+tenant_id: default
+environment: test
+enabled: true
+
+connector_kill_switch: []
+monthly_governed_action_cap: 50
+
+rules:
+  - rule_id: refund-requires-approval
+    description: Stripe refunds require human approval, within amount/currency bounds
+    priority: 100
+    binding:
+      action_type: stripe.refund.create
+      min_risk_tier: medium
+      max_risk_tier: critical
+    decision: approval_required
+    reason: Financial actions always require human oversight
+    max_amount_minor_units: 1000000   # $10,000.00 USD max per refund
+    allowed_currencies:
+      - usd
+      - aud
+    require_idempotency_key: true
+    capture_profile: restricted-redacted-v1
+    approval:
+      approver_role: admin
+      timeout_minutes: 15
+      require_mfa: false
+      monthly_action_cap: 50
+      note_required: true

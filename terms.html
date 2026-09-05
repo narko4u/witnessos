@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service - WitnessOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-body: #0d1117;
+  --bg-card: #161b22;
+  --bg-section-alt: #161b22;
+  --bg-dark-section: #1c1e54;
+  --bg-toggle: rgba(110,98,255,0.15);
+  --bg-toggle-hover: rgba(110,98,255,0.25);
+  --text-heading: #e6edf3;
+  --text-body: #8b949e;
+  --text-label: #8b949e;
+  --text-on-dark: #ffffff;
+  --text-on-dark-muted: rgba(255,255,255,0.6);
+  --color-primary: #6e62ff;
+  --color-primary-hover: #5a4ee8;
+  --color-primary-light: rgba(110,98,255,0.08);
+  --color-primary-border: rgba(110,98,255,0.2);
+  --color-secondary-border: #6e62ff;
+  --border-color: #30363d;
+  --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+  --nav-bg: rgba(13,17,23,0.88);
+  --nav-border: #30363d;
+  --hero-gradient: radial-gradient(ellipse at center, rgba(110,98,255,0.07) 0%, rgba(110,98,255,0.02) 40%, transparent 70%);
+  --mobile-toggle-bg: #e6edf3;
+  --divider-color: #30363d;
+  --blockquote-border: #6e62ff;
+  --inline-code-bg: #1a1f29;
+  --inline-code-text: #e6edf3;
+  --toc-bg: #161b22;
+  --warn-border: rgba(248,113,113,0.3);
+  --warn-bg: rgba(248,113,113,0.06);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body {
+  font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-body);
+  color: var(--text-body);
+  font-weight: 300;
+  line-height: 1.5;
+}
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--nav-border);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 84px; max-width: 1080px; margin: 0 auto; padding: 0 24px;
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.nav-logo img.logo-full { height: 84px; width: auto; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-links a { font-size: 0.875rem; font-weight: 400; color: var(--text-heading); transition: color 0.15s; text-decoration: none; }
+.nav-links a:hover { color: var(--color-primary); }
+.nav-cta { display: inline-flex; align-items: center; padding: 8px 16px; background: var(--color-primary); color: #ffffff !important; border-radius: 4px; font-size: 0.875rem !important; transition: background 0.15s; }
+.nav-cta:hover { background: var(--color-primary-hover) !important; }
+.display-large { font-size: 3rem; font-weight: 300; line-height: 1.1; letter-spacing: -0.8px; color: var(--text-heading); }
+.section-heading { font-size: 1.625rem; font-weight: 300; line-height: 1.15; letter-spacing: -0.4px; color: var(--text-heading); }
+.sub-heading { font-size: 1.25rem; font-weight: 400; line-height: 1.25; letter-spacing: -0.22px; color: var(--text-heading); }
+.body-text { font-size: 1rem; font-weight: 300; line-height: 1.65; color: var(--text-body); }
+.body-text strong { font-weight: 500; color: var(--text-label); }
+.code-label { font-family: 'Source Code Pro', monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; }
+.warn-box {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border: 1px solid var(--warn-border);
+  background: var(--warn-bg);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #fbbf24;
+}
+.legal-hero { padding: 80px 0 48px; text-align: center; position: relative; overflow: hidden; }
+.legal-hero::before {
+  content: ''; position: absolute; top: -300px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 600px;
+  background: var(--hero-gradient);
+  pointer-events: none;
+}
+.legal-hero .meta { font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-top: 12px; }
+.document { padding-bottom: 64px; max-width: 720px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+.document hr { border: none; border-top: 1px solid var(--divider-color); margin: 40px 0; }
+.document h2.section-heading { margin-top: 40px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--divider-color); }
+.document h3.sub-heading { margin-top: 28px; margin-bottom: 10px; }
+.document h4 { font-size: 1rem; font-weight: 500; color: var(--text-heading); margin-top: 20px; margin-bottom: 8px; }
+.document p.body-text { margin-bottom: 14px; }
+.document ul, .document ol { margin: 10px 0 14px 20px; font-size: 1rem; font-weight: 300; line-height: 1.65; color: var(--text-body); }
+.document li { margin-bottom: 6px; }
+.document li strong { font-weight: 500; color: var(--text-label); }
+.document .last-updated { font-size: 0.875rem; font-weight: 300; color: var(--text-body); font-style: italic; margin-top: 8px; }
+.document .recital { margin: 16px 0; padding: 12px 18px; border-left: 3px solid var(--color-primary); background: var(--color-primary-light); border-radius: 0 6px 6px 0; font-size: 0.9375rem; }
+.document .recital p { margin-bottom: 6px; }
+.document .recital p:last-child { margin-bottom: 0; }
+.document .definition-term { color: var(--text-heading); font-weight: 500; }
+.document .internal-ref { color: var(--color-primary); }
+.document .sig-line { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--divider-color); }
+footer { padding: 48px 0; border-top: 1px solid var(--border-color); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.footer-brand p { font-size: 0.8125rem; font-weight: 300; color: var(--text-body); margin-top: 8px; max-width: 280px; }
+.footer-col h4 { font-size: 0.8125rem; font-weight: 400; color: var(--text-heading); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-col a { display: block; font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-bottom: 8px; transition: color 0.15s; text-decoration: none; }
+.footer-col a:hover { color: var(--color-primary); }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+@media (max-width: 768px) {
+  .display-large { font-size: 2rem; letter-spacing: -0.4px; }
+  .section-heading { font-size: 1.375rem; }
+  .nav-links { display: none; }
+  .legal-hero { padding: 56px 0 40px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+  .document { padding-left: 16px; padding-right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="witnessos-logo.png" alt="WitnessOS" class="logo-full">
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="quickstart.html">Docs</a>
+      <a href="whitepaper.html">Spec</a>
+      <a href="casestudy.html">Case Study</a>
+      <a href="demo.html">Demo</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="terms.html" style="color:var(--color-primary);">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="signup.html" class="nav-cta">Sign Up</a>
+        </div>
+  </div>
+</nav>
+
+<section class="legal-hero">
+  <div class="container">
+    <div class="code-label" style="color:var(--color-primary); text-align:center; display:block; margin-bottom:12px;">Master License Agreement</div>
+    <h1 class="display-large">Terms of Service</h1>
+    <p class="meta">Last updated: 5 July 2026 | Version 2.1</p>
+  </div>
+</section>
+
+<article class="document">
+
+<div class="warn-box">
+<strong>IMPORTANT - This is a binding legal agreement.</strong> By installing, copying, accessing, or using WitnessOS in any manner, you (the "Licensee") acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you are accepting on behalf of a corporation, partnership, or other legal entity, you represent and warrant that you have the requisite authority to bind such entity. If you do not agree to these Terms in their entirety, you must not install, copy, access, or use the Software.
+</div>
+
+<!-- ──────────── RECITALS ──────────── -->
+<div class="recital">
+<p><strong>THIS MASTER LICENSE AGREEMENT</strong> (the <strong>"Agreement"</strong>) is made by and between:</p>
+<p><strong>Empire Labs Pty Ltd</strong> (ACN 690 601 701), a company incorporated under the laws of the Commonwealth of Australia, having its registered office in Townsville, Queensland, Australia (<strong>"Licensor"</strong> or <strong>"Empire Labs"</strong>); and</p>
+<p>The individual or entity that installs, copies, or uses the Software (<strong>"Licensee"</strong>).</p>
+<p>The Licensor and the Licensee are each a <strong>"Party"</strong> and collectively the <strong>"Parties".</strong></p>
+<p style="margin-top:8px;"><strong>RECITALS:</strong></p>
+<p><strong>A.</strong> The Licensor has developed and owns all right, title, and interest in and to WitnessOS, a self-hosted runtime governance platform for autonomous AI agents, including its source code, compiled binaries, cryptographic audit systems, policy evaluation engine, integrity verification mechanisms, user interfaces, documentation, and all associated intellectual property (the <strong>"Software"</strong>), protected by patent pending AU 2026906017 and copyright law.</p>
+<p><strong>B.</strong> The Licensee wishes to obtain, and the Licensor agrees to grant, a non-exclusive, non-transferable license to use the Software for the Licensee's internal business operations, subject to the terms and conditions set forth in this Agreement.</p>
+<p><strong>C.</strong> The Software is provided in self-hosted form only. The Licensor does not host, store, process, or access any data generated by the Licensee's instance of the Software, except as expressly provided in Section 7 (Audit Rights) or as required by law.</p>
+<p><strong>NOW, THEREFORE,</strong> in consideration of the mutual covenants, representations, and warranties contained herein, and for other good and valuable consideration, the receipt and sufficiency of which are hereby acknowledged, the Parties agree as follows:</p>
+</div>
+
+<hr>
+
+<!-- ──────────── 1. DEFINITIONS ──────────── -->
+<h2 class="section-heading" id="definitions">1. Definitions</h2>
+<p class="body-text">Capitalised terms used but not otherwise defined in this Agreement shall have the meanings ascribed to them below:</p>
+
+<p class="body-text"><strong class="definition-term">"Confidential Information"</strong> means all non-public information disclosed by one Party to the other, whether orally, in writing, or in any other form, including but not limited to the Software's source code, compiled binaries, license keys, cryptographic material, architectural designs, security mechanisms, business strategies, customer lists, pricing, financial data, and the terms and conditions of this Agreement.</p>
+
+<p class="body-text"><strong class="definition-term">"Documentation"</strong> means all user manuals, technical documentation, installation guides, API references, release notes, and other written materials provided by the Licensor in connection with the Software, whether in printed, electronic, or online form.</p>
+
+<p class="body-text"><strong class="definition-term">"Effective Date"</strong> means the earlier of (a) the date on which the Licensee first installs, copies, or accesses the Software; or (b) the date on which the Licensee accepts these Terms by clicking or checking a box indicating acceptance.</p>
+
+<p class="body-text"><strong class="definition-term">"Fees"</strong> means all license fees, subscription charges, and other amounts payable by the Licensee to the Licensor under this Agreement, as set out in the applicable Order Form or on the Licensor's pricing page.</p>
+
+<p class="body-text"><strong class="definition-term">"Intellectual Property Rights"</strong> means all intellectual property rights of any kind whatsoever, whether now known or hereafter devised, including patents (including patent pending AU 2026906017), copyrights, trade secrets, trademarks, service marks, design rights, database rights, moral rights, and any applications, registrations, renewals, and extensions thereof, in each case throughout the world.</p>
+
+<p class="body-text"><strong class="definition-term">"License Key"</strong> means a unique cryptographic key, token, or credential issued by the Licensor that authenticates and authorises the Licensee's use of the Software, including any machine-binding or tier-limiting information encoded therein.</p>
+
+<p class="body-text"><strong class="definition-term">"Licensee Data"</strong> means all data, information, content, records, and files generated, collected, stored, or processed by the Licensee's instance of the Software, including agent action logs, audit trail entries, hash chains, policy configurations, and runtime outputs.</p>
+
+<p class="body-text"><strong class="definition-term">"Order Form"</strong> means the ordering document, online order, or subscription selection that references this Agreement and specifies the license tier, term, Fees, and other applicable commercial terms.</p>
+
+<p class="body-text"><strong class="definition-term">"Software"</strong> means WitnessOS, as more particularly described in Recital A, including all components, modules, features, updates, upgrades, and versions thereof, and all accompanying Documentation.</p>
+
+<p class="body-text"><strong class="definition-term">"Term"</strong> means the period commencing on the Effective Date and continuing until terminated in accordance with Section 13.</p>
+
+<p class="body-text"><strong class="definition-term">"Territory"</strong> means the Commonwealth of Australia and such other jurisdictions as the Licensor may authorise in writing from time to time.</p>
+
+<p class="body-text"><strong class="definition-term">"Unauthorised Distribution"</strong> means any copying, reproduction, distribution, transfer, sublicensing, sale, lease, lending, rental, or making available of the Software to any third party, whether in source or compiled form, in whole or in part, that is not expressly authorised by this Agreement.</p>
+
+<hr>
+
+<!-- ──────────── 2. LICENSE GRANT ──────────── -->
+<h2 class="section-heading" id="grant">2. License Grant</h2>
+
+<h3 class="sub-heading">2.1 Grant of License</h3>
+<p class="body-text">Subject to the Licensee's strict compliance with all terms and conditions of this Agreement and the timely payment of all applicable Fees, the Licensor hereby grants to the Licensee a <strong>non-exclusive, non-transferable, non-sublicensable, revocable, limited license</strong> to:</p>
+<ol type="a">
+  <li><strong>Install</strong> the Software on computer systems owned, leased, or otherwise lawfully controlled by the Licensee, within the Territory;</li>
+  <li><strong>Use</strong> the Software solely for the Licensee's internal business operations, in accordance with the Documentation and within the usage limits specified in the applicable Order Form or License Key;</li>
+  <li><strong>Make backup copies</strong> of the Software in machine-readable form, not to exceed two (2) copies, solely for archival and disaster recovery purposes; and</li>
+  <li><strong>Use the Documentation</strong> in connection with the authorised uses described in this Section 2.1.</li>
+</ol>
+
+<h3 class="sub-heading">2.2 License Type</h3>
+<p class="body-text">The Software is licensed, not sold. This Agreement grants the Licensee a license to use the Software under the terms specified herein. The Licensor retains all right, title, and interest in and to the Software, including all Intellectual Property Rights therein. Nothing in this Agreement shall be construed as a sale, transfer, or assignment of any ownership or proprietary rights in the Software to the Licensee or any third party.</p>
+
+<h3 class="sub-heading">2.3 License Keys and Machine Binding</h3>
+<p class="body-text">The Licensor may, at its sole discretion, provide the Software with License Key verification mechanisms, machine-binding technology (including hardware fingerprinting), integrity verification (including Ed25519-signed cryptographic manifests), usage metering, and tier enforcement. The Licensee must not, and must not attempt to:</p>
+<ol type="a">
+  <li>Circumvent, disable, modify, or remove any License Key verification, machine-binding, integrity verification, usage metering, or license enforcement mechanism;</li>
+  <li>Use a License Key on more than the authorised number of machines or environments;</li>
+  <li>Share, publish, disclose, or otherwise make available any License Key to any third party;</li>
+  <li>Generate, forge, or synthesise false or unauthorised License Keys.</li>
+</ol>
+
+<h3 class="sub-heading">2.4 Updates and Upgrades</h3>
+<p class="body-text">During any period for which applicable Fees have been paid in full, the Licensee may receive updates, upgrades, and new versions of the Software as and when the Licensor makes them generally available to licensees of the same tier. The Licensor reserves the right to condition the provision of updates on the Licensee's compliance with integrity verification requirements, including but not limited to reporting the current integrity state of the installed Software as described in Section 7 (Audit Rights).</p>
+
+<hr>
+
+<!-- ──────────── 3. LICENSE RESTRICTIONS ──────────── -->
+<h2 class="section-heading" id="restrictions">3. License Restrictions</h2>
+<p class="body-text">Except as expressly and unambiguously permitted in Section 2.1 or otherwise agreed in writing by the Licensor, the Licensee must not, and must not permit any third party to:</p>
+<ol type="a">
+  <li><strong>Copy, reproduce, or distribute</strong> the Software or any portion thereof, in whole or in part, in any form or by any means, except as expressly permitted in Section 2.1(c);</li>
+  <li><strong>Modify, alter, adapt, translate, port, or create derivative works</strong> of the Software, including by combining the Software with any other software or materials or incorporating the Software into a larger work;</li>
+  <li><strong>Reverse engineer, decompile, disassemble, decrypt, or otherwise attempt to derive the source code</strong> of the Software, in whole or in part, except to the extent such restriction is expressly prohibited by applicable law and then only after providing the Licensor with thirty (30) days' prior written notice and an opportunity to provide alternative methods of achieving the purpose of the proposed activity;</li>
+  <li><strong>Remove, alter, obscure, or deface</strong> any copyright notice, patent marking (including references to patent pending AU 2026906017), trademark, trade name, logo, watermark (as described in Section 6.3), or other proprietary rights notice affixed to, embedded in, or displayed by the Software;</li>
+  <li><strong>Use the Software</strong> to provide any services to third parties on a commercial basis, including as a service bureau, managed security service provider (MSSP), application service provider (ASP), cloud service, software-as-a-service (SaaS) offering, or any other similar arrangement under which a third party obtains access to the Software's functionality without holding its own license from the Licensor;</li>
+  <li><strong>Transfer, sublicense, lease, lend, rent, or otherwise make available</strong> the Software to any third party, whether temporarily or permanently, for consideration or otherwise;</li>
+  <li><strong>Circumvent, disable, or tamper with</strong> any License Key verification, machine-binding, integrity verification (including Ed25519-signed cryptographic manifests), usage metering, license enforcement, anti-tamper, or copy protection mechanism in the Software;</li>
+  <li><strong>Use the Software</strong> in violation of any applicable laws, regulations, or industry standards, including but not limited to export control laws, sanctions regimes, and anti-corruption laws;</li>
+  <li><strong>Publish or disclose</strong> any benchmark, performance test, or security evaluation of the Software to any third party without the Licensor's prior written consent.</li>
+</ol>
+
+<hr>
+
+<!-- ──────────── 4. FEES AND PAYMENT ──────────── -->
+<h2 class="section-heading" id="fees">4. Fees and Payment</h2>
+
+<h3 class="sub-heading">4.1 Fees</h3>
+<p class="body-text">The Licensee shall pay all Fees specified in the applicable Order Form or as set out on the Licensor's pricing page at the time of order. All Fees are quoted and payable in Australian Dollars (AUD) unless otherwise expressly stated.</p>
+
+<h3 class="sub-heading">4.2 Payment Terms</h3>
+<p class="body-text">Fees are due and payable in full at the commencement of the applicable license term and are non-refundable except as expressly required by the Australian Consumer Law (Schedule 2 of the <em>Competition and Consumer Act 2010 (Cth)</em>). The Licensor will invoice the Licensee in accordance with the billing frequency selected on the Order Form. Invoiced amounts not paid within fourteen (14) calendar days of the invoice date shall accrue interest at the rate of twelve percent (12%) per annum, calculated daily from the due date until the date of actual payment.</p>
+
+<h3 class="sub-heading">4.3 Fee Changes</h3>
+<p class="body-text">The Licensor may increase Fees upon not less than thirty (30) days' prior written notice to the Licensee. Fee increases shall take effect at the commencement of the next billing period following such notice. If the Licensee does not agree to a Fee increase, the Licensee's sole remedy is to terminate this Agreement in accordance with Section 13.1(b) effective as of the end of the current billing period.</p>
+
+<h3 class="sub-heading">4.4 Taxes</h3>
+<p class="body-text">All Fees are exclusive of any goods and services tax (GST), value-added tax (VAT), sales tax, withholding tax, or other similar taxes or duties. The Licensee is responsible for paying all such taxes (other than taxes based on the Licensor's net income) in addition to the Fees.</p>
+
+<h3 class="sub-heading">4.5 Suspension for Non-Payment</h3>
+<p class="body-text">If any Fees remain unpaid for fifteen (15) calendar days after the due date, the Licensor may, without limiting any other rights or remedies available to it, suspend the Licensee's License Keys, access to updates, and support services until all outstanding amounts (including accrued interest) are paid in full.</p>
+
+<hr>
+
+<!-- ──────────── 5. INTELLECTUAL PROPERTY ──────────── -->
+<h2 class="section-heading" id="ip">5. Intellectual Property</h2>
+
+<h3 class="sub-heading">5.1 Ownership</h3>
+<p class="body-text">As between the Licensor and the Licensee, the Licensor exclusively owns all right, title, and interest in and to the Software, including all Intellectual Property Rights therein. This Agreement does not transfer any ownership, title, or proprietary interest in the Software or any Intellectual Property Rights of the Licensor to the Licensee. The Licensee acknowledges that the Software is protected by patent pending <strong>AU 2026906017</strong>, copyright law, trade secret law, and international treaty provisions, and that unauthorised reproduction, distribution, modification, reverse engineering, or other infringement may subject the Licensee to civil and criminal penalties, including monetary damages, injunctive relief, and imprisonment under the <em>Copyright Act 1968 (Cth)</em>, the <em>Patents Act 1990 (Cth)</em>, and similar laws in other jurisdictions.</p>
+
+<h3 class="sub-heading">5.2 Reservation of Rights</h3>
+<p class="body-text">The Licensor reserves all rights not expressly granted to the Licensee in this Agreement. Without limiting the generality of the foregoing, the Licensor retains the right to develop, use, license, sell, and distribute the Software and any derivative works thereof to any third party, and to use any feedback, suggestions, or improvement ideas provided by the Licensee without any obligation or compensation to the Licensee.</p>
+
+<h3 class="sub-heading">5.3 Feedback</h3>
+<p class="body-text">If the Licensee provides the Licensor with any suggestions, enhancement requests, recommendations, corrections, or other feedback regarding the Software (collectively, <strong>"Feedback"</strong>), the Licensor may use such Feedback without any obligation of confidentiality, attribution, or compensation to the Licensee. The Licensee hereby irrevocably assigns to the Licensor all right, title, and interest in and to such Feedback.</p>
+
+<hr>
+
+<!-- ──────────── 6. WATERMARKING AND TRACEABILITY ──────────── -->
+<h2 class="section-heading" id="watermark">6. Watermarking and Traceability</h2>
+
+<h3 class="sub-heading">6.1 Embedded Identifiers</h3>
+<p class="body-text">The Licensor may embed unique traceable identifiers (<strong>"Watermarks"</strong>) in the Software, including but not limited to digital watermarks in source code files, binary objects, configuration templates, runtime outputs, audit trail entries, network packets, and system logs. These Watermarks are designed to identify the Licensee and the specific License Key authorised for that instance of the Software.</p>
+
+<h3 class="sub-heading">6.2 Prohibited Acts</h3>
+<p class="body-text">The Licensee must not, and must not permit any third party to:</p>
+<ol type="a">
+  <li>Remove, alter, obscure, disable, or circumvent any Watermark;</li>
+  <li>Attempt to detect, analyse, reverse-engineer, or defeat the Watermarking mechanisms;</li>
+  <li>Use the presence, absence, or modification of Watermarks as a basis for any claim, demand, or cause of action against the Licensor;</li>
+  <li>Modify the Software in any manner that would affect the generation, embedding, or detection of Watermarks.</li>
+</ol>
+
+<h3 class="sub-heading">6.3 Enforcement Use</h3>
+<p class="body-text">The Licensor may use Watermarks to verify the Licensee's compliance with this Agreement, to trace the source of any Unauthorised Distribution, and as evidence in any legal proceeding. Watermark evidence shall be admissible in any court or tribunal of competent jurisdiction to establish the identity of the Licensee responsible for a breach of this Agreement, and the Licensee acknowledges that Watermark evidence constitutes a reliable means of identification and waives any objection to its admissibility on grounds of authenticity or hearsay to the maximum extent permitted by law.</p>
+
+<h3 class="sub-heading">6.4 Integrity Verification</h3>
+<p class="body-text">The Software includes cryptographic integrity verification mechanisms (including but not limited to Ed25519-signed SHA-256 hashes of source and binary files) that detect and report any modification, tampering, or unauthorised alteration of the Software. The Licensee must not disable, circumvent, or interfere with these integrity verification mechanisms. The Licensor may condition the provision of updates, support, and License Key validation on successful integrity verification.</p>
+
+<hr>
+
+<!-- ──────────── 7. AUDIT RIGHTS ──────────── -->
+<h2 class="section-heading" id="audit">7. Audit Rights</h2>
+
+<h3 class="sub-heading">7.1 Phone-Home and Integrity Reporting</h3>
+<p class="body-text">The Software may, at the Licensor's discretion, periodically communicate with the Licensor's servers (<strong>"Phone-Home"</strong>) for the purposes of License Key validation, integrity verification reporting, update availability checking, and usage metering. Phone-Home communications are limited to:</p>
+<ol type="a">
+  <li>License Key identifier and machine fingerprint;</li>
+  <li>Integrity verification result (pass/fail) and file count;</li>
+  <li>Software version and platform information;</li>
+  <li>A unique environment identifier.</li>
+</ol>
+<p class="body-text">Phone-Home communications <strong>do not</strong> include Licensee Data, agent action logs, audit trail contents, policy configurations, or any other data processed by the Licensee's instance of the Software.</p>
+
+<h3 class="sub-heading">7.2 Right to Audit</h3>
+<p class="body-text">Upon not less than ten (10) business days' written notice, the Licensor or its authorised representative may audit the Licensee's use of the Software to verify compliance with this Agreement. The Licensee shall cooperate fully with any such audit and provide all reasonable access to systems, records, and personnel as may be necessary to verify compliance. Any audit shall be conducted during normal business hours and in a manner that minimises disruption to the Licensee's operations.</p>
+
+<h3 class="sub-heading">7.3 Remedy for Non-Compliance</h3>
+<p class="body-text">If an audit reveals that the Licensee has exceeded the scope of the license granted under this Agreement, the Licensee shall, within fourteen (14) calendar days of the audit report, pay the Licensor the applicable Fees for such excess use (at the Licensor's then-current rates) plus the reasonable costs of the audit. If the excess use exceeds five percent (5%) of the authorised usage, the Licensee shall also pay a late payment penalty equal to the audit costs.</p>
+
+<hr>
+
+<!-- ──────────── 8. CONFIDENTIALITY ──────────── -->
+<h2 class="section-heading" id="confidentiality">8. Confidentiality</h2>
+
+<h3 class="sub-heading">8.1 Obligations</h3>
+<p class="body-text">Each Party agrees to hold the other Party's Confidential Information in strict confidence and not to disclose such Confidential Information to any third party except as expressly permitted in this Agreement. Each Party agrees to use the other Party's Confidential Information solely for the purposes contemplated by this Agreement and to protect such Confidential Information using at least the same degree of care it uses to protect its own confidential information of similar nature, but in no event less than reasonable care.</p>
+
+<h3 class="sub-heading">8.2 Exclusions</h3>
+<p class="body-text">Confidential Information does not include information that: (a) is or becomes publicly known through no fault of the receiving Party; (b) was in the receiving Party's lawful possession prior to disclosure; (c) is independently developed by the receiving Party without use of or reference to the disclosing Party's Confidential Information; or (d) is required to be disclosed by law, regulation, or court order, provided that the receiving Party gives the disclosing Party prompt written notice and reasonably cooperates in seeking a protective order or other appropriate relief.</p>
+
+<h3 class="sub-heading">8.3 Duration</h3>
+<p class="body-text">The confidentiality obligations set forth in this Section 8 shall survive termination of this Agreement for a period of five (5) years from the date of termination.</p>
+
+<hr>
+
+<!-- ──────────── 9. LICENSEE DATA ──────────── -->
+<h2 class="section-heading" id="data">9. Licensee Data</h2>
+
+<h3 class="sub-heading">9.1 Self-Hosted Nature</h3>
+<p class="body-text">The Software is self-hosted. The Licensor does not host, store, process, view, or access Licensee Data, except (a) as necessary to provide support services with the Licensee's express consent; (b) as required by applicable law; or (c) as expressly disclosed in Phone-Home communications under Section 7.1.</p>
+
+<h3 class="sub-heading">9.2 Licensee Responsibility</h3>
+<p class="body-text">The Licensee is the sole data controller of all Licensee Data and bears all responsibility and liability for such data, including but not limited to ensuring compliance with all applicable privacy, data protection, and record-keeping laws. The Licensor disclaims all liability for any loss, corruption, or breach of Licensee Data, including any breach resulting from vulnerabilities in the Software or its failure to operate as intended.</p>
+
+<h3 class="sub-heading">9.3 No Monitoring</h3>
+<p class="body-text">The Licensor does not monitor, analyse, or review Licensee Data for any purpose, including product improvement, training, or marketing. The Software does not transmit Licensee Data to the Licensor or any third party.</p>
+
+<hr>
+
+<!-- ──────────── 10. WARRANTIES AND DISCLAIMERS ──────────── -->
+<h2 class="section-heading" id="warranties">10. Warranties and Disclaimers</h2>
+
+<h3 class="sub-heading">10.1 Licensor Warranties</h3>
+<p class="body-text">The Licensor warrants that, for a period of ninety (90) days from the Effective Date (the <strong>"Warranty Period"</strong>):</p>
+<ol type="a">
+  <li>The Software will substantially conform to the applicable Documentation; and</li>
+  <li>The Licensor holds all necessary rights to grant the licenses granted under this Agreement.</li>
+</ol>
+<p class="body-text">The Licensee's sole and exclusive remedy for a breach of the warranty in Section 10.1(a) shall be, at the Licensor's option, to either (i) repair or replace the non-conforming Software; or (ii) terminate this Agreement and refund the pro-rata portion of Fees paid for the remainder of the then-current term.</p>
+
+<h3 class="sub-heading">10.2 Disclaimer of Warranties</h3>
+<p class="body-text"><strong>EXCEPT AS EXPRESSLY SET FORTH IN SECTION 10.1, THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSOR EXPRESSLY DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO:</strong></p>
+<ol type="a">
+  <li><strong>IMPLIED WARRANTIES</strong> OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, QUIET ENJOYMENT, AND NON-INFRINGEMENT;</li>
+  <li><strong>WARRANTIES ARISING FROM</strong> COURSE OF DEALING, COURSE OF PERFORMANCE, OR USAGE OF TRADE;</li>
+  <li><strong>WARRANTIES THAT THE SOFTWARE</strong> WILL BE ERROR-FREE, UNINTERRUPTED, SECURE AGAINST ALL THREATS, COMPATIBLE WITH ALL THIRD-PARTY SYSTEMS, OR MEET THE LICENSEE'S SPECIFIC REQUIREMENTS;</li>
+  <li><strong>WARRANTIES REGARDING</strong> THE COMPLETENESS, ACCURACY, OR RELIABILITY OF ANY AUDIT TRAIL, HASH CHAIN, OR CRYPTOGRAPHIC OUTPUT GENERATED BY THE SOFTWARE.</li>
+</ol>
+
+<div class="warn-box">
+<strong>CRITICAL - Modification voids all warranties.</strong> If the Licensee or any third party modifies, alters, patches, adapts, translates, or creates any derivative work of the Software in any manner, then all express and implied warranties set forth in this Section 10 are immediately and irrevocably voided with respect to any claim arising from or relating to the modified deployment. This includes claims that are caused by defects, errors, or vulnerabilities that existed in the Software prior to modification but were not yet manifest or discoverable at the time of modification. The Licensee assumes all risk, liability, and responsibility for any modified version of the Software, and the Licensor disclaims all liability associated therewith.
+</div>
+
+<hr>
+
+<!-- ──────────── 11. LIMITATION OF LIABILITY ──────────── -->
+<h2 class="section-heading" id="liability">11. Limitation of Liability</h2>
+
+<h3 class="sub-heading">11.1 Exclusion of Certain Damages</h3>
+<p class="body-text"><strong>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, LOSS OF REVENUE, LOSS OF BUSINESS, LOSS OF DATA (INCLUDING LICENSEE DATA), LOSS OF GOODWILL, BUSINESS INTERRUPTION, COST OF PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, OR ANY DAMAGES ARISING FROM OR RELATING TO ANY MODIFICATION, ALTERATION, OR DERIVATIVE WORK OF THE SOFTWARE CREATED BY OR FOR THE LICENSEE, WHETHER BASED ON CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY, WARRANTY, OR ANY OTHER LEGAL THEORY, EVEN IF THE LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</strong></p>
+
+<h3 class="sub-heading">11.2 Cap on Liability</h3>
+<p class="body-text"><strong>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSOR'S TOTAL AGGREGATE LIABILITY ARISING FROM OR RELATING TO THIS AGREEMENT OR THE SOFTWARE, WHETHER BASED ON CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY, WARRANTY, OR ANY OTHER LEGAL THEORY, SHALL NOT EXCEED THE TOTAL FEES PAID OR PAYABLE BY THE LICENSEE TO THE LICENSOR UNDER THIS AGREEMENT IN THE TWELVE (12) MONTHS IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO THE CLAIM.</strong></p>
+
+<h3 class="sub-heading">11.3 Modification Exception</h3>
+<p class="body-text"><strong>NOTWITHSTANDING ANYTHING TO THE CONTRARY IN THIS AGREEMENT, IF THE LICENSEE OR ANY THIRD PARTY MODIFIES, ALTERS, PATCHES, ADAPTS, TRANSLATES, OR CREATES ANY DERIVATIVE WORK OF THE SOFTWARE IN ANY MANNER, THE LICENSOR SHALL HAVE ZERO (0) LIABILITY FOR ANY LOSS, DAMAGE, COST, EXPENSE, OR CLAIM WHATSOEVER ARISING FROM OR RELATING TO THE MODIFIED DEPLOYMENT, REGARDLESS OF THE THEORY OF LIABILITY (CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY, OR OTHERWISE). THIS LIMITATION APPLIES NOTWITHSTANDING THE FAILURE OF ESSENTIAL PURPOSE OF ANY LIMITED REMEDY.</strong></p>
+
+<h3 class="sub-heading">11.4 Consumer Law</h3>
+<p class="body-text">Nothing in this Section 11 excludes, restricts, or modifies any rights, guarantees, warranties, or remedies conferred on the Licensee by the Australian Consumer Law (Schedule 2 of the <em>Competition and Consumer Act 2010 (Cth)</em>) that cannot be excluded, restricted, or modified by agreement. To the extent that liability under the Australian Consumer Law cannot be excluded, the Licensor's liability is limited, at its option, to (a) the replacement or repair of the Software; or (b) the payment of the cost of replacement or repair.</p>
+
+<hr>
+
+<!-- ──────────── 12. INDEMNIFICATION ──────────── -->
+<h2 class="section-heading" id="indemn">12. Indemnification</h2>
+
+<h3 class="sub-heading">12.1 Indemnity</h3>
+<p class="body-text">The Licensee agrees to indemnify, defend, and hold harmless the Licensor and its officers, directors, employees, agents, affiliates, successors, and assigns (collectively, <strong>"Indemnified Parties"</strong>) from and against any and all claims, demands, actions, suits, proceedings, judgments, damages, losses, liabilities, fines, penalties, costs, and expenses (including but not limited to reasonable legal fees and disbursements on a solicitor-client basis) arising out of or relating to:</p>
+<ol type="a">
+  <li>The Licensee's use of the Software (including any modified version thereof) in any manner;</li>
+  <li>The Licensee's breach of any provision of this Agreement;</li>
+  <li>The Licensee's violation of any applicable law, regulation, or third-party right;</li>
+  <li>Any modification, alteration, adaptation, translation, or derivative work of the Software created by or for the Licensee;</li>
+  <li>Any Unauthorised Distribution of the Software attributable to the Licensee, including any negligent or intentional act or omission by the Licensee or its employees, agents, or contractors;</li>
+  <li>Licensee Data, including any claim that Licensee Data infringes any third-party intellectual property or privacy right.</li>
+</ol>
+
+<h3 class="sub-heading">12.2 Indemnification Procedures</h3>
+<p class="body-text">The Licensor shall (a) provide the Licensee with prompt written notice of any claim subject to indemnification under this Section 12; (b) permit the Licensee to assume control of the defence and settlement of such claim, provided that the Licensee may not settle any claim requiring any admission of liability by or imposing any obligation on the Licensor without the Licensor's prior written consent; and (c) provide reasonable cooperation to the Licensee at the Licensee's expense in the defence of such claim. The Licensee shall not be liable for any settlement entered into without its prior written consent.</p>
+
+<hr>
+
+<!-- ──────────── 13. TERM AND TERMINATION ──────────── -->
+<h2 class="section-heading" id="termination">13. Term and Termination</h2>
+
+<h3 class="sub-heading">13.1 Term</h3>
+<p class="body-text">This Agreement commences on the Effective Date and continues for the Initial Term specified in the applicable Order Form. Thereafter, this Agreement shall automatically renew for successive renewal periods (each a <strong>"Renewal Term"</strong>) of the same duration as the Initial Term, unless either Party provides the other with written notice of non-renewal at least thirty (30) days prior to the end of the then-current term.</p>
+
+<h3 class="sub-heading">13.2 Termination for Breach</h3>
+<p class="body-text">Either Party may terminate this Agreement immediately upon written notice if the other Party materially breaches any provision of this Agreement and fails to cure such breach within fourteen (14) calendar days of receiving written notice specifying the breach. The Licensor may also terminate this Agreement immediately upon written notice if the Licensee commits a breach of Sections 3 (License Restrictions), 6 (Watermarking and Traceability), or 8 (Confidentiality), as such breaches cannot be adequately cured.</p>
+
+<h3 class="sub-heading">13.3 Termination for Insolvency</p>
+<p class="body-text">Either Party may terminate this Agreement immediately upon written notice if the other Party (a) becomes insolvent or unable to pay its debts as they fall due; (b) files a petition for bankruptcy, insolvency, or similar relief; (c) has a receiver, administrator, or similar officer appointed over all or substantially all of its assets; or (d) makes an assignment for the benefit of creditors.</p>
+
+<h3 class="sub-heading">13.4 Effect of Termination</h3>
+<p class="body-text">Upon termination or expiration of this Agreement for any reason:</p>
+<ol type="a">
+  <li>All License Keys granted under this Agreement shall immediately cease to function;</li>
+  <li>The Licensee must immediately cease all use of the Software and destroy all copies of the Software in its possession or control, including copies stored on backup media;</li>
+  <li>Within fourteen (14) calendar days of termination, the Licensee must provide the Licensor with a written certificate, signed by an authorised officer of the Licensee, confirming that all copies of the Software have been destroyed and that the Licensee has ceased all use;</li>
+  <li>All Fees and other amounts payable by the Licensee under this Agreement that have accrued prior to or as a result of termination shall immediately become due and payable;</li>
+  <li>Sections 3 (License Restrictions), 5 (Intellectual Property), 6 (Watermarking and Traceability), 7 (Audit Rights), 8 (Confidentiality), 9 (Licensee Data), 10 (Warranties and Disclaimers), 11 (Limitation of Liability), 12 (Indemnification), 13.4 (Effect of Termination), 14 (Dispute Resolution), 15 (Governing Law), and 16 (General Provisions) shall survive termination and continue in full force and effect.</li>
+</ol>
+
+<hr>
+
+<!-- ──────────── 14. DISPUTE RESOLUTION ──────────── -->
+<h2 class="section-heading" id="dispute">14. Dispute Resolution</h2>
+
+<h3 class="sub-heading">14.1 Negotiation</h3>
+<p class="body-text">If a dispute arises between the Parties relating to or arising out of this Agreement, the Parties shall first attempt to resolve the dispute through good-faith negotiations between senior management representatives. Either Party may initiate this process by serving written notice of the dispute on the other Party, following which the senior management representatives shall meet (in person or by electronic means) within fourteen (14) calendar days to attempt to resolve the dispute.</p>
+
+<h3 class="sub-heading">14.2 Mediation</h3>
+<p class="body-text">If the dispute is not resolved within thirty (30) calendar days of the initial notice under Section 14.1, the Parties shall refer the dispute to mediation administered by the Resolution Institute (or its successor) in Sydney, New South Wales. Each Party shall bear its own costs of mediation and shall share equally the mediator's fees and administrative costs. The mediation shall be conducted in the English language.</p>
+
+<h3 class="sub-heading">14.3 Injunctive Relief</h3>
+<p class="body-text">Notwithstanding Sections 14.1 and 14.2, either Party may seek urgent interim or equitable relief from a court of competent jurisdiction at any time to prevent or remedy a breach of this Agreement, including but not limited to breaches of confidentiality, intellectual property rights, or license restrictions, without first complying with the dispute resolution procedures set forth in this Section 14.</p>
+
+<hr>
+
+<!-- ──────────── 15. GOVERNING LAW ──────────── -->
+<h2 class="section-heading" id="governing">15. Governing Law and Jurisdiction</h2>
+
+<h3 class="sub-heading">15.1 Governing Law</h3>
+<p class="body-text">This Agreement and any dispute, controversy, proceeding, or claim arising out of or relating to it (whether based on contract, tort, statute, or otherwise) shall be governed by and construed in accordance with the laws of <strong>New South Wales, Australia</strong>, without regard to its conflict of laws principles. The Parties expressly exclude the application of the United Nations Convention on Contracts for the International Sale of Goods (CISG) and the <em>Uniform Computer Information Transactions Act</em> (UCITA).</p>
+
+<h3 class="sub-heading">15.2 Jurisdiction</h3>
+<p class="body-text">Each Party irrevocably submits to the exclusive jurisdiction of the courts of <strong>New South Wales, Australia</strong> and any appellate courts therefrom for the resolution of any dispute arising out of or relating to this Agreement, except that nothing in this Section 15.2 precludes the Licensor from seeking injunctive or other equitable relief in any court of competent jurisdiction in any jurisdiction.</p>
+
+<h3 class="sub-heading">15.3 Service of Process</h3>
+<p class="body-text">Each Party irrevocably consents to service of process by registered mail to the address set forth in the applicable Order Form or, if no such address is specified, to the Licensee's last known email address on file with the Licensor.</p>
+
+<hr>
+
+<!-- ──────────── 16. GENERAL PROVISIONS ──────────── -->
+<h2 class="section-heading" id="general">16. General Provisions</h2>
+
+<h3 class="sub-heading">16.1 Entire Agreement</h3>
+<p class="body-text">This Agreement, together with the applicable Order Form and any exhibits, schedules, and appendices referenced herein, constitutes the entire agreement between the Parties with respect to the subject matter hereof and supersedes all prior and contemporaneous agreements, understandings, negotiations, representations, and communications, whether oral or written, between the Parties relating to such subject matter. The terms and conditions of this Agreement shall prevail over any conflicting or additional terms in any purchase order, acknowledgement, or other document issued by the Licensee, unless expressly agreed in writing by the Licensor.</p>
+
+<h3 class="sub-heading">16.2 Severability</h3>
+<p class="body-text">If any provision of this Agreement is found to be invalid, illegal, or unenforceable by a court or tribunal of competent jurisdiction, such provision shall be enforced to the maximum extent permissible so as to give effect to the intent of the Parties, and the remaining provisions of this Agreement shall continue in full force and effect without being impaired or invalidated in any way.</p>
+
+<h3 class="sub-heading">16.3 Waiver</h3>
+<p class="body-text">No failure or delay by either Party in exercising any right, power, or remedy under this Agreement shall operate as a waiver thereof. Any waiver must be in writing and signed by the waiving Party. A waiver of any breach of any provision of this Agreement shall not be construed as a waiver of any subsequent breach of the same or any other provision.</p>
+
+<h3 class="sub-heading">16.4 Force Majeure</h3>
+<p class="body-text">Neither Party shall be liable for any failure or delay in performing its obligations under this Agreement (other than obligations to pay Fees) to the extent that such failure or delay is caused by circumstances beyond its reasonable control, including but not limited to acts of God, war, terrorism, civil unrest, fire, flood, earthquake, pandemic, epidemic, governmental action, labour disputes, supply chain disruptions, telecommunications or internet service outages, or failures of third-party software or infrastructure. The affected Party shall provide prompt written notice of the force majeure event and shall use reasonable efforts to mitigate its effects.</p>
+
+<h3 class="sub-heading">16.5 Notices</h3>
+<p class="body-text">All notices, consents, approvals, and other communications required or permitted under this Agreement shall be in writing and shall be deemed duly given (a) when delivered by hand; (b) on the next business day after being sent by overnight courier; (c) on the fifth business day after being sent by registered or certified mail, postage prepaid; or (d) on the date of transmission if sent by email, provided that a copy is also sent by one of the foregoing methods. Notices to the Licensor shall be addressed to <strong>Empire Labs Pty Ltd</strong> at contact@empirelabs.com.au. Notices to the Licensee shall be addressed to the email address provided during registration or on the applicable Order Form.</p>
+
+<h3 class="sub-heading">16.6 Relationship of the Parties</h3>
+<p class="body-text">The Parties are independent contractors. Nothing in this Agreement creates an agency, partnership, joint venture, employment, or fiduciary relationship between the Parties. Neither Party has the authority to bind the other or to incur any obligation on behalf of the other.</p>
+
+<h3 class="sub-heading">16.7 Assignment</h3>
+<p class="body-text">The Licensee may not assign, transfer, novate, or delegate this Agreement or any of its rights or obligations hereunder, whether by operation of law or otherwise, without the prior written consent of the Licensor, such consent not to be unreasonably withheld in the case of a merger, acquisition, or sale of all or substantially all of the Licensee's assets. Any attempted assignment in violation of this Section 16.7 shall be void and of no effect. The Licensor may assign, transfer, novate, or delegate this Agreement or any of its rights or obligations hereunder at any time without the Licensee's consent. Subject to the foregoing, this Agreement shall be binding upon and inure to the benefit of the Parties and their respective permitted successors and assigns.</p>
+
+<h3 class="sub-heading">16.8 Export Control</h3>
+<p class="body-text">The Software may be subject to Australian export control laws and regulations, including the <em>Customs Act 1901 (Cth)</em> and the <em>Defence and Strategic Goods List</em>. The Licensee shall not export, re-export, transfer, or make available the Software, directly or indirectly, in violation of any applicable export control laws or sanctions regimes. The Licensee represents and warrants that it is not: (a) located in any country subject to an Australian or UN sanctions embargo; (b) listed on any Australian, UN, or other applicable sanctions or restricted parties list; or (c) otherwise prohibited from receiving or using the Software under applicable law.</p>
+
+<h3 class="sub-heading">16.9 No Third-Party Beneficiaries</h3>
+<p class="body-text">This Agreement is for the sole benefit of the Parties and their permitted successors and assigns and nothing herein, express or implied, is intended to or shall confer upon any third party any legal or equitable right, benefit, or remedy of any nature whatsoever.</p>
+
+<h3 class="sub-heading">16.10 Amendments</h3>
+<p class="body-text">The Licensor may amend this Agreement from time to time by providing the Licensee with at least fourteen (14) days' prior written notice of any material changes. Any amendments shall apply prospectively only and shall not affect the rights or obligations of either Party accrued prior to the effective date of the amendment. If the Licensee does not agree to a material amendment, the Licensee's sole remedy is to terminate this Agreement as of the effective date of the amendment by providing written notice within such 14-day period. Continued use of the Software after the effective date of any amendment shall constitute acceptance of the amended Agreement.</p>
+
+<hr>
+
+<!-- ──────────── 17. CONTACT ──────────── -->
+<h2 class="section-heading" id="contact">17. Contact and Reporting</h2>
+<p class="body-text">Any questions regarding this Agreement, requests for information, or reports of suspected license breaches or Unauthorised Distribution should be directed to:</p>
+<ul>
+  <li><strong>Email:</strong> contact@empirelabs.com.au</li>
+  <li><strong>Mail:</strong> Empire Labs Pty Ltd, Townsville, Queensland, Australia</li>
+</ul>
+<p class="body-text">The Licensor welcomes reports of suspected Unauthorised Distribution. Reports may be submitted anonymously. The Licensor may, in its sole discretion, offer a financial reward for information that leads to the successful enforcement of its Intellectual Property Rights against a party engaged in Unauthorised Distribution.</p>
+
+<br>
+
+<div class="sig-line">
+<p class="body-text last-updated">Terms of Service - Version 2.1 - Effective 5 July 2026</p>
+<p class="body-text" style="font-size:0.8125rem; color:var(--text-body); margin-top:12px;">Patent pending AU 2026906017. © 2026 Empire Labs Pty Ltd. All rights reserved.</p>
+</div>
+
+</article>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="margin-bottom:8px;">
+        <img src="witnessos-logo.png" alt="WitnessOS" style="height:72px;width:auto;object-fit:contain;">
+      </div>
+      <p>Guardrails for autonomous AI. Built by Empire Labs Pty Ltd.</p>
+      <p style="margin-top:4px;font-size:0.7rem;">Patent pending AU 2026906017</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="index.html">Home</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="quickstart.html">Quickstart</a>
+      <a href="demo.html">Demo</a>
+      <a href="whitepaper.html">Spec</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="roadmap.html">Roadmap</a>
+      </div>
+      <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="terms.html" style="color:var(--color-primary);">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="mailto:contact@empirelabs.com.au">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

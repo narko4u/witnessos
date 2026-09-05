@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing - WitnessOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+ /* === CSS CUSTOM PROPERTIES === */
+ :root {
+--bg-body: #0d1117;
+ --bg-card: #161b22;
+ --bg-section-alt: #161b22;
+ --bg-dark-section: #1c1e54;
+ --bg-toggle: rgba(110,98,255,0.15);
+ --bg-toggle-hover: rgba(110,98,255,0.25);
+ --text-heading: #e6edf3;
+ --text-body: #8b949e;
+ --text-label: #8b949e;
+ --text-on-dark: #ffffff;
+ --text-on-dark-muted: rgba(255,255,255,0.6);
+ --text-code-dark: rgba(255,255,255,0.5);
+ --color-primary: #6e62ff;
+ --color-primary-hover: #5a4ee8;
+ --color-primary-light: rgba(110,98,255,0.08);
+ --color-primary-border: rgba(110,98,255,0.2);
+ --color-primary-shadow: rgba(110,98,255,0.18);
+ --color-secondary-border: #6e62ff;
+ --color-secondary-text: #6e62ff;
+ --border-color: #30363d;
+ --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+ --shadow-featured: rgba(110,98,255,0.18) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+ --nav-bg: rgba(13,17,23,0.88);
+ --nav-border: #30363d;
+ --hero-gradient: radial-gradient(ellipse at center, rgba(110,98,255,0.07) 0%, rgba(110,98,255,0.02) 40%, transparent 70%);
+ --mobile-toggle-bg: #e6edf3;
+ --faq-border: #30363d;
+ --table-border: #30363d;
+ --table-header-bg: #161b22;
+ --table-row-hover: #1a1f29;
+ --check-color: #3fb950;
+ --dash-color: #484f58;
+}
+
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+ body {
+ font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+ background: var(--bg-body);
+ color: var(--text-body);
+ font-weight: 300;
+ font-feature-settings: "ss01";
+ line-height: 1.5;
+ transition: background 0.3s ease, color 0.3s ease;
+ }
+ h1, h2, h3, h4, p, a, span, div, li, button, input, label { font-feature-settings: "ss01"; }
+
+ a { color: var(--color-primary); text-decoration: none; font-weight: 400; }
+ a:hover { color: var(--color-primary-hover); }
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+ /* === TYPOGRAPHY === */
+.display-hero {
+ font-size: 3.5rem; font-weight: 300; line-height: 1.03;
+ letter-spacing: -1.4px; color: var(--text-heading);
+ }
+.display-large {
+ font-size: 3rem; font-weight: 300; line-height: 1.15;
+ letter-spacing: -0.96px; color: var(--text-heading);
+ }
+.section-heading {
+ font-size: 2rem; font-weight: 300; line-height: 1.10;
+ letter-spacing: -0.64px; color: var(--text-heading);
+ }
+.body-large {
+ font-size: 1.125rem; font-weight: 300; line-height: 1.40;
+ color: var(--text-body);
+ }
+.body-text {
+ font-size: 1rem; font-weight: 300; line-height: 1.50;
+ color: var(--text-body);
+ }
+.code-label {
+ font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+ font-size: 0.75rem; font-weight: 500; line-height: 2.00;
+ text-transform: uppercase; letter-spacing: 0.02em;
+ }
+
+ /* === NAV === */
+ nav {
+ position: sticky; top: 0; z-index: 100;
+ background: var(--nav-bg);
+ backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+ border-bottom: 1px solid var(--nav-border);
+ }
+.nav-inner {
+ display: flex; align-items: center; justify-content: space-between;
+ height: 84px; max-width: 1080px; margin: 0 auto; padding: 0 24px;
+ }
+.nav-logo {
+ display: flex; align-items: center; gap: 8px;
+ font-size: 1.125rem; font-weight: 400; color: var(--text-heading); letter-spacing: -0.3px;
+ }
+.nav-logo svg { width: 28px; height: 28px; }
+.nav-logo img { height: 28px; width: 28px; object-fit: cover; object-position: 0 0; border-radius: 6px; }
+.nav-logo img.logo-full { height: 84px; width: auto; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-links a {
+ font-size: 0.875rem; font-weight: 400; color: var(--text-heading); transition: color 0.15s;
+ }
+.nav-links a:hover { color: var(--color-primary); }
+.nav-cta {
+ display: inline-flex; align-items: center; padding: 8px 16px;
+ background: var(--color-primary); color: #ffffff !important; border-radius: 4px;
+ font-size: 0.875rem !important; font-weight: 400 !important; transition: background 0.15s;
+ }
+.nav-cta:hover { background: var(--color-primary-hover) !important; color: #ffffff !important; }
+.nav-mobile-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; }
+.nav-mobile-toggle span { display: block; width: 20px; height: 2px; background: var(--mobile-toggle-bg); border-radius: 1px; }
+
+ /* Theme toggle */
+
+ background: transparent; border: none; cursor: pointer; padding: 6px;
+ border-radius: 4px; color: var(--text-body); transition: all 0.15s;
+ display: flex; align-items: center; justify-content: center;
+ }
+
+
+ /* === HERO === */
+.pricing-hero {
+ padding: 80px 0 56px;
+ text-align: center;
+ position: relative;
+ overflow: hidden;
+ }
+.pricing-hero::before {
+ content: '';
+ position: absolute; top: -200px; left: 50%;
+ transform: translateX(-50%);
+ width: 800px; height: 600px;
+ background: var(--hero-gradient);
+ pointer-events: none;
+ }
+.pricing-hero h1 { max-width: 700px; margin: 0 auto 16px; }
+.pricing-hero p.body-large { max-width: 550px; margin: 0 auto; }
+.billing-toggle {
+ display: flex; align-items: center; justify-content: center; gap: 12px;
+ margin-top: 32px; font-size: 0.9375rem; font-weight: 300; color: var(--text-body);
+ }
+.billing-toggle.toggle-track {
+ width: 44px; height: 24px; border-radius: 12px;
+ background: var(--border-color); cursor: pointer; position: relative;
+ transition: background 0.2s; flex-shrink: 0;
+ }
+.billing-toggle.toggle-track.active { background: var(--color-primary); }
+.billing-toggle.toggle-knob {
+ width: 18px; height: 18px; border-radius: 50%;
+ background: #ffffff; position: absolute; top: 3px; left: 3px;
+ transition: left 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+ }
+.billing-toggle.toggle-track.active.toggle-knob { left: 23px; }
+.billing-toggle.save-badge {
+ display: inline-block; padding: 1px 8px; border-radius: 4px;
+ background: var(--color-primary-light); color: var(--color-primary);
+ font-size: 0.75rem; font-weight: 400; margin-left: 4px;
+ }
+
+ /* === PRICING CARDS === */
+.pricing-cards {
+ padding: 0 0 64px;
+ }
+.pricing-grid {
+ display: grid; grid-template-columns: repeat(3, 1fr);
+ gap: 24px; margin-top: 40px;
+ }
+.pricing-card {
+ border: 1px solid var(--border-color);
+ border-radius: 6px; padding: 32px;
+ box-shadow: var(--shadow-card);
+ transition: all 0.2s; position: relative;
+ display: flex; flex-direction: column;
+ }
+.pricing-card.featured {
+ border-color: var(--color-primary);
+ box-shadow: var(--shadow-featured);
+ }
+.pricing-card.featured::before {
+ content: 'Popular';
+ position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+ padding: 2px 14px; background: var(--color-primary); color: #ffffff;
+ border-radius: 4px; font-size: 0.75rem; font-weight: 400;
+ }
+.pricing-card.plan-name { font-size: 1.125rem; font-weight: 400; color: var(--text-heading); margin-bottom: 4px; }
+.pricing-card.plan-desc { font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-bottom: 20px; }
+.pricing-card.price {
+ font-size: 2.5rem; font-weight: 300; color: var(--text-heading);
+ letter-spacing: -0.96px; line-height: 1;
+ }
+.pricing-card.price-sub {
+ font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-top: 4px; margin-bottom: 20px;
+ }
+.pricing-card.price-annual {
+ display: none; font-size: 2.5rem; font-weight: 300; color: var(--text-heading);
+ letter-spacing: -0.96px; line-height: 1;
+ }
+.pricing-card.price-sub-annual { display: none; font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-top: 4px; margin-bottom: 20px; }
+.pricing-card.show-annual.price { display: none; }
+.pricing-card.show-annual.price-sub { display: none; }
+.pricing-card.show-annual.price-annual { display: block; }
+.pricing-card.show-annual.price-sub-annual { display: block; }
+.pricing-card ul { list-style: none; margin: 0 0 24px; flex: 1; }
+.pricing-card ul li {
+ padding: 5px 0; font-size: 0.875rem; font-weight: 300;
+ color: var(--text-body); display: flex; align-items: flex-start; gap: 8px;
+ }
+.pricing-card ul li::before {
+ content: '✓'; color: var(--color-success); font-weight: 400;
+ flex-shrink: 0;
+ }
+.btn-primary {
+ display: inline-flex; align-items: center; justify-content: center;
+ padding: 10px 20px; background: var(--color-primary); color: #ffffff;
+ border-radius: 4px; font-size: 1rem; font-weight: 400; border: none;
+ cursor: pointer; transition: background 0.15s; line-height: 1;
+ text-align: center;
+ }
+.btn-primary:hover { background: var(--color-primary-hover); color: #ffffff; }
+.btn-secondary {
+ display: inline-flex; align-items: center; justify-content: center;
+ padding: 10px 20px; background: transparent; color: var(--color-primary);
+ border-radius: 4px; font-size: 1rem; font-weight: 400;
+ border: 1px solid var(--color-secondary-border); cursor: pointer;
+ transition: all 0.15s; line-height: 1; text-align: center;
+ }
+.btn-secondary:hover { background: rgba(83,58,253,0.05); }
+.pricing-card.btn-primary,.pricing-card.btn-secondary { margin-top: auto; }
+
+ /* === FEATURE COMPARISON TABLE === */
+.comparison {
+ padding: 64px 0;
+ border-top: 1px solid var(--border-color);
+ }
+.comparison h2 { text-align: center; margin-bottom: 8px; }
+.comparison >.container >.body-large { text-align: center; margin-bottom: 40px; }
+.comparison-table {
+ width: 100%; border-collapse: separate; border-spacing: 0;
+ border: 1px solid var(--table-border); border-radius: 6px; overflow: hidden;
+ }
+.comparison-table th {
+ padding: 16px 20px; text-align: left;
+ font-size: 0.8125rem; font-weight: 400; color: var(--text-label);
+ background: var(--table-header-bg); border-bottom: 1px solid var(--table-border);
+ text-transform: uppercase; letter-spacing: 0.5px;
+ }
+.comparison-table th:not(:first-child) { text-align: center; }
+.comparison-table td {
+ padding: 14px 20px; font-size: 0.9375rem; font-weight: 300;
+ color: var(--text-body); border-bottom: 1px solid var(--table-border);
+ transition: background 0.15s;
+ }
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table tr:hover td { background: var(--table-row-hover); }
+.comparison-table td:first-child { font-weight: 400; color: var(--text-heading); }
+.comparison-table td:not(:first-child) { text-align: center; }
+.comparison-table.check { color: var(--check-color); font-weight: 400; }
+.comparison-table.dash { color: var(--dash-color); }
+
+ /* === FAQ === */
+.faq {
+ padding: 64px 0;
+ border-top: 1px solid var(--border-color);
+ }
+.faq h2 { text-align: center; margin-bottom: 48px; }
+.faq-grid { max-width: 720px; margin: 0 auto; }
+.faq-item {
+ padding: 20px 0;
+ border-bottom: 1px solid var(--faq-border);
+ cursor: pointer;
+ }
+.faq-item:first-child { border-top: 1px solid var(--faq-border); }
+.faq-question {
+ display: flex; justify-content: space-between; align-items: center;
+ font-size: 1rem; font-weight: 400; color: var(--text-heading);
+ user-select: none;
+ }
+.faq-question .icon {
+ font-size: 1.25rem; color: var(--text-body); transition: transform 0.2s;
+ flex-shrink: 0; margin-left: 12px;
+}
+.faq-item.open .faq-question .icon { transform: rotate(45deg); }
+.faq-answer {
+ max-height: 0; overflow: hidden; transition: max-height 0.25s ease, margin 0.25s ease;
+ font-size: 0.9375rem; font-weight: 300; color: var(--text-body);
+ line-height: 1.50;
+ }
+.faq-item.open .faq-answer {
+ max-height: 300px; margin-top: 12px;
+ }
+
+ /* === CTA BANNER === */
+.cta-banner {
+ padding: 64px 0;
+ background: var(--bg-dark-section);
+ text-align: center;
+ }
+.cta-banner h2 { color: #ffffff; margin-bottom: 12px; }
+.cta-banner p.body-large { color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto 28px; }
+.cta-banner.btn-primary { background: #ffffff; color: var(--text-heading); }
+.cta-banner.btn-primary:hover { background: rgba(255,255,255,0.9); }
+
+ /* === PATENT === */
+.patent {
+ padding: 48px 0; text-align: center;
+ border-top: 1px solid var(--border-color);
+ }
+.patent p { font-size: 0.8125rem; font-weight: 300; color: var(--text-body); max-width: 600px; margin: 0 auto; }
+.patent strong { color: var(--text-heading); font-weight: 400; }
+
+ /* === FOOTER === */
+ footer { padding: 48px 0; border-top: 1px solid var(--border-color); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+.footer-brand p { font-size: 0.8125rem; font-weight: 300; color: var(--text-body); margin-top: 8px; max-width: 280px; }
+.footer-col h4 { font-size: 0.8125rem; font-weight: 400; color: var(--text-heading); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-col a { display: block; font-size: 0.875rem; font-weight: 300; color: var(--text-body); margin-bottom: 8px; transition: color 0.15s; }
+.footer-col a:hover { color: var(--color-primary); }
+
+ /* === RESPONSIVE === */
+ @media (max-width: 1024px) {
+.display-hero { font-size: 3rem; letter-spacing: -0.96px; }
+.pricing-grid { grid-template-columns: repeat(2, 1fr); }
+.pricing-card.featured { order: -1; }
+.footer-grid { grid-template-columns: repeat(2, 1fr); }
+ }
+ @media (max-width: 768px) {
+.display-hero { font-size: 2.5rem; letter-spacing: -0.64px; }
+.section-heading { font-size: 1.625rem; letter-spacing: -0.4px; }
+.nav-links { display: none; }
+.nav-mobile-toggle { display: flex; }
+.pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
+.pricing-hero { padding: 56px 0 40px; }
+.footer-grid { grid-template-columns: 1fr; gap: 24px; }
+.comparison-table { font-size: 0.8125rem; }
+.comparison-table th,.comparison-table td { padding: 10px 12px; }
+ }
+ @media (max-width: 480px) {
+.container { padding: 0 16px; }
+ }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+ <div class="nav-inner">
+ <a href="index.html" class="nav-logo">
+ <img src="witnessos-logo.png" alt="WitnessOS" class="logo-full">
+ </a>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="whitepaper.html">Whitepaper</a>
+<a href="quickstart.html">Docs</a>
+<a href="whitepaper.html">Spec</a>
+<a href="casestudy.html">Case Study</a>
+<a href="demo.html">Demo</a>
+<a href="manifesto.html">Manifesto</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="pricing.html" style="color:var(--color-primary);">Pricing</a>
+<a href="terms.html">Terms</a>
+<a href="privacy.html">Privacy</a>
+<a href="signup.html" class="nav-cta">Sign Up</a>
+        </div>
+ <div class="nav-mobile-toggle"><span></span><span></span><span></span></div>
+ </div>
+</nav>
+
+<!-- HERO -->
+<section class="pricing-hero">
+ <div class="container">
+ <div class="code-label" style="color:var(--color-primary); text-align:center; display:block; margin-bottom:12px;">Pricing</div>
+ <h1 class="display-hero">Simple, transparent pricing</h1>
+ <p class="body-large">Start free. Scale as your agent fleet grows. No hidden fees, no surprise bills.</p>
+
+ <div class="billing-toggle">
+ <span>Monthly</span>
+ <div class="toggle-track" id="billing-toggle">
+ <div class="toggle-knob"></div>
+ </div>
+ <span>Annual <span class="save-badge">Save up to 20%</span></span>
+ </div>
+ </div>
+</section>
+
+<!-- PRICING CARDS -->
+<section class="pricing-cards">
+ <div class="container">
+ <div class="pricing-grid">
+ <!-- Free -->
+ <div class="pricing-card">
+ <div class="plan-name">Free</div>
+ <div class="plan-desc">For evaluation and small experiments.</div>
+ <div class="price">$0</div>
+ <div class="price-sub">free forever, 1 agent</div>
+ <div class="price-annual">$0</div>
+ <div class="price-sub-annual">free forever, 1 agent</div>
+ <ul>
+  <li>500 actions / month</li>
+  <li>3-day audit retention</li>
+  <li>Basic policy engine (allow/block)</li>
+  <li>Audit log export (CSV)</li>
+  <li>Community support (Discord)</li>
+ </ul>
+ <a href="signup.html" class="btn-secondary" style="width:100%;">Get started free</a>
+ </div>
+
+ <!-- Starter -->
+ <div class="pricing-card featured">
+ <div class="plan-name">Starter</div>
+ <div class="plan-desc">For teams shipping AI to production.</div>
+ <div class="price">$95</div>
+ <div class="price-sub">per month, up to 3 agents</div>
+ <div class="price-annual">$950</div>
+ <div class="price-sub-annual">per year ($79/mo), 2 months free</div>
+ <ul>
+  <li>5,000 actions / month</li>
+  <li>30-day audit retention</li>
+  <li>Advanced policy engine (context, escalation)</li>
+  <li>Human-in-the-loop workflows</li>
+  <li>Slack / Teams / email integrations</li>
+  <li>Immutable audit trail (signed)</li>
+  <li>Email support within 24h</li>
+ </ul>
+ <a href="signup.html" class="btn-primary" style="width:100%;">Start 14-day free trial</a>
+ </div>
+
+ <!-- Pro -->
+ <div class="pricing-card">
+ <div class="plan-name">Pro</div>
+ <div class="plan-desc">For organisations with growing AI fleets.</div>
+ <div class="price">$495</div>
+ <div class="price-sub">per month, up to 10 agents</div>
+ <div class="price-annual">$4,950</div>
+ <div class="price-sub-annual">per year ($412/mo), 2 months free</div>
+ <ul>
+  <li>50,000 actions / month</li>
+  <li>12-month audit retention</li>
+  <li>Advanced policy engine (context, escalation)</li>
+  <li>Human-in-the-loop workflows</li>
+  <li>Slack / Teams / email integrations</li>
+  <li>API access for custom integrations</li>
+ </ul>
+ <a href="signup.html" class="btn-primary" style="width:100%;">Start 14-day free trial</a>
+ </div>
+
+ <!-- Enterprise -->
+ <div class="pricing-card">
+ <div class="plan-name">Enterprise</div>
+ <div class="plan-desc">For large-scale deployments with custom requirements.</div>
+ <div class="price">Custom</div>
+ <div class="price-sub">tailored pricing, unlimited agents</div>
+ <ul>
+  <li>Unlimited actions</li>
+  <li>Unlimited agents</li>
+  <li>Custom audit retention</li>
+  <li>On-premises deployment</li>
+  <li>White-label options</li>
+  <li>Dedicated support & SLAs</li>
+  <li>Custom policy engine integrations</li>
+  <li>Priority feature requests</li>
+ </ul>
+ <a href="mailto:contact@empirelabs.com.au" class="btn-primary" style="width:100%;">Contact Sales</a>
+ </div>
+
+<!-- FAQ -->
+<h2 class="section-heading" style="margin-top:60px;">Frequently asked questions</h2>
+<div class="faq-list">
+ <div class="faq-item">
+  <div class="faq-question">What counts as an action?</div>
+  <div class="faq-answer">An action is any tool call your agent makes - an API request, a shell command, a file operation, a database query, etc. Each action is evaluated against your policies and logged in the audit trail. Actions are counted per-tenant across all agents.</div>
+ </div>
+ <div class="faq-item">
+  <div class="faq-question">Can I change plans mid-month?</div>
+  <div class="faq-answer">Yes. Upgrades take effect immediately and are prorated for the remainder of the billing cycle. Downgrades take effect at the start of the next billing cycle.</div>
+ </div>
+ <div class="faq-item">
+  <div class="faq-question">Do you offer annual pricing?</div>
+  <div class="faq-answer">Yes. Annual plans save up to 20% compared to monthly billing. See the per-year pricing on each plan card above.</div>
+ </div>
+ <div class="faq-item">
+  <div class="faq-question">Is there a free trial?</div>
+  <div class="faq-answer">The Free tier is always available with no credit card required. Starter and Pro plans come with a 14-day free trial. No commitment, cancel anytime.</div>
+ </div>
+ <div class="faq-item">
+  <div class="faq-question">What happens if I exceed my action limit?</div>
+  <div class="faq-answer">Agent actions are paused until the next billing cycle or until you upgrade your plan. Your audit trail and policies remain intact. We notify you at 80%, 90%, and 100% of your limit.</div>
+ </div>
+ <div class="faq-item">
+  <div class="faq-question">Can I self-host WitnessOS?</div>
+  <div class="faq-answer">Self-hosted deployment is available on Starter and Pro plans. You deploy the WitnessOS gateway on your infrastructure and manage your own encryption keys. We provide Docker images, deployment scripts, and documentation.</div>
+ </div>
+ <div class="faq-item">
+  <div class="faq-question">What is your patent status?</div>
+  <div class="faq-answer">Patent pending covers our runtime guardrail methodology for autonomous AI agents. You're covered under our license to use WitnessOS as published. The patent protects our IP, not your data - your audit trails, policies, and agent configurations remain your intellectual property.</div>
+ </div>
+</div>
+  </div>
+</div>
+</footer>
+
+<script>
+(function() {
+var html = document.documentElement;
+// FAQ accordion
+var questions = document.querySelectorAll('.faq-question');
+questions.forEach(function(q) {
+  var icon = document.createElement('span');
+  icon.className = 'icon';
+  icon.textContent = '+';
+  q.appendChild(icon);
+  q.addEventListener('click', function() {
+    var item = this.parentNode;
+    item.classList.toggle('open');
+  });
+});
+})();
+</script>
+
+</body>
+</html>
