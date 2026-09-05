@@ -67,7 +67,7 @@
 - [ ] Multi-tenant cloud deployment
 - [ ] Full operator dashboard
 - [ ] SLA and compliance reporting
-- [ ] E4 at enterprise scale - production TSA wiring and roll-out (engine strict-mode capability landed 2026-09-03)
+- [ ] E4 at enterprise scale - production TSA wiring for client deployments (live in our production deployment since 2026-09-05)
 - [ ] Customer-managed KMS/HSM
 - [ ] SSO, enterprise RBAC
 - [ ] 7-year retention, audit packs

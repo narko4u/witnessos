@@ -227,7 +227,7 @@ Every receipt carries exactly one grade. The grade measures the strength of cryp
 | **E3** | Corroborated | Destination provider confirmed the outcome. External receipt or state probe. |
 | **E4** | Anchored | Externally timestamped via TSA. Merkle-checkpointed. Independently verifiable. |
 
-**E4 (Anchored) - strict-mode support:** CRL/OCSP revocation at generation time and persisted TSA endpoint provenance are implemented, and E4 issuance is enabled in strict trust mode (2026-09-03). E4 receipts issue only when a deployment runs strict mode with a provisioned, revocation-verifiable TSA anchor; all other modes and revocation-unavailable anchors cap at E3. Operational E4 issuance follows trust-root provisioning during the design-partner alpha (see [ALPHA_STATUS.md](ALPHA_STATUS.md)).
+**E4 (Anchored) - live issuance:** CRL/OCSP revocation at generation time, persisted TSA endpoint provenance, and strict-mode E4 issuance are implemented and enabled. E4 anchored receipts are issuing in production as of 2026-09-05 against a revocation-verifiable RFC 3161 TSA anchor, and each E4 receipt exports as a bundle (TSA token plus signed case-head commitment) that a third party can re-verify offline with zero trust in the operator. Deployments without strict mode or a revocation-verifiable anchor still cap at E3 (see [ALPHA_STATUS.md](ALPHA_STATUS.md)).
 
 ---
 
@@ -314,7 +314,7 @@ WitnessOS is currently in **Phase F - Design Partner Alpha**. Here's the path to
 - Maximum evidence grade: E4 (anchored) in strict mode with CRL/OCSP revocation and TSA endpoint provenance; E3 in all other configurations
 - Gmail governed sends (sandbox), Stripe test-mode operations
 - Full security review complete (R0–R7.1, 360+ tests passing)
-- **Live proof:** 2026-09-04 — a full-loop gateway-mediated send (credentialless agent request, human approval bound to exact content, gateway-held OAuth execution, provider acknowledgment) independently verified via the WitnessOS CLI verifier. See [ALPHA_STATUS.md](ALPHA_STATUS.md).
+- **Live proof:** 2026-09-05 — an E4 anchored receipt (RFC 3161 TSA, revocation-verified at issuance) independently re-verified offline from the export bundle with zero trust in the operator, plus the 2026-09-04 full-loop gateway-mediated send (credentialless agent request, human approval bound to exact content, gateway-held OAuth execution, provider acknowledgment) verified via the WitnessOS CLI verifier. See [ALPHA_STATUS.md](ALPHA_STATUS.md).
 - **Status:** Active. One design partner onboarded, operational review in progress.
 
 ### Evaluating the Gateway
@@ -340,7 +340,7 @@ The public repo ([SPEC.md](SPEC.md), [SECURITY.md](SECURITY.md), [security-revie
 - Multi-tenant cloud deployment
 - Full operator dashboard with approval workflows
 - SLA and compliance reporting
-- E4 evidence grade with CRL/OCSP revocation infrastructure (engine complete 2026-09-03; enterprise TSA wiring and roll-out in this phase)
+- E4 evidence grade with CRL/OCSP revocation infrastructure (live in production since 2026-09-05; enterprise TSA wiring for client deployments in this phase)
 - Customer-managed KMS/HSM, SSO, enterprise RBAC
 - 7-year audit retention, compliance packs
 

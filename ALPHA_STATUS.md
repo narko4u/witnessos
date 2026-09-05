@@ -13,7 +13,7 @@
 - Action permits with JTI redemption and DPoP binding
 - Event-sourced lifecycle with all 11 event types
 - Hash-chained receipts with Merkle checkpointing
-- RFC 3161 TSA external anchoring (E4 strict-mode issuance enabled 2026-09-03)
+- RFC 3161 TSA external anchoring (E4 anchored receipts issuing live since 2026-09-05)
 - Independent CLI verifier (`witnessos verify`)
 - RBAC with separation of duties
 - Kill-switch and financial caps
@@ -40,7 +40,7 @@ Current Alpha operates under these constraints:
 
 - **E3 (Corroborated):** Destination provider acknowledged the action. This means Gmail API accepted the send - it does NOT independently prove delivery, inbox placement, or read status.
 - **Stripe operations:** Test mode only during Alpha. Does not constitute proof of a live financial transaction.
-- **E4:** Strict-mode issuance is implemented and enabled (2026-09-03), with CRL/OCSP revocation at generation time and persisted TSA endpoint provenance. E4 receipts issue only once a deployment is provisioned with a revocation-verifiable TSA trust root; until then, all receipts cap at E3. Independent review proceeds through the design-partner alpha.
+- **E4 (Anchored):** Strict-mode issuance is live (2026-09-05) with CRL/OCSP revocation at generation time and persisted TSA endpoint provenance. E4 anchored receipts issue against a provisioned, revocation-verifiable TSA trust root; each receipt exports as a bundle (TSA token plus signed case-head commitment) that a third party can re-verify offline with zero trust in the operator. Deployments without strict mode or a revocation-verifiable anchor cap at E3. Independent review proceeds through the design-partner alpha.
 
 ## Contact
 
