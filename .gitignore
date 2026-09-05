@@ -22,6 +22,10 @@ eggs/
 .mypy_cache/
 .ruff_cache/
 
+# Source and test build artifacts (kept out of published tree)
+/src/
+/tests/
+
 # Virtual environment
 .venv/
 venv/
