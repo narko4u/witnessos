@@ -1,7 +1,7 @@
 # WitnessOS
 
 <p align="center">
-  <img src="witnessos-logo.png" alt="WitnessOS" width="200"/>
+  <img src="witnessos-logo.png" alt="WitnessOS" width="360"/>
 </p>
 
 <p align="center">
