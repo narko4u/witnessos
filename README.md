@@ -11,7 +11,7 @@
 <p align="center">
   <a href="#"><img src="https://img.shields.io/badge/patent-pending%20AU%202026906017-lightgrey?logo=ipfs" alt="Patent"/></a>
   <a href="#"><img src="https://img.shields.io/badge/phase-Design%20Partner%20Alpha-blueviolet" alt="Phase"/></a>
-  <a href="https://narko4u.github.io/witnessos/"><img src="https://img.shields.io/badge/site-live%20docs-6e62ff" alt="WitnessOS"/></a>
+  <a href="https://witnessos.com.au/"><img src="https://img.shields.io/badge/site-witnessos.com.au-6e62ff" alt="WitnessOS"/></a>
   <img src="https://img.shields.io/badge/status-specification-blue" alt="Status: specification"/>
 <a href="https://www.bestpractices.dev/projects/14137"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.bestpractices.dev%2Fprojects%2F14137.json&query=badge_percentage_baseline_1&label=OpenSSF%20Baseline%201&suffix=%25&color=success" alt="OpenSSF Best Practices - Baseline 1"/></a> <a href="https://www.bestpractices.dev/projects/14137"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.bestpractices.dev%2Fprojects%2F14137.json&query=badge_percentage_baseline_2&label=OpenSSF%20Baseline%202&suffix=%25&color=success" alt="OpenSSF Best Practices - Baseline 2"/></a> <a href="https://www.bestpractices.dev/projects/14137"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.bestpractices.dev%2Fprojects%2F14137.json&query=badge_percentage_baseline_3&label=OpenSSF%20Baseline%203&suffix=%25&color=success" alt="OpenSSF Best Practices - Baseline 3"/></a>
 </p>
