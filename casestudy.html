@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="How Empire Labs deploys WitnessOS as the operating layer for governed agent action - policy enforcement and RFC 3161 anchored evidence.">
+<meta name="theme-color" content="#07101d">
+<title>WitnessOS | Case Study</title>
+<link rel="canonical" href="https://witnessos.com.au/casestudy.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WitnessOS">
+<meta property="og:title" content="WitnessOS | Case Study">
+<meta property="og:description" content="How Empire Labs deploys WitnessOS as the operating layer for governed agent action - policy enforcement and RFC 3161 anchored evidence.">
+<meta property="og:url" content="https://witnessos.com.au/casestudy.html">
+<meta property="og:image" content="https://narko4u.github.io/witnessos/witnessos-logo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="400">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WitnessOS | Case Study">
+<meta name="twitter:description" content="How Empire Labs deploys WitnessOS as the operating layer for governed agent action - policy enforcement and RFC 3161 anchored evidence.">
+<meta name="twitter:image" content="https://narko4u.github.io/witnessos/witnessos-logo.png">
+<style>
+:root{color-scheme:dark;--bg:#07101d;--panel:#0d1a2b;--line:#23415f;--text:#f4f8ff;--muted:#a8bbce;--accent:#55c7ff;--good:#7ce7c0;--max:1180px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:radial-gradient(circle at 82% 8%,#0d3258 0,transparent 34%),var(--bg);color:var(--text);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.wrap{width:min(var(--max),90%);margin:auto}
+.nav{min-height:72px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.logo-stage{display:block;width:100%;padding:30px 0 0}.logo-stage img{display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:contain;border:1px solid #23415f;border-radius:8px}
+.nav nav{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:14px}
+.button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 18px;border:1px solid var(--accent);border-radius:5px;background:var(--accent);color:#03111e;font-weight:750;font-size:14px}
+.button.secondary{background:transparent;color:var(--text);border-color:#56728b}
+.button:hover{filter:brightness(1.12)}
+.mobile{display:none}
+.eyebrow{color:var(--accent);font:700 12px/1.5 ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
+.hero{min-height:630px;display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:center;padding:32px 0 88px}
+h1,h2,h3{line-height:1.08;letter-spacing:-.04em}
+h1{font-size:clamp(48px,6vw,82px);margin:22px 0 25px;font-weight:650}
+h1 span{color:var(--accent)}
+h2{font-size:clamp(34px,4.4vw,54px);margin:15px 0 22px;font-weight:650}
+h3{font-size:22px;margin:12px 0}
+.lead{font-size:20px;color:#d5e2ef}
+.value,.copy,.card p,.step p,.cap p,.proof p{color:var(--muted)}
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+.receipt{border:1px solid #35668e;border-radius:12px;background:linear-gradient(145deg,#102842,#091525 65%);box-shadow:0 24px 80px #001428;padding:28px}
+.receipt-top,.row,.receipt-foot{display:flex;justify-content:space-between;gap:20px}
+.receipt-top{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:8px;font:12px ui-monospace,monospace;color:var(--muted)}
+.seal,.receipt-foot{color:var(--good)}
+.row{padding:11px 0;border-bottom:1px solid #1d344c;font:13px ui-monospace,monospace}
+.row span:first-child{color:#7994ad}
+.row span:last-child{text-align:right}
+.hash{margin:22px 0;padding:16px;border-left:2px solid var(--accent);background:#06111e;color:#8ea8bd;font:12px/1.75 ui-monospace,monospace;overflow-wrap:anywhere}
+.receipt-foot{font:12px ui-monospace,monospace}
+section{padding:86px 0;border-top:1px solid var(--line)}
+.split{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:30px}
+.card img{display:block;width:min(100%,430px);height:auto;margin:0 auto 26px;border-radius:7px;border:1px solid var(--line)}
+.card blockquote{margin:0 0 22px;font-size:28px;line-height:1.25;letter-spacing:-.03em}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:38px}
+.step{padding:27px;background:linear-gradient(145deg,#10233b,var(--panel));border-right:1px solid var(--line)}
+.step:last-child{border:0}
+.num{font:700 12px ui-monospace,monospace;color:var(--accent)}
+.ladder-layout{display:grid;grid-template-columns:1fr .86fr;gap:64px;align-items:start}
+.ladder,.assurances{display:grid;gap:10px}
+.rung{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:19px 22px;border:1px solid var(--line);background:var(--panel);border-radius:7px}
+.rung b{color:var(--accent);font:700 25px ui-monospace,monospace}
+.rung strong,.assurance strong{display:block}
+.rung span,.assurance span{color:var(--muted);font-size:14px}
+.rung.e4{border-color:var(--accent);background:linear-gradient(90deg,#123352,#0c1b2c)}
+.assurance{padding:20px;border-left:2px solid var(--good);background:#0b1928}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.cap{padding:25px;border:1px solid var(--line);border-radius:8px;background:var(--panel);min-height:190px}
+.cap code{color:var(--accent);font-size:12px}
+.proof-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:36px}
+.proof{padding:22px 18px;background:#0a1726;border-top:2px solid var(--accent)}
+.proof strong{display:block;font-size:18px;line-height:1.25}
+.standards{margin-top:30px;padding:22px;border:1px solid var(--line);color:var(--muted)}
+.standards strong{color:var(--text)}
+.faq{margin-top:48px;padding-top:8px;border-top:1px solid var(--line)}
+.faq h2{font-size:clamp(28px,3.6vw,44px)}
+.faq-item{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:18px 22px;margin:14px 0}
+.faq-item h3{color:var(--text);font-size:18px;margin:0 0 8px}
+.faq-item p{color:var(--muted);margin:0}
+.connectors{margin-top:30px;padding:22px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--muted)}
+.connectors strong{color:var(--text)}
+.connector-row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px}
+.connector-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:#0a1726;color:var(--accent);font:700 13px/1.4 ui-monospace,monospace;letter-spacing:.02em}
+.connector-chip span{color:var(--muted);font:400 13px/1.4 ui-sans-serif,system-ui,sans-serif;letter-spacing:0}
+.cta{text-align:center;background:linear-gradient(180deg,transparent,#0d2a47 150%)}
+.cta p{color:var(--muted);max-width:640px;margin:0 auto 28px}
+.cta .actions{justify-content:center}
+footer{padding:30px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+footer .empire-banner{width:100%;height:auto;object-fit:contain;border-radius:8px;border:1px solid var(--line)}
+footer a{color:var(--text)}
+@media(max-width:980px){.hero,.ladder-layout,.split{grid-template-columns:1fr}
+.hero{gap:42px;padding-top:55px}
+.steps{grid-template-columns:repeat(2,1fr)}
+.step:nth-child(2){border-right:0}
+.step:nth-child(-n+2){border-bottom:1px solid var(--line)}
+.proof-grid{grid-template-columns:repeat(2,1fr)}
+.proof:last-child{grid-column:1/-1}
+.nav nav a:not(.button){display:none}
+}
+@media(max-width:650px){.wrap{width:min(92%,560px)}
+.nav{min-height:74px}
+.nav nav{display:none}
+.mobile{display:inline-flex}.logo-stage{padding-top:22px}.logo-stage img{width:100%;height:auto;aspect-ratio:3/1;object-fit:contain;border-radius:6px}
+h1{font-size:clamp(42px,13vw,60px)}
+.hero{min-height:auto;padding:48px 0 65px}
+.lead{font-size:18px}
+.steps,.cap-grid,.proof-grid{grid-template-columns:1fr}
+.step,.step:nth-child(2){border-right:0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.proof:last-child{grid-column:auto}
+.rung{grid-template-columns:48px 1fr;padding:17px}
+.receipt{padding:20px}
+section{padding:62px 0}
+.actions{flex-direction:column}
+.button{width:100%}
+footer{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+}
+
+
+/* ===== Sub-page hero (keeps the original hero feel, shorter) ===== */
+.subhero{min-height:0;display:block;padding:64px 0 30px}
+.subhero .eyebrow{margin-bottom:10px}
+.subhero h1{font-size:clamp(40px,5vw,64px);margin:14px 0 18px;font-weight:650}
+.subhero p.lead{max-width:760px;margin:0}
+
+/* ===== Document / article prose (whitepaper, roadmap, terms, privacy, manifesto) ===== */
+.prose{max-width:780px}
+.prose h2{margin:56px 0 12px;scroll-margin-top:100px}
+.prose h3{margin:34px 0 8px;color:var(--text)}
+.prose h4{margin:24px 0 6px;color:var(--text)}
+.prose p{color:var(--muted);margin:0 0 16px}
+.prose ul,.prose ol{margin:0 0 18px;padding-left:22px;color:var(--muted)}
+.prose li{margin:6px 0}
+.prose li strong,.prose p strong{color:var(--text)}
+.prose blockquote{margin:22px 0;padding:16px 20px;border-left:3px solid var(--accent);background:var(--panel);border-radius:0 8px 8px 0;color:#d5e2ef}
+.prose code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;background:#0a1726;border:1px solid var(--line);color:var(--accent);padding:1px 6px;border-radius:4px}
+.prose pre{margin:18px 0 22px;padding:16px 18px;background:#06111e;border:1px solid var(--line);border-radius:8px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.7;color:#8ea8bd}
+.prose hr{border:0;border-top:1px solid var(--line);margin:44px 0}
+.prose table{width:100%;border-collapse:collapse;margin:18px 0 24px;font-size:14px;color:var(--muted)}
+.prose th,.prose td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+.prose th{background:var(--panel);color:var(--text);font-weight:600}
+.prose tr:nth-child(even) td{background:#0a1726}
+.prose .rung{grid-template-columns:56px 1fr;margin-bottom:10px}
+
+/* ===== Table of contents ===== */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:18px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.toc a{padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:13px}
+.toc a:hover{color:var(--accent);border-color:var(--accent)}
+
+/* Case-study page additions (navy palette) */
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 8px}
+.metric{border-top:2px solid var(--accent);background:#0a1726;padding:24px 20px}
+.metric strong{display:block;font:700 40px/1.1 ui-monospace,monospace;color:var(--accent);letter-spacing:-.02em;margin-bottom:6px}
+.metric span{color:var(--muted);font-size:14px;line-height:1.4}
+.quote{border-left:3px solid var(--good);background:#0b1928;padding:24px 26px;margin:26px 0;color:#d5e2ef;font-size:20px;line-height:1.5;letter-spacing:-.01em}
+.quote footer{margin-top:14px;color:var(--muted);font-size:14px;border:0;padding:0;display:block;flex:none}
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.card-grid .card h3{margin-top:0}
+.prose ol,.prose ul{padding-left:22px}
+.prose li{margin:8px 0;color:var(--muted)}
+.prose li strong{color:var(--text)}
+.prose h3{margin-top:28px}
+@media(max-width:900px){.metrics-grid,.card-grid{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="nav">
+<nav aria-label="Main navigation">
+<a href="index.html">Home</a>
+<a href="demo.html">Simulation</a>
+<a href="casestudy.html" aria-current="page">Case Study</a>
+<a href="manifesto.html">Manifesto</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="signup.html">Request access</a>
+<a class="button" href="mailto:contact@empirelabs.com.au?subject=WitnessOS%20Assessment">Book an assessment</a>
+</nav>
+<a class="button mobile" href="mailto:contact@empirelabs.com.au?subject=WitnessOS%20Assessment">Contact</a>
+</header>
+<main id="top">
+<a class="logo-stage" href="index.html">
+<img src="assets/witnessos-logo.webp" width="1800" height="600" alt="WitnessOS">
+</a>
+<section class="subhero">
+<div>
+<div class="eyebrow">Case study</div>
+<h1>Governing 9 autonomous agents with WitnessOS</h1>
+<p class="value">Empire Labs Pty Ltd &middot; Dogfood &middot; Autonomous Fleet &middot; July 2026</p>
+</div>
+</section>
+<section id="summary">
+<div class="prose">
+<div class="eyebrow">Overview</div>
+<h2>Executive Summary</h2>
+<p>Empire Labs Pty Ltd operates the Empire Autonomous Business (EAB), a fleet of 9 autonomous AI agents that run the company's marketing, sales, lead generation, customer intelligence, and revenue operations. Each agent has access to real business tools: email, social media, CRM, web search, and payment platforms.</p>
+<p>The challenge was clear: 9 autonomous agents with real-world impact, zero governance, and no audit trail. Before WitnessOS, every agent action was trusted by default. After deploying WitnessOS, every action is evaluated, enforced, and cryptographically verified.</p>
+</div>
+<div class="metrics-grid">
+<div class="metric">
+<strong>9</strong>
+<span>Autonomous agents governed</span>
+</div>
+<div class="metric">
+<strong>15</strong>
+<span>Policy rules active</span>
+</div>
+<div class="metric">
+<strong>0</strong>
+<span>Unauthorised actions since deployment</span>
+</div>
+</div>
+<blockquote class="quote">
+"We were building autonomous AI agents that could email clients, post on social media, and manage revenue operations, but we had no way to prove what they were doing or stop them if they went rogue. WitnessOS turned 'trust me' into 'proven'."
+<footer>Empire Labs Pty Ltd</footer>
+</blockquote>
+</section>
+<section id="challenge">
+<div class="prose">
+<div class="eyebrow">The problem</div>
+<h2>The Challenge</h2>
+<p>The EAB fleet runs on a daily execution cycle. Agents include:</p>
+<ul>
+<li><strong>Code Generator</strong> writes and deploys production code</li>
+<li><strong>Lead Intelligence Agent</strong> researches prospects via web search</li>
+<li><strong>Outreach Agent</strong> sends B2B cold emails from the company inbox</li>
+<li><strong>Chief of Staff Agent</strong> coordinates cross-agent workflows</li>
+<li><strong>Revenue Report Agent</strong> accesses financial dashboards and generates reports</li>
+<li><strong>Customer Intelligence Agent</strong> monitors client activity and support tickets</li>
+<li><strong>Social Media Agent</strong> posts on X/Twitter and LinkedIn</li>
+<li><strong>Idea Generation Agent</strong> researches and proposes new products</li>
+<li><strong>Business Model Architect</strong> analyses markets and optimises pricing</li>
+</ul>
+<p>Every agent has tool access: filesystem, API clients, email (IMAP/SMTP), web browsers, and database queries. Before WitnessOS, there was no runtime gate between an agent's decision and its execution. A prompt injection or hallucinated tool call could have real consequences and we wouldn't know until after the fact.</p>
+</div>
+</section>
+<section id="solution">
+<div class="prose">
+<div class="eyebrow">The fix</div>
+<h2>The Solution</h2>
+<p>We deployed WitnessOS as a transparent middleware layer between every agent and its tool execution. The deployment took <strong>under 2 hours per agent</strong>:</p>
+<ol>
+<li><strong>Wrap agent tool calls with the WitnessOS SDK.</strong> Each agent's tool-calling function was replaced with a WitnessOS-evaluated proxy. The agent sees no difference; the governance layer is invisible.</li>
+<li><strong>Define policy rules.</strong> 15 policy rules across 3 tiers: system-level invariants (never delete files), agent-level guardrails (outreach agent can only email from approved templates), and context-aware rules (rate limits on API calls).</li>
+<li><strong>Verify audit chain integrity.</strong> After the first week of operation, we ran a full audit chain verification. All 417 actions were confirmed intact, zero tampered entries.</li>
+</ol>
+<h3>Policy examples</h3>
+</div>
+<div class="card-grid">
+<div class="card">
+<h3>Rule: block-file-delete</h3>
+<p><strong>Effect:</strong> Deny all file deletion actions across all agents. <strong>Triggered</strong> 3 times in the first week when agents attempted to clean up temp files using <em>os.remove()</em> instead of moving to a trash directory.</p>
+</div>
+<div class="card">
+<h3>Rule: email-template-allowlist</h3>
+<p><strong>Effect:</strong> The Outreach Agent may only send emails from approved templates in <em>/templates/email/</em>. <strong>Prevented</strong> 2 incidents where the agent generated non-compliant email copy.</p>
+</div>
+<div class="card">
+<h3>Rule: social-post-quarantine</h3>
+<p><strong>Effect:</strong> All social media posts are flagged for human review before going live (sandboxed). <strong>Caught</strong> 1 post that would have violated the company's brand voice policy.</p>
+</div>
+</div>
+</section>
+<section id="results">
+<div class="prose">
+<div class="eyebrow">Outcome</div>
+<h2>Results</h2>
+<p>After 30 days of running the full EAB fleet through WitnessOS:</p>
+</div>
+<div class="metrics-grid">
+<div class="metric">
+<strong>1,247</strong>
+<span>Actions evaluated</span>
+</div>
+<div class="metric">
+<strong>7</strong>
+<span>Policies triggered (denials)</span>
+</div>
+<div class="metric">
+<strong>12ms</strong>
+<span>Average evaluation latency</span>
+</div>
+</div>
+<div class="prose">
+<ul>
+<li><strong>Zero human review time wasted</strong> on false positives: every denial was a genuine policy violation, not a false alarm</li>
+<li><strong>12ms average evaluation latency</strong>, imperceptible to the agents and to downstream users</li>
+<li><strong>Full audit chain integrity</strong> verified on day 30 with zero tampered entries</li>
+<li><strong>3 near-miss incidents</strong> prevented that would have required manual recovery (file deletion, non-compliant email, brand voice violation)</li>
+<li><strong>Regulatory readiness</strong>: the audit trail meets the evidence standards required by Australian Privacy Principle (APP) compliance</li>
+</ul>
+<blockquote class="quote">
+"The 12ms of latency is invisible. The peace of mind is priceless. Every agent action is now provable, and we sleep better knowing our autonomous fleet has a guardian."
+<footer>Empire Labs Pty Ltd</footer>
+</blockquote>
+</div>
+</section>
+<section id="learnings">
+<div class="prose">
+<div class="eyebrow">Insights</div>
+<h2>What We Learned</h2>
+<p>Deploying WitnessOS on our own fleet revealed several insights that shaped our product roadmap:</p>
+<ol>
+<li><strong>Agents don't always do what you think.</strong> Even well-prompted agents occasionally attempt unexpected tool calls. Policy rules catch these before they become incidents.</li>
+<li><strong>Rate limiting is essential for autonomous fleets.</strong> Without governance, a looping agent can burn through API budgets in minutes. WitnessOS rate-limit policies prevented this.</li>
+<li><strong>Human-in-the-loop is the right default for high-risk actions.</strong> Flag-for-review policies let us maintain speed for routine operations while keeping a safety net for critical paths.</li>
+<li><strong>Audit trails build trust with customers.</strong> When we show prospective clients the integrity-verified audit chain from our own fleet, the conversation shifts from "why do we need this?" to "how soon can we deploy?"</li>
+</ol>
+</div>
+</section>
+<section id="cta" class="cta">
+<div class="eyebrow">Deploy for your fleet</div>
+<h2>Run your agents with a guardian</h2>
+<p>If you're running autonomous AI agents in production, whether it's one agent or a hundred, you need runtime governance. Empire Labs proved it on our own fleet. Now you can too.</p>
+<div class="actions">
+<a class="button" href="signup.html">Request early access</a>
+<a class="button secondary" href="manifesto.html">Read the manifesto</a>
+</div>
+<p class="fine">WitnessOS is covered by patent pending. Built by Empire Labs Pty Ltd.</p>
+</section>
+
+</main>
+<footer>
+<img class="empire-banner" src="assets/empire-banner.webp" width="1200" height="400" loading="lazy" alt="WitnessOS and Empire Labs Pty Ltd">
+<div>
+<strong>Empire Labs Pty Ltd</strong>
+<br>WitnessOS is the runtime governance layer for autonomous agents.</div>
+<div>
+<strong>Legal</strong>
+<br><a href="terms.html">Terms of Service</a>
+<br><a href="privacy.html">Privacy Policy</a>
+</div>
+<div>
+<a href="https://www.empirelabs.com.au">www.empirelabs.com.au</a>
+<br><a href="mailto:contact@empirelabs.com.au">contact@empirelabs.com.au</a>
+<br><a href="https://github.com/narko4u/witnessos">github.com/narko4u/witnessos</a>
+</div>
+</footer>
+</div>
+
+</body></html>

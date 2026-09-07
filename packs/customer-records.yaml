@@ -1,0 +1,47 @@
+# WitnessOS Policy Pack: Customer Records
+# Governs CRM write operations (HubSpot, etc.)
+# D3.0 - schema-only, connector does not exist yet
+# Design Partners: install this pack when the CRM connector ships
+
+pack_id: empire/customer-records/v1
+pack_version: "1.0"
+name: Customer Records Governance
+description: >
+  Governs CRM record write operations. Schema-only placeholder -
+  no live connector exists yet. When the HubSpot connector ships,
+  this pack will govern all crm.record.update actions.
+author: Empire Labs
+tenant_id: default
+environment: test
+enabled: false   # Disabled until connector exists
+
+connector_kill_switch: []
+monthly_governed_action_cap: null
+
+rules:
+  - rule_id: crm-writes-require-approval
+    description: All CRM record updates require human approval
+    priority: 100
+    binding:
+      action_type: crm.record.update
+      min_risk_tier: medium
+      max_risk_tier: critical
+    decision: approval_required
+    reason: Customer record modifications require human oversight
+    capture_profile: restricted-redacted-v1
+    approval:
+      approver_role: admin
+      timeout_minutes: 30
+      require_mfa: false
+      monthly_action_cap: 200
+      note_required: true
+
+  - rule_id: crm-low-risk-auto
+    description: Low-risk CRM field updates auto-approved
+    priority: 50
+    binding:
+      action_type: crm.record.update
+      max_risk_tier: low
+    decision: allow
+    reason: Low-risk CRM updates are safe to auto-approve
+    capture_profile: restricted-redacted-v1

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WitnessOS - 5-Slide Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+ --bg-body: #ffffff;
+ --bg-card: #ffffff;
+ --bg-section-alt: #f8faff;
+ --bg-toggle: rgba(83,58,253,0.06);
+ --bg-toggle-hover: rgba(83,58,253,0.1);
+ --text-heading: #061b31;
+ --text-body: #64748d;
+ --text-label: #273951;
+ --color-primary: #533afd;
+ --color-primary-hover: #4434d4;
+ --color-primary-light: rgba(83,58,253,0.06);
+ --color-primary-border: rgba(83,58,253,0.15);
+ --border-color: #e5edf5;
+ --shadow-card: rgba(50,50,93,0.25) 0px 30px 45px -30px, rgba(0,0,0,0.1) 0px 18px 36px -18px;
+ --slide-bg: #ffffff;
+ --slide-text: #061b31;
+ --slide-muted: #64748d;
+ --slide-accent: #533afd;
+ --slide-accent-hover: #4434d4;
+ --slide-accent-light: rgba(83,58,253,0.06);
+ --slide-border: #e5edf5;
+ --slide-card-bg: #f8faff;
+ --slide-green: #10b981;
+ --slide-red: #ef4444;
+ --slide-amber: #f59e0b;
+ --slide-nav-bg: rgba(255,255,255,0.9);
+}
+ {
+ --bg-body: #0d1117;
+ --bg-card: #161b22;
+ --bg-section-alt: #161b22;
+ --bg-toggle: rgba(110,98,255,0.15);
+ --bg-toggle-hover: rgba(110,98,255,0.25);
+ --text-heading: #e6edf3;
+ --text-body: #8b949e;
+ --text-label: #8b949e;
+ --color-primary: #6e62ff;
+ --color-primary-hover: #5a4ee8;
+ --color-primary-light: rgba(110,98,255,0.08);
+ --color-primary-border: rgba(110,98,255,0.2);
+ --border-color: #30363d;
+ --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+ --slide-bg: #0d1117;
+ --slide-text: #e6edf3;
+ --slide-muted: #8b949e;
+ --slide-accent: #6e62ff;
+ --slide-accent-hover: #5a4ee8;
+ --slide-accent-light: rgba(110,98,255,0.08);
+ --slide-border: #30363d;
+ --slide-card-bg: #161b22;
+ --slide-green: #34d399;
+ --slide-red: #f87171;
+ --slide-amber: #fbbf24;
+ --slide-nav-bg: rgba(13,17,23,0.88);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 18px; -webkit-font-smoothing: antialiased; }
+body {
+ font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+ background: var(--slide-bg);
+ color: var(--slide-text);
+ font-weight: 300;
+ line-height: 1.5;
+ overflow: hidden;
+ height: 100vh;
+ width: 100vw;
+ transition: background 0.3s ease, color 0.3s ease;
+}
+/* === TOP THEME TOGGLE === */
+.top-bar {
+ position: fixed;
+ top: 16px;
+ right: 24px;
+ z-index: 200;
+ display: flex;
+ align-items: center;
+ gap: 12px;
+}
+
+ background: var(--slide-nav-bg);
+ backdrop-filter: blur(8px);
+ border: 1px solid var(--slide-border);
+ cursor: pointer;
+ padding: 8px;
+ border-radius: 8px;
+ color: var(--slide-muted);
+ transition: all 0.15s;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+
+/* === SLIDES === */
+.slides { position: relative; width: 100vw; height: 100vh; }
+.slide {
+ position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+ display: flex; flex-direction: column; justify-content: center; align-items: center;
+ padding: 64px 80px 120px;
+ opacity: 0;
+ transition: opacity 0.4s ease;
+ pointer-events: none;
+}
+.slide.active {
+ opacity: 1;
+ pointer-events: auto;
+ z-index: 10;
+}
+.slide-inner {
+ max-width: 880px;
+ width: 100%;
+}
+/* === SLIDE 1: TITLE === */
+.slide-1 { text-align: center; }
+.slide-1 .eyebrow {
+ font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+ font-size: 0.7rem;
+ font-weight: 500;
+ text-transform: uppercase;
+ letter-spacing: 2px;
+ color: var(--slide-accent);
+ margin-bottom: 8px;
+}
+.slide-1 .deck-logo {
+ display: block;
+ height: 280px;
+ width: auto;
+ margin: 0 auto 16px auto;
+ object-fit: contain;
+}
+.slide-1 h1 {
+ font-size: 3rem;
+ font-weight: 600;
+ line-height: 1.1;
+ letter-spacing: -1.2px;
+ margin-bottom: 10px;
+ color: var(--slide-text);
+}
+.slide-1 h1 .highlight { color: var(--slide-accent); }
+.slide-1 .subtitle {
+ font-size: 1.15rem;
+ font-weight: 300;
+ color: var(--slide-muted);
+ max-width: 640px;
+ margin: 0 auto;
+ line-height: 1.6;
+}
+.slide-1 .tags { margin-top: 24px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.slide-1 .tag {
+ font-size: 0.7rem;
+ font-weight: 500;
+ padding: 6px 14px;
+ background: var(--slide-accent-light);
+ color: var(--slide-accent);
+ border-radius: 20px;
+ text-transform: uppercase;
+ letter-spacing: 0.5px;
+ border: 1px solid var(--color-primary-border);
+}
+/* === SLIDES 2-5: SHARED === */
+.slide-2 h2, .slide-3 h2, .slide-4 h2, .slide-5 h2 {
+ font-size: 2rem;
+ font-weight: 600;
+ letter-spacing: -0.8px;
+ margin-bottom: 8px;
+ color: var(--slide-text);
+}
+.slide-2 .sub, .slide-3 .sub, .slide-4 .sub, .slide-5 .sub {
+ font-size: 0.95rem;
+ color: var(--slide-muted);
+ margin-bottom: 36px;
+ font-weight: 300;
+}
+.slide-2 .slide-h2-logo,
+.slide-3 .slide-h2-logo,
+.slide-4 .slide-h2-logo,
+.slide-5 .slide-h2-logo {
+ height: 80px;
+ width: auto;
+ margin-right: 10px;
+ vertical-align: middle;
+ object-fit: contain;
+}
+/* === SLIDE 2: PROBLEM GRID === */
+.problem-grid {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 20px;
+}
+.problem-card {
+ background: var(--slide-card-bg);
+ border: 1px solid var(--slide-border);
+ border-radius: 10px;
+ padding: 24px;
+ transition: box-shadow 0.2s;
+}
+.problem-card:hover { box-shadow: var(--shadow-card); }
+.problem-card .icon { font-size: 1.5rem; margin-bottom: 10px; }
+.problem-card h3 { font-size: 1rem; font-weight: 500; margin-bottom: 6px; color: var(--slide-text); }
+.problem-card p { font-size: 0.85rem; color: var(--slide-muted); font-weight: 300; line-height: 1.5; }
+/* === SLIDE 3: SOLUTION FLOW === */
+.solution-flow { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 16px 0; }
+.flow-node {
+ background: var(--slide-card-bg);
+ border: 1px solid var(--slide-border);
+ border-radius: 10px;
+ padding: 20px 24px;
+ text-align: center;
+ flex: 1;
+ transition: box-shadow 0.2s;
+}
+.flow-node:hover { box-shadow: var(--shadow-card); }
+.flow-node .node-icon { font-size: 1.5rem; margin-bottom: 6px; }
+.flow-node h4 { font-size: 0.85rem; font-weight: 500; margin-bottom: 4px; color: var(--slide-text); }
+.flow-node p { font-size: 0.75rem; color: var(--slide-muted); font-weight: 300; }
+.flow-arrow {
+ font-size: 1.5rem;
+ color: var(--slide-accent);
+ flex-shrink: 0;
+}
+.solution-benefits {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 16px;
+ margin-top: 28px;
+}
+.benefit-pill {
+ text-align: center;
+ padding: 14px;
+ background: var(--slide-accent-light);
+ border: 1px solid var(--color-primary-border);
+ border-radius: 8px;
+ font-size: 0.8rem;
+ font-weight: 400;
+ color: var(--slide-accent);
+}
+/* === SLIDE 4: USE CASES === */
+.usecase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.usecase-card {
+ background: var(--slide-card-bg);
+ border: 1px solid var(--slide-border);
+ border-radius: 10px;
+ padding: 24px;
+ transition: box-shadow 0.2s;
+}
+.usecase-card:hover { box-shadow: var(--shadow-card); }
+.usecase-card .uc-icon { font-size: 1.5rem; margin-bottom: 8px; }
+.usecase-card h3 { font-size: 1rem; font-weight: 500; margin-bottom: 6px; color: var(--slide-text); }
+.usecase-card .use-body { font-size: 0.8rem; color: var(--slide-muted); font-weight: 300; line-height: 1.5; margin-bottom: 10px; }
+.usecase-card .uc-tag {
+ display: inline-block;
+ font-size: 0.6rem;
+ font-weight: 500;
+ padding: 3px 10px;
+ background: var(--slide-accent-light);
+ color: var(--slide-accent);
+ border-radius: 10px;
+ text-transform: uppercase;
+ letter-spacing: 0.5px;
+ border: 1px solid var(--color-primary-border);
+}
+/* === SLIDE 5: CTA === */
+.slide-5 { text-align: center; }
+.pricing-show {
+ display: flex; gap: 20px; justify-content: center; margin: 36px 0;
+}
+.pricing-card {
+ background: var(--slide-card-bg);
+ border: 1px solid var(--slide-border);
+ border-radius: 12px;
+ padding: 28px 24px;
+ flex: 1;
+ max-width: 260px;
+ transition: box-shadow 0.2s;
+}
+.pricing-card:hover { box-shadow: var(--shadow-card); }
+.pricing-card.featured {
+ border-color: var(--slide-accent);
+ background: var(--slide-accent-light);
+}
+.pricing-card .plan {
+ font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; color: var(--slide-muted);
+}
+.pricing-card .price {
+ font-size: 2rem; font-weight: 600; color: var(--slide-text); margin: 8px 0 4px;
+}
+.pricing-card .price span { font-size: 0.85rem; font-weight: 300; color: var(--slide-muted); }
+.pricing-card .perks { font-size: 0.8rem; color: var(--slide-muted); margin-top: 12px; }
+.pricing-card .perks div { margin-bottom: 4px; }
+.cta-big {
+ display: inline-block;
+ margin-top: 12px;
+ padding: 14px 40px;
+ background: var(--slide-accent);
+ color: #ffffff;
+ border-radius: 8px;
+ font-size: 1rem;
+ font-weight: 500;
+ text-decoration: none;
+ transition: background 0.15s;
+}
+.cta-big:hover { background: var(--slide-accent-hover); }
+.slide-5 .footnote { font-size: 0.75rem; color: var(--slide-muted); margin-top: 20px; }
+/* === NAVIGATION === */
+.slide-nav {
+ position: fixed;
+ bottom: 32px;
+ left: 50%;
+ transform: translateX(-50%);
+ display: flex;
+ align-items: center;
+ gap: 16px;
+ z-index: 100;
+ background: var(--slide-nav-bg);
+ backdrop-filter: blur(12px);
+ padding: 8px 16px;
+ border-radius: 20px;
+ border: 1px solid var(--slide-border);
+}
+.slide-nav .counter { font-size: 0.75rem; color: var(--slide-muted); min-width: 60px; text-align: center; font-variant-numeric: tabular-nums; }
+.slide-nav button {
+ background: transparent;
+ border: 1px solid var(--slide-border);
+ color: var(--slide-text);
+ width: 32px; height: 32px;
+ border-radius: 8px;
+ cursor: pointer;
+ display: flex; align-items: center; justify-content: center;
+ transition: all 0.15s;
+ font-size: 1rem;
+}
+.slide-nav button:hover { border-color: var(--slide-accent); color: var(--slide-accent); }
+.slide-nav .dots { display: flex; gap: 6px; }
+.slide-nav .dot {
+ width: 8px; height: 8px;
+ border-radius: 50%;
+ background: var(--slide-border);
+ cursor: pointer;
+ transition: background 0.2s;
+}
+.slide-nav .dot.active { background: var(--slide-accent); }
+/* === KEYBOARD HINT === */
+.kb-hint {
+ position: fixed;
+ bottom: 80px;
+ left: 50%;
+ transform: translateX(-50%);
+ font-size: 0.65rem;
+ color: var(--slide-muted);
+ opacity: 0.4;
+ font-weight: 300;
+ letter-spacing: 0.5px;
+ z-index: 100;
+}
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+ html { font-size: 14px; }
+ .slide { padding: 40px 24px 80px; }
+ .slide-1 h1 { font-size: 2rem; }
+ .slide-2 h2, .slide-3 h2, .slide-4 h2, .slide-5 h2 { font-size: 1.5rem; }
+ .problem-grid, .usecase-grid, .solution-benefits { grid-template-columns: 1fr; }
+ .solution-flow { flex-direction: column; }
+ .flow-arrow { transform: rotate(90deg); }
+ .pricing-show { flex-direction: column; align-items: center; }
+ .pricing-card { max-width: 100%; width: 100%; }
+ .slide-1 .deck-logo { height: 180px; }
+ .slide-2 .slide-h2-logo, .slide-3 .slide-h2-logo,
+ .slide-4 .slide-h2-logo, .slide-5 .slide-h2-logo { height: 50px; }
+ .top-bar { top: 12px; right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+ 
+</div>
+
+<div class="slides">
+
+<!-- SLIDE 1: Title -->
+<div class="slide slide-1 active" data-index="0">
+ <div class="slide-inner">
+  <img src="witnessos-logo.png" alt="WitnessOS" class="deck-logo">
+  <div class="eyebrow">Runtime Governance for AI Agents</div>
+  <h1>Every action.<br><span class="highlight">Proven.</span></h1>
+  <p class="subtitle">
+   The runtime governance layer that evaluates, enforces, and verifies every action your AI agents take - with cryptographic audit trails that stand up in court.
+  </p>
+  <div class="tags">
+   <span class="tag">Policy Engine</span>
+   <span class="tag">Audit Chain</span>
+   <span class="tag">Tamper-Evident</span>
+   <span class="tag">Human-in-the-Loop</span>
+   <span class="tag">Patent Pending</span>
+  </div>
+ </div>
+</div>
+
+<!-- SLIDE 2: The Problem -->
+<div class="slide slide-2" data-index="1">
+ <div class="slide-inner">
+  <h2><img src="witnessos-logo.png" alt="" class="slide-h2-logo"> The AI governance gap</h2>
+  <p class="sub">Autonomous AI agents are being deployed without guardrails. When they act, nobody's watching.</p>
+  <div class="problem-grid">
+   <div class="problem-card">
+    <div class="icon">&#x1F50D;</div>
+    <h3>No visibility</h3>
+    <p>Agents operate in black boxes. You see inputs and outputs, but not what tools were called, what data was accessed, or what decisions were made in between.</p>
+   </div>
+   <div class="problem-card">
+    <div class="icon">&#x26A0;&#xFE0F;</div>
+    <h3>No enforcement</h3>
+    <p>Once an agent has an API key, it can call anything. There's no policy layer between the agent's intent and its execution - just blind trust.</p>
+   </div>
+   <div class="problem-card">
+    <div class="icon">&#x1F4DC;</div>
+    <h3>No audit trail</h3>
+    <p>When something goes wrong, you can't prove what happened. Logs can be edited, databases can be altered, and blame becomes a finger-pointing exercise.</p>
+   </div>
+   <div class="problem-card">
+    <div class="icon">&#x1F6A8;</div>
+    <h3>Regulatory risk</h3>
+    <p>ASIC, APRA, and international regulators are circling. Without provable governance, AI deployment in regulated environments is a bet-your-company gamble.</p>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- SLIDE 3: How It Works -->
+<div class="slide slide-3" data-index="2">
+ <div class="slide-inner">
+  <h2><img src="witnessos-logo.png" alt="" class="slide-h2-logo"> How WitnessOS works</h2>
+  <p class="sub">A transparent governance layer that sits between your agent and every action it takes.</p>
+  <div class="solution-flow">
+   <div class="flow-node">
+    <div class="node-icon">&#x1F916;</div>
+    <h4>AI Agent</h4>
+    <p>Proposes an action</p>
+   </div>
+   <div class="flow-arrow">&#x2192;</div>
+   <div class="flow-node" style="border-color:var(--slide-accent);">
+    <div class="node-icon">&#x1F6E1;&#xFE0F;</div>
+    <h4>WitnessOS</h4>
+    <p>Evaluates against policy</p>
+   </div>
+   <div class="flow-arrow">&#x2192;</div>
+   <div class="flow-node">
+    <div class="node-icon">&#x2705;</div>
+    <h4>Decision</h4>
+    <p>Allow / Deny / Flag</p>
+   </div>
+   <div class="flow-arrow">&#x2192;</div>
+   <div class="flow-node">
+    <div class="node-icon">&#x1F4CB;</div>
+    <h4>Audit Chain</h4>
+    <p>Tamper-evident record</p>
+   </div>
+  </div>
+  <div class="solution-benefits">
+   <div class="benefit-pill">&#x1F512; AES-256 encrypted at rest</div>
+   <div class="benefit-pill">&#x1F310; Sub-15ms evaluation latency</div>
+   <div class="benefit-pill">&#x1F4D6; Merkle-chain audit integrity</div>
+  </div>
+ </div>
+</div>
+
+<!-- SLIDE 4: Use Cases -->
+<div class="slide slide-4" data-index="3">
+ <div class="slide-inner">
+  <h2><img src="witnessos-logo.png" alt="" class="slide-h2-logo"> Who needs WitnessOS</h2>
+  <p class="sub">Three markets. One platform. Billions in play.</p>
+  <div class="usecase-grid">
+   <div class="usecase-card">
+    <div class="uc-icon">&#x1F4E1;</div>
+    <h3>Data Centres</h3>
+    <div class="use-body">
+     Add compliance-as-a-service to every rack. Let AI-managed infrastructure prove every automation action is governed and auditable. NEXTDC and Equinix ISV partners.
+    </div>
+    <span class="uc-tag">Track A</span>
+   </div>
+   <div class="usecase-card">
+    <div class="uc-icon">&#x1F4A1;</div>
+    <h3>AI Companies</h3>
+    <div class="use-body">
+     "Guardrails for autonomous AI." Startups deploying autonomous agents need provable safety before customers will trust them. Self-serve from $495/mo.
+    </div>
+    <span class="uc-tag">Track B</span>
+   </div>
+   <div class="usecase-card">
+    <div class="uc-icon">&#x1F3E5;</div>
+    <h3>Healthcare &amp; Legal</h3>
+    <div class="use-body">
+     Regulated industries with zero tolerance for ungoverned agent actions. Audit trails that satisfy internal compliance and external regulators.
+    </div>
+    <span class="uc-tag">Q3/Q4</span>
+   </div>
+   <div class="usecase-card">
+    <div class="uc-icon">&#x1F3DB;&#xFE0F;</div>
+    <h3>Banks &amp; Government</h3>
+    <div class="use-body">
+     Year 2 play. IRAP certification in progress. Longest sales cycle, highest contract value, deepest moat. APRA-regulated entities require this.
+    </div>
+    <span class="uc-tag">Year 2</span>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- SLIDE 5: CTA -->
+<div class="slide slide-5" data-index="4">
+ <div class="slide-inner">
+  <h2><img src="witnessos-logo.png" alt="" class="slide-h2-logo"> Start governing your agents</h2>
+  <p class="sub">Free tier included. No credit card. Upgrade when your governance needs grow.</p>
+  <div class="pricing-show">
+   <div class="pricing-card">
+    <div class="plan">Free</div>
+    <div class="price">$0</div>
+    <div class="perks">
+     <div>500 actions/month</div>
+     <div>1 agent</div>
+     <div>3-day audit retention</div>
+    </div>
+   </div>
+   <div class="pricing-card featured">
+    <div class="plan">Starter</div>
+    <div class="price">$95 <span>/mo</span></div>
+    <div class="perks">
+     <div>5,000 actions/month</div>
+     <div>3 agents</div>
+     <div>30-day audit retention</div>
+     <div>API access</div>
+    </div>
+   </div>
+   <div class="pricing-card">
+    <div class="plan">Pro</div>
+    <div class="price">$495 <span>/mo</span></div>
+    <div class="perks">
+     <div>50,000 actions/month</div>
+     <div>10 agents</div>
+     <div>12-month audit retention</div>
+     <div>API access</div>
+    </div>
+   </div>
+   <div class="pricing-card">
+    <div class="plan">Enterprise</div>
+    <div class="price">Custom</div>
+    <div class="perks">
+     <div>Unlimited actions</div>
+     <div>Unlimited agents</div>
+     <div>Custom audit retention</div>
+     <div>SLA + onboarding</div>
+    </div>
+   </div>
+  </div>
+  <a href="signup.html" class="cta-big">Get started &rarr;</a>
+  <div class="footnote">Patent pending &bull; Built by Empire Labs Pty Ltd</div>
+ </div>
+</div>
+
+</div>
+
+<!-- Navigation -->
+<div class="slide-nav">
+ <button id="prev-slide" title="Previous">&larr;</button>
+ <div class="dots" id="slide-dots">
+  <span class="dot active" data-slide="0"></span>
+  <span class="dot" data-slide="1"></span>
+  <span class="dot" data-slide="2"></span>
+  <span class="dot" data-slide="3"></span>
+  <span class="dot" data-slide="4"></span>
+ </div>
+ 
+ 
+
+ // Slide navigation
+ var slides = document.querySelectorAll('.slide');
+ var dots = document.querySelectorAll('.dot');
+ var counter = document.getElementById('slide-counter');
+ var currentSlide = 0;
+
+ function showSlide(idx) {
+  if (idx < 0) idx = 0;
+  if (idx >= slides.length) idx = slides.length - 1;
+  currentSlide = idx;
+  slides.forEach(function(s, i) {
+   s.classList.toggle('active', i === idx);
+  });
+  dots.forEach(function(d, i) {
+   d.classList.toggle('active', i === idx);
+  });
+  if (counter) counter.textContent = (idx + 1) + ' / ' + slides.length;
+ }
+
+ document.getElementById('prev-slide').addEventListener('click', function() { showSlide(currentSlide - 1); });
+ document.getElementById('next-slide').addEventListener('click', function() { showSlide(currentSlide + 1); });
+ dots.forEach(function(dot, i) {
+  dot.addEventListener('click', function() { showSlide(i); });
+ });
+ document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+  if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+ });
+
+ showSlide(0);
+})();
+</script>
+
+</body>
+</html>

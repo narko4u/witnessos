@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The WitnessOS manifesto: why autonomous agents need cryptographic proof at the action layer, not trust at the model layer.">
+<meta name="theme-color" content="#07101d">
+<title>WitnessOS | Manifesto</title>
+<link rel="canonical" href="https://witnessos.com.au/manifesto.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WitnessOS">
+<meta property="og:title" content="WitnessOS | Manifesto">
+<meta property="og:description" content="The WitnessOS manifesto: why autonomous agents need cryptographic proof at the action layer, not trust at the model layer.">
+<meta property="og:url" content="https://witnessos.com.au/manifesto.html">
+<meta property="og:image" content="https://narko4u.github.io/witnessos/witnessos-logo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="400">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WitnessOS | Manifesto">
+<meta name="twitter:description" content="The WitnessOS manifesto: why autonomous agents need cryptographic proof at the action layer, not trust at the model layer.">
+<meta name="twitter:image" content="https://narko4u.github.io/witnessos/witnessos-logo.png">
+<style>
+:root{color-scheme:dark;--bg:#07101d;--panel:#0d1a2b;--line:#23415f;--text:#f4f8ff;--muted:#a8bbce;--accent:#55c7ff;--good:#7ce7c0;--max:1180px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:radial-gradient(circle at 82% 8%,#0d3258 0,transparent 34%),var(--bg);color:var(--text);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.wrap{width:min(var(--max),90%);margin:auto}
+.nav{min-height:72px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.logo-stage{display:block;width:100%;padding:30px 0 0}.logo-stage img{display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:contain;border:1px solid #23415f;border-radius:8px}
+.nav nav{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:14px}
+.button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 18px;border:1px solid var(--accent);border-radius:5px;background:var(--accent);color:#03111e;font-weight:750;font-size:14px}
+.button.secondary{background:transparent;color:var(--text);border-color:#56728b}
+.button:hover{filter:brightness(1.12)}
+.mobile{display:none}
+.eyebrow{color:var(--accent);font:700 12px/1.5 ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
+.hero{min-height:630px;display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:center;padding:32px 0 88px}
+h1,h2,h3{line-height:1.08;letter-spacing:-.04em}
+h1{font-size:clamp(48px,6vw,82px);margin:22px 0 25px;font-weight:650}
+h1 span{color:var(--accent)}
+h2{font-size:clamp(34px,4.4vw,54px);margin:15px 0 22px;font-weight:650}
+h3{font-size:22px;margin:12px 0}
+.lead{font-size:20px;color:#d5e2ef}
+.value,.copy,.card p,.step p,.cap p,.proof p{color:var(--muted)}
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+.receipt{border:1px solid #35668e;border-radius:12px;background:linear-gradient(145deg,#102842,#091525 65%);box-shadow:0 24px 80px #001428;padding:28px}
+.receipt-top,.row,.receipt-foot{display:flex;justify-content:space-between;gap:20px}
+.receipt-top{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:8px;font:12px ui-monospace,monospace;color:var(--muted)}
+.seal,.receipt-foot{color:var(--good)}
+.row{padding:11px 0;border-bottom:1px solid #1d344c;font:13px ui-monospace,monospace}
+.row span:first-child{color:#7994ad}
+.row span:last-child{text-align:right}
+.hash{margin:22px 0;padding:16px;border-left:2px solid var(--accent);background:#06111e;color:#8ea8bd;font:12px/1.75 ui-monospace,monospace;overflow-wrap:anywhere}
+.receipt-foot{font:12px ui-monospace,monospace}
+section{padding:86px 0;border-top:1px solid var(--line)}
+.split{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:30px}
+.card img{display:block;width:min(100%,430px);height:auto;margin:0 auto 26px;border-radius:7px;border:1px solid var(--line)}
+.card blockquote{margin:0 0 22px;font-size:28px;line-height:1.25;letter-spacing:-.03em}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:38px}
+.step{padding:27px;background:linear-gradient(145deg,#10233b,var(--panel));border-right:1px solid var(--line)}
+.step:last-child{border:0}
+.num{font:700 12px ui-monospace,monospace;color:var(--accent)}
+.ladder-layout{display:grid;grid-template-columns:1fr .86fr;gap:64px;align-items:start}
+.ladder,.assurances{display:grid;gap:10px}
+.rung{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:19px 22px;border:1px solid var(--line);background:var(--panel);border-radius:7px}
+.rung b{color:var(--accent);font:700 25px ui-monospace,monospace}
+.rung strong,.assurance strong{display:block}
+.rung span,.assurance span{color:var(--muted);font-size:14px}
+.rung.e4{border-color:var(--accent);background:linear-gradient(90deg,#123352,#0c1b2c)}
+.assurance{padding:20px;border-left:2px solid var(--good);background:#0b1928}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.cap{padding:25px;border:1px solid var(--line);border-radius:8px;background:var(--panel);min-height:190px}
+.cap code{color:var(--accent);font-size:12px}
+.proof-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:36px}
+.proof{padding:22px 18px;background:#0a1726;border-top:2px solid var(--accent)}
+.proof strong{display:block;font-size:18px;line-height:1.25}
+.standards{margin-top:30px;padding:22px;border:1px solid var(--line);color:var(--muted)}
+.standards strong{color:var(--text)}
+.faq{margin-top:48px;padding-top:8px;border-top:1px solid var(--line)}
+.faq h2{font-size:clamp(28px,3.6vw,44px)}
+.faq-item{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:18px 22px;margin:14px 0}
+.faq-item h3{color:var(--text);font-size:18px;margin:0 0 8px}
+.faq-item p{color:var(--muted);margin:0}
+.connectors{margin-top:30px;padding:22px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--muted)}
+.connectors strong{color:var(--text)}
+.connector-row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px}
+.connector-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:#0a1726;color:var(--accent);font:700 13px/1.4 ui-monospace,monospace;letter-spacing:.02em}
+.connector-chip span{color:var(--muted);font:400 13px/1.4 ui-sans-serif,system-ui,sans-serif;letter-spacing:0}
+.cta{text-align:center;background:linear-gradient(180deg,transparent,#0d2a47 150%)}
+.cta p{color:var(--muted);max-width:640px;margin:0 auto 28px}
+.cta .actions{justify-content:center}
+footer{padding:30px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+footer .empire-banner{width:100%;height:auto;object-fit:contain;border-radius:8px;border:1px solid var(--line)}
+footer a{color:var(--text)}
+@media(max-width:980px){.hero,.ladder-layout,.split{grid-template-columns:1fr}
+.hero{gap:42px;padding-top:55px}
+.steps{grid-template-columns:repeat(2,1fr)}
+.step:nth-child(2){border-right:0}
+.step:nth-child(-n+2){border-bottom:1px solid var(--line)}
+.proof-grid{grid-template-columns:repeat(2,1fr)}
+.proof:last-child{grid-column:1/-1}
+.nav nav a:not(.button){display:none}
+}
+@media(max-width:650px){.wrap{width:min(92%,560px)}
+.nav{min-height:74px}
+.nav nav{display:none}
+.mobile{display:inline-flex}.logo-stage{padding-top:22px}.logo-stage img{width:100%;height:auto;aspect-ratio:3/1;object-fit:contain;border-radius:6px}
+h1{font-size:clamp(42px,13vw,60px)}
+.hero{min-height:auto;padding:48px 0 65px}
+.lead{font-size:18px}
+.steps,.cap-grid,.proof-grid{grid-template-columns:1fr}
+.step,.step:nth-child(2){border-right:0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.proof:last-child{grid-column:auto}
+.rung{grid-template-columns:48px 1fr;padding:17px}
+.receipt{padding:20px}
+section{padding:62px 0}
+.actions{flex-direction:column}
+.button{width:100%}
+footer{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+}
+
+
+/* ===== Sub-page hero (keeps the original hero feel, shorter) ===== */
+.subhero{min-height:0;display:block;padding:64px 0 30px}
+.subhero .eyebrow{margin-bottom:10px}
+.subhero h1{font-size:clamp(40px,5vw,64px);margin:14px 0 18px;font-weight:650}
+.subhero p.lead{max-width:760px;margin:0}
+
+/* ===== Document / article prose (whitepaper, roadmap, terms, privacy, manifesto) ===== */
+.prose{max-width:780px}
+.prose h2{margin:56px 0 12px;scroll-margin-top:100px}
+.prose h3{margin:34px 0 8px;color:var(--text)}
+.prose h4{margin:24px 0 6px;color:var(--text)}
+.prose p{color:var(--muted);margin:0 0 16px}
+.prose ul,.prose ol{margin:0 0 18px;padding-left:22px;color:var(--muted)}
+.prose li{margin:6px 0}
+.prose li strong,.prose p strong{color:var(--text)}
+.prose blockquote{margin:22px 0;padding:16px 20px;border-left:3px solid var(--accent);background:var(--panel);border-radius:0 8px 8px 0;color:#d5e2ef}
+.prose code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;background:#0a1726;border:1px solid var(--line);color:var(--accent);padding:1px 6px;border-radius:4px}
+.prose pre{margin:18px 0 22px;padding:16px 18px;background:#06111e;border:1px solid var(--line);border-radius:8px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.7;color:#8ea8bd}
+.prose hr{border:0;border-top:1px solid var(--line);margin:44px 0}
+.prose table{width:100%;border-collapse:collapse;margin:18px 0 24px;font-size:14px;color:var(--muted)}
+.prose th,.prose td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+.prose th{background:var(--panel);color:var(--text);font-weight:600}
+.prose tr:nth-child(even) td{background:#0a1726}
+.prose .rung{grid-template-columns:56px 1fr;margin-bottom:10px}
+
+/* ===== Table of contents ===== */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:18px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.toc a{padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:13px}
+.toc a:hover{color:var(--accent);border-color:var(--accent)}
+
+/* Manifesto page additions (navy palette) */
+.prose .prose-quote,.prose blockquote{border-left:3px solid var(--accent);background:#0a1726;padding:20px 24px;margin:26px 0;color:#d5e2ef;font-size:20px;line-height:1.5;letter-spacing:-.01em}
+.prose .card blockquote{border-left:3px solid var(--good);background:#0b1928}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="nav">
+<nav aria-label="Main navigation">
+<a href="index.html">Home</a>
+<a href="demo.html">Simulation</a>
+<a href="casestudy.html">Case study</a>
+<a href="manifesto.html" aria-current="page">Manifesto</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="signup.html">Request access</a>
+<a class="button" href="mailto:contact@empirelabs.com.au?subject=WitnessOS%20Assessment">Book an assessment</a>
+</nav>
+<a class="button mobile" href="mailto:contact@empirelabs.com.au?subject=WitnessOS%20Assessment">Contact</a>
+</header>
+<main id="top">
+<a class="logo-stage" href="index.html">
+<img src="assets/witnessos-logo.webp" width="1800" height="600" alt="WitnessOS">
+</a>
+<section class="subhero">
+<div>
+<div class="eyebrow">Manifesto</div>
+<h1>The age of blind trust is over</h1>
+<p class="lead">Autonomous agents are being deployed at full speed. The choice is not between building recklessly and not building at all. There is a third way.</p>
+<p class="value">WitnessOS by Empire Labs Pty Ltd</p>
+</div>
+</section>
+<section id="false-binary">
+<div>
+<div class="eyebrow">The false binary</div>
+<h2>Stop. Pause. Regulate. Or move fast and break things?</h2>
+<div class="prose">
+<p>The public conversation has calcified into two camps, each shouting past the other. One says autonomous agents are too dangerous to deploy and the only safe path is to pause and wait for regulation that may never arrive. The other says safety is a blocker, ethics is a luxury, and the winner ships first and asks permission later.</p>
+<p>The first camp is right about the risks. The second camp is right about the opportunity. Both are wrong about the solution.</p>
+<p>The answer is not to stop building. The answer is to <strong>build differently</strong>.</p>
+</div>
+<div class="card">
+<blockquote>Neither moratorium nor chaos. Governed autonomy: agents operating at full speed, with real-time cryptographic governance that proves every action, enforces every boundary, and holds every agent accountable.</blockquote>
+</div>
+</div>
+</section>
+<section id="proof">
+<div>
+<div class="eyebrow">Partnership requires proof</div>
+<h2>Trust is a feeling. Proof is a fact.</h2>
+<div class="prose">
+<p>Every partnership in history has been built on trust. But trust, as a mechanism, scales poorly. You can trust one person. You can trust ten. You cannot meaningfully trust a thousand autonomous agents executing millions of decisions a day.</p>
+<p>WitnessOS replaces blind trust with cryptographic evidence, without asking agents to slow down. Every action, every decision, every tool call is witnessed, recorded, and cryptographically sealed. Not for surveillance. For accountability. For the ability to say with certainty: <em>this agent did exactly what it was authorised to do, and nothing else.</em></p>
+</div>
+<div class="cap-grid">
+<article class="cap">
+<code>DEFINE</code>
+<h3>Define the boundary</h3>
+<p>Humans set the rules: what agents can access, what they can execute, and what requires a human in the loop. The boundary is explicit, auditable, enforceable.</p>
+</article>
+<article class="cap">
+<code>WITNESS</code>
+<h3>Witness every action</h3>
+<p>Every tool call and API request is evaluated against policy in real time. Approved actions are sealed. Violations are blocked, not logged after the fact.</p>
+</article>
+<article class="cap">
+<code>PROVE</code>
+<h3>Prove compliance</h3>
+<p>The audit trail is chained. Tampering with any record breaks the chain, so spoofing is immediately detectable. Publish the chain root for independent verification.</p>
+</article>
+</div>
+</div>
+</section>
+<section id="network">
+<div>
+<div class="eyebrow">When agents hold each other accountable</div>
+<h2>Agents that prove themselves earn more autonomy</h2>
+<div class="prose">
+<p>In a multi-agent system, trust is not a philosophical concept. It is an operational requirement. An agent that cannot prove its behaviour cannot participate in the network.</p>
+<p>This creates a virtuous cycle: the more provably reliable an agent is, the more autonomy it earns. The higher the stakes, the more evidence is required. Agents compete to be more transparent, not less.</p>
+<blockquote class="prose-quote">Today the question is "can I trust this agent?" Tomorrow it will be "can this agent prove itself?" WitnessOS is the infrastructure for that future.</blockquote>
+<p>The danger is not autonomous agents. The danger is autonomous agents without evidence: without boundaries, without the ability to prove what they did and why. WitnessOS does not ask agents to be less powerful. It asks them to be provable.</p>
+</div>
+</div>
+</section>
+<section id="closing" class="cta">
+<div class="eyebrow">The call</div>
+<h2>Build with governance. Build with WitnessOS.</h2>
+<p>The future belongs to those who build. We are building with proof.</p>
+<div class="actions">
+<a class="button" href="signup.html">Request early access</a>
+<a class="button secondary" href="demo.html">Try the interactive simulation</a>
+</div>
+</section>
+
+</main>
+<footer>
+<img class="empire-banner" src="assets/empire-banner.webp" width="1200" height="400" loading="lazy" alt="WitnessOS and Empire Labs Pty Ltd">
+<div>
+<strong>Empire Labs Pty Ltd</strong>
+<br>WitnessOS is the runtime governance layer for autonomous agents.</div>
+<div>
+<strong>Legal</strong>
+<br><a href="terms.html">Terms of Service</a>
+<br><a href="privacy.html">Privacy Policy</a>
+</div>
+<div>
+<a href="https://www.empirelabs.com.au">www.empirelabs.com.au</a>
+<br><a href="mailto:contact@empirelabs.com.au">contact@empirelabs.com.au</a>
+<br><a href="https://github.com/narko4u/witnessos">github.com/narko4u/witnessos</a>
+</div>
+</footer>
+</div>
+
+</body></html>

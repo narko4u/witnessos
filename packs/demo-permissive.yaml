@@ -1,0 +1,41 @@
+# WitnessOS Demo Policy Pack: Permissive Mode
+# ALL actions auto-allowed - demonstrates the gateway pass-through path
+# Interactive demo use only. NEVER use this in any production environment.
+pack_id: empire/demo-permissive/v1
+pack_version: "1.0"
+name: Demo Permissive - All Actions Allowed
+description: >
+  Permissive mode for interactive demos. All gmail.send and stripe.refund.create
+  actions are auto-allowed. No human approval required. Demonstrates the
+  pass-through path of the gateway with full evidence capture.
+author: Empire Labs
+tenant_id: default
+environment: test
+enabled: true
+
+connector_kill_switch: []
+monthly_governed_action_cap: 100
+
+rules:
+  - rule_id: demo-email-allow
+    description: All email sends auto-allowed in demo mode
+    priority: 100
+    binding:
+      action_type: gmail.send
+      min_risk_tier: low
+      max_risk_tier: critical
+    decision: allow
+    reason: Demo mode - all email actions pass through
+    capture_profile: full
+
+  - rule_id: demo-refund-allow
+    description: All refunds auto-allowed in demo mode
+    priority: 100
+    binding:
+      action_type: stripe.refund.create
+      min_risk_tier: low
+      max_risk_tier: critical
+    decision: allow
+    reason: Demo mode - all refund actions pass through
+    require_idempotency_key: false
+    capture_profile: full

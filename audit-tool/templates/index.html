@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WitnessOS - Free Rogue Agent Audit | Empire Labs</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            background: #0f172a; color: #e2e8f0; line-height: 1.6;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-bottom: 1px solid #334155;
+            padding: 2rem 1rem; text-align: center;
+        }
+        header h1 { font-size: 2rem; color: #3b82f6; margin-bottom: 0.5rem; }
+        header p { color: #94a3b8; max-width: 600px; margin: 0 auto; font-size: 1.05rem; }
+        .badge {
+            display: inline-block; background: #3b82f6; color: #f8fafc;
+            padding: 0.25rem 0.75rem; border-radius: 999px;
+            font-weight: 700; font-size: 0.85rem; margin-bottom: 1rem;
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .container { max-width: 720px; margin: 0 auto; padding: 2rem 1rem; }
+        .form-card {
+            background: #1e293b; border: 1px solid #334155;
+            border-radius: 12px; padding: 2rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+        }
+        .form-card h2 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #f8fafc; }
+        .form-card p.subtitle { color: #94a3b8; margin-bottom: 1.5rem; font-size: 0.95rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; color: #cbd5e1; }
+        label .optional { font-weight: 400; color: #64748b; font-size: 0.8rem; }
+        input, textarea, select {
+            width: 100%; padding: 0.75rem 1rem;
+            background: #0f172a; border: 1px solid #475569;
+            border-radius: 8px; color: #e2e8f0; font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        input:focus, textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
+        textarea { resize: vertical; min-height: 80px; }
+        .btn {
+            display: inline-block; width: 100%;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #f8fafc; font-weight: 700; font-size: 1.1rem;
+            padding: 0.85rem 2rem; border: none; border-radius: 8px;
+            cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3); }
+        .flash { padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; }
+        .flash.error { background: #7f1d1d; color: #fca5a5; border: 1px solid #991b1b; }
+        .urgency-bar {
+            background: #1e3a5f; border: 1px solid #2563eb; border-radius: 8px;
+            padding: 1rem; margin-bottom: 1.5rem; text-align: center;
+        }
+        .urgency-bar strong { color: #60a5fa; font-size: 1.1rem; }
+        .urgency-bar span { color: #93c5fd; font-size: 1rem; }
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .form-card { padding: 1.25rem; }
+            header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="badge">🛡 Free One-Page Audit</div>
+    <h1>Rogue Agent Risk Assessment</h1>
+    <p>In minutes, get a professional PDF audit of your AI agent risk exposure.
+    No signup. No credit card. Just answers.</p>
+</header>
+
+<div class="container">
+    <div class="urgency-bar">
+        <strong>⏰ Regulatory Countdown:</strong>
+        <span>China AI agent registry deadline Jul 15 ({% if china_deadline %}{{ china_deadline }} days{% else %}unknown{% endif %})
+        · EU AI Act enforcement Aug 2 ({% if eu_deadline %}{{ eu_deadline }} days{% else %}unknown{% endif %})</span>
+    </div>
+
+    <div class="form-card">
+        <h2>Your Company Profile</h2>
+        <p class="subtitle">We'll use this to generate a tailored risk assessment report.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="/generate" method="POST">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="company">Company name <span class="optional">*</span></label>
+                    <input type="text" id="company" name="company"
+                           value="{{ form_data.get('company', '') }}"
+                           required placeholder="e.g. Acme Corp">
+                </div>
+                <div class="form-group">
+                    <label for="email">Work email <span class="optional">*</span></label>
+                    <input type="email" id="email" name="email"
+                           value="{{ form_data.get('email', '') }}"
+                           required placeholder="you@company.com">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="industry">Industry <span class="optional">(optional)</span></label>
+                    <input type="text" id="industry" name="industry"
+                           value="{{ form_data.get('industry', '') }}"
+                           placeholder="e.g. Banking, Healthcare, Mining">
+                </div>
+                <div class="form-group">
+                    <label for="employee_count">Employees <span class="optional">(optional)</span></label>
+                    <input type="text" id="employee_count" name="employee_count"
+                           value="{{ form_data.get('employee_count', '') }}"
+                           placeholder="e.g. 500">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="agent_count">Approximate number of AI agents deployed <span class="optional">(optional)</span></label>
+                <input type="number" id="agent_count" name="agent_count"
+                       value="{{ form_data.get('agent_count', '') }}"
+                       min="0" max="100000" placeholder="e.g. 25">
+                <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">
+                    Includes all autonomous AI agents, copilots, and automated decision systems.
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="governance">Describe your current AI agent governance <span class="optional">(optional)</span></label>
+                <textarea id="governance" name="governance"
+                    placeholder="e.g. 'We track agents in a spreadsheet but have no formal policy' or 'We use basic access controls but no audit trail'">{{ form_data.get('governance', '') }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="compliance_needs">Compliance frameworks / regulations you need to meet <span class="optional">(optional)</span></label>
+                <textarea id="compliance_needs" name="compliance_needs"
+                    placeholder="e.g. EU AI Act, ISO 42001, SOC 2, GDPR, APRA CPS 230">{{ form_data.get('compliance_needs', '') }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="concerns">Specific concerns <span class="optional">(optional)</span></label>
+                <textarea id="concerns" name="concerns"
+                    placeholder="e.g. 'We're worried about rogue agent actions, audit trails, and credential security'">{{ form_data.get('concerns', '') }}</textarea>
+            </div>
+
+            <button type="submit" class="btn">Generate Free Audit Report →</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
