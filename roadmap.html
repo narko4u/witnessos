@@ -192,6 +192,9 @@ footer{flex-direction:column}
 <li>E4 anchored evidence receipts: RFC 3161 external timestamps, revocation-verified at issuance, offline re-verifiable</li>
 <li>Real-time policy enforcement: violations blocked before execution, not logged after</li>
 <li>Chained, tamper-evident audit trail, independently verifiable</li>
+<li>Timestamp authenticity verified: the independent verifier validates the RFC 3161 token itself - the Time Stamping Authority's certificate chain and its revocation status at the moment of stamping, not merely our word for it</li>
+<li>Retention receipts: proof that evidence bundles stay independently retained and byte-for-byte unaltered</li>
+<li>Forgery-tested: tampered or forged bundles are rejected outright - an altered record cannot present as E4</li>
 <li>Framework-agnostic: any agent that makes HTTP calls</li>
 <li>Self-hosted on customer infrastructure</li>
 <li>Gmail and Stripe lanes live, governed end to end</li>
