@@ -48,7 +48,6 @@ The **gateway engine** (source code, tests, scripts) is proprietary and maintain
 
 - ▶️ **[Try the interactive simulation](https://narko4u.github.io/witnessos/demo.html)** - one governed action, end to end: credentialless agent request, human approval, gateway-held execution, E4 receipt
 - 📖 **[Read the specification](SPEC.md)** - the evidence-grade record format, schema, and grading model
-- 📦 **[WitnessOS Alpha](https://github.com/narko4u/witnessos-alpha)** - open-source SDK + hosted demo server, `docker compose up` in minutes
 - 📖 **[aci-spec](https://github.com/narko4u/aci-spec)** · **[aip-spec](https://github.com/narko4u/aip-spec)** · **[ajson](https://github.com/narko4u/ajson)** - the open standards WitnessOS is built on; feedback windows open until 2026-09-15
 - 🗣️ **[Join the discussions](https://github.com/narko4u/witnessos/discussions)** - shape the v1.0 roadmap
 
@@ -463,7 +462,7 @@ The WitnessOS receipt specification ([SPEC.md](SPEC.md)) is published as an open
 
 ---
 
-<sub>Part of the [WitnessOS launch family](https://github.com/narko4u/witnessos): [witnessos-alpha](https://github.com/narko4u/witnessos-alpha) · [eu-ai-act-compliance-grade](https://github.com/narko4u/eu-ai-act-compliance-grade) · [agent-interaction-specs](https://github.com/narko4u/agent-interaction-specs) · [aci-spec](https://github.com/narko4u/aci-spec) · [aip-spec](https://github.com/narko4u/aip-spec) · [ajson](https://github.com/narko4u/ajson) — [Empire Labs Pty Ltd](https://www.empirelabs.com.au)</sub>
+<sub>Part of the [WitnessOS launch family](https://github.com/narko4u/witnessos): [eu-ai-act-compliance-grade](https://github.com/narko4u/eu-ai-act-compliance-grade) · [agent-interaction-specs](https://github.com/narko4u/agent-interaction-specs) · [aci-spec](https://github.com/narko4u/aci-spec) · [aip-spec](https://github.com/narko4u/aip-spec) · [ajson](https://github.com/narko4u/ajson) — [Empire Labs Pty Ltd](https://www.empirelabs.com.au)</sub>
 ## Repository dependencies
 
 The WitnessOS site and public specification have no runtime dependencies.
