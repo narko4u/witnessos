@@ -13,7 +13,7 @@ dependencies = [
 
 [project.urls]
 "Homepage" = "https://github.com/narko4u/witnessos"
-"Documentation" = "https://witnessos.ai"
+"Documentation" = "https://witnessos.com.au"
 
 [build-system]
 requires = ["hatchling"]
