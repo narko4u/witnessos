@@ -13,7 +13,7 @@ jobs:
   dco:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Verify all commits carry Signed-off-by (DCO)
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Verify all site pages exist
         run: |
@@ -98,7 +98,7 @@ jobs:
   osv-scanner:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Run OSV-Scanner
         uses: google/osv-scanner/actions/scanner@v1
         with:
