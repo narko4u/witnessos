@@ -379,6 +379,20 @@ See [ROADMAP.md](ROADMAP.md) for the full phase history and [ALPHA_STATUS.md](AL
 
 ---
 
+## Acknowledgements
+
+This repository is a static site plus specification text. It has no third-party
+runtime dependencies and vendors no third-party code, so there is no external
+project to attribute.
+
+WitnessOS builds on the Empire Stack - [ACI](https://github.com/narko4u/aci-spec),
+[AIP](https://github.com/narko4u/aip-spec) and [AJSON](https://github.com/narko4u/ajson) -
+open standards published by Empire Labs Pty Ltd. Those are this project's own
+work rather than third-party dependencies, and they carry their own
+Acknowledgements sections.
+
+---
+
 <p align="center">
   <strong>Empire Labs Pty Ltd</strong><br/>
   Townsville, Australia<br/>
