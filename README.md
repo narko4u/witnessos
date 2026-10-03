@@ -12,6 +12,7 @@
   <a href="#"><img src="https://img.shields.io/badge/patent-pending%20AU%202026906017-lightgrey?logo=ipfs" alt="Patent"/></a>
   <a href="#"><img src="https://img.shields.io/badge/phase-Design%20Partner%20Alpha-blueviolet" alt="Phase"/></a>
   <a href="https://witnessos.com.au/"><img src="https://img.shields.io/badge/site-witnessos.com.au-07101d" alt="WitnessOS"/></a>
+  <a href="https://witnessos.com.au/standards.html"><img src="https://img.shields.io/badge/standards-WitnessOS%20and%20Flinders-07101d" alt="WitnessOS and Flinders"/></a>
   <img src="https://img.shields.io/badge/status-specification-blue" alt="Status: specification"/>
 <a href="https://www.bestpractices.dev/projects/14137"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.bestpractices.dev%2Fprojects%2F14137.json&query=badge_percentage_baseline_1&label=OpenSSF%20Baseline%201&suffix=%25&color=success" alt="OpenSSF Best Practices - Baseline 1"/></a> <a href="https://www.bestpractices.dev/projects/14137"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.bestpractices.dev%2Fprojects%2F14137.json&query=badge_percentage_baseline_2&label=OpenSSF%20Baseline%202&suffix=%25&color=success" alt="OpenSSF Best Practices - Baseline 2"/></a> <a href="https://www.bestpractices.dev/projects/14137"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.bestpractices.dev%2Fprojects%2F14137.json&query=badge_percentage_baseline_3&label=OpenSSF%20Baseline%203&suffix=%25&color=success" alt="OpenSSF Best Practices - Baseline 3"/></a>
 </p>
@@ -476,7 +477,7 @@ The WitnessOS receipt specification ([SPEC.md](SPEC.md)) is published as an open
 
 ---
 
-<sub>Part of the [WitnessOS launch family](https://github.com/narko4u/witnessos): [eu-ai-act-compliance-grade](https://github.com/narko4u/eu-ai-act-compliance-grade) · [agent-interaction-specs](https://github.com/narko4u/agent-interaction-specs) · [aci-spec](https://github.com/narko4u/aci-spec) · [aip-spec](https://github.com/narko4u/aip-spec) · [ajson](https://github.com/narko4u/ajson) — [Empire Labs Pty Ltd](https://www.empirelabs.com.au)</sub>
+<sub>Part of the [WitnessOS launch family](https://github.com/narko4u/witnessos): [eu-ai-act-compliance-grade](https://github.com/narko4u/eu-ai-act-compliance-grade) · [agent-interaction-specs](https://github.com/narko4u/agent-interaction-specs) · [aci-spec](https://github.com/narko4u/aci-spec) · [aip-spec](https://github.com/narko4u/aip-spec) · [ajson](https://github.com/narko4u/ajson) · [WitnessOS and Flinders](https://witnessos.com.au/standards.html) — [Empire Labs Pty Ltd](https://www.empirelabs.com.au)</sub>
 ## Repository dependencies
 
 The WitnessOS site and public specification have no runtime dependencies.
