@@ -1,6 +1,6 @@
 # WitnessOS - Frozen Specification v1.0
 
-> **Status note (2026-09-03):** Evidence grades are no longer capped at E3 - E4 strict-mode issuance is enabled (E3 remains the default in non-strict configurations). Normative E1-E4 definitions below are unchanged from the v1.0 freeze. See [ALPHA_STATUS.md](ALPHA_STATUS.md) for current constraints.
+> **Status note (2026-09-03):** Evidence grades are no longer capped at E3 - E4 strict-mode issuance is enabled (E3 remains the default in non-strict configurations). Normative E1-E4 definitions below are unchanged from the v1.0 freeze. See [ALPHA_STATUS.md](ALPHA_STATUS.md) for current constraints. The canonical statement of the ladder is [EVIDENCE-GRADES.md](EVIDENCE-GRADES.md).
 
 **Status:** FROZEN - Build Reference  
 **Date:** 2026-06-26  

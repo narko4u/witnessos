@@ -229,6 +229,8 @@ Every receipt carries exactly one grade. The grade measures the strength of cryp
 
 **E4 (Anchored) - live issuance:** CRL/OCSP revocation at generation time, persisted TSA endpoint provenance, and strict-mode E4 issuance are implemented and enabled. E4 anchored receipts are issuing in production against a revocation-verifiable RFC 3161 TSA anchor, and each E4 receipt exports as a bundle (TSA token plus signed case-head commitment) that a third party can re-verify offline with zero trust in the operator. Deployments without strict mode or a revocation-verifiable anchor still cap at E3 (see [ALPHA_STATUS.md](ALPHA_STATUS.md)).
 
+The ladder itself is defined once, normatively, in **[EVIDENCE-GRADES.md](EVIDENCE-GRADES.md)**: the rungs and their exact names, what each rung requires, what counts as a property rather than a rung and how to cite it. The table above is a summary of that document.
+
 ---
 
 ## Project Status
