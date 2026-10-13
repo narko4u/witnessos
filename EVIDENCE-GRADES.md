@@ -1,12 +1,15 @@
 # WitnessOS Evidence Grades
 
 **Status:** normative
-**Version:** 1.0, published 2026-10-04
+**Version:** 1.1, published 2026-10-13 (version 1.0 published 2026-10-04)
 **Canonical at:** this document
 
 WitnessOS defined this ladder in 2026-06. It is the ladder the product uses. This is its
 canonical statement. Where another surface states it differently this document wins and that
 surface is a defect to fix.
+
+Version 1.1 removes one ambiguity in the E3 row and changes nothing else. The rungs, their
+names and their prerequisites are otherwise the ones version 1.0 stated.
 
 ## 1. What a grade is
 
@@ -36,11 +39,17 @@ Every receipt carries exactly one grade, drawn from this closed set of five rung
 | **E0** | Declared | An agent claims it acted. Nothing independent stands behind the claim. | Nothing. This is the floor and the honest answer when only a claim exists. |
 | **E1** | Observed | An independent party witnessed the action. Gaps remain possible. | Instrumentation outside the acting agent, plus a trust decision that identifies who the instrumentation speaks for. |
 | **E2** | Enforced | The action was authorised and routed through an enforcement point and policy was applied by something other than the acting agent. | A route the agent cannot bypass, plus a recorded policy decision against the specific action. |
-| **E3** | Corroborated | The destination confirmed the outcome. | A provider response or a state probe that speaks to the outcome rather than to the request. |
+| **E3** | Corroborated | The destination confirmed the outcome. | A provider response or a state probe from a party other than the deployment, speaking to the outcome rather than to the request. |
 | **E4** | Anchored | The record carries an external timestamp and a Merkle checkpoint. A third party can verify both offline. | An external timestamp from a trust service, a Merkle inclusion proof and verification against a trust anchor the verifier supplies, with no access to the producer's storage and no trust in the producer's clock. |
 
 Use the name with the rung. The names are **Declared, Observed, Enforced, Corroborated,
 Anchored**. A bare letter is not a definition and a bare adjective is not one either.
+
+E3 rests on a party that is not the deployment. A state probe the deployment runs and reports
+is the deployment's own account of itself, so it reaches no rung above the one its other
+evidence already supports. The disqualifiers are published so that a reader can check them
+rather than take this paragraph on trust:
+[what makes a party independent](https://github.com/narko4u/evidence-record-spec/blob/main/VERIFIABILITY-OVERVIEW.md#what-makes-a-party-independent).
 
 ## 3. The ladder is nested and it fails closed
 
@@ -110,7 +119,7 @@ appears, name the rung instead.
 Cite this document rather than a README table, so that the citation pins to a version and a
 path:
 
-> WitnessOS evidence grades, E0 Declared through E4 Anchored, version 1.0,
+> WitnessOS evidence grades, E0 Declared through E4 Anchored, version 1.1,
 > Empire Labs Pty Ltd,
 > https://github.com/narko4u/witnessos/blob/main/EVIDENCE-GRADES.md
 
