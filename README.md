@@ -476,6 +476,8 @@ Feedback on any spec is open until **2026-09-15** via GitHub Discussions. Every 
 
 Apache 2.0. See [LICENSE](LICENSE).
 
+What is free and what carries a commercial licence is stated in [LICENSING.md](LICENSING.md).
+
 The WitnessOS receipt specification ([SPEC.md](SPEC.md)) is published as an open standard under the same license. Implementations, extensions, and verifiers are welcome - the format is stable and frozen at v1.0.
 
 
