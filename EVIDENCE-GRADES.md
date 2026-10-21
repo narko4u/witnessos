@@ -63,6 +63,29 @@ A rung is never awarded on a foundation that did not hold.
 - If a caller demands a grade that cannot be shown, verification **fails**. It does not warn
   and it does not round up.
 
+### 3.1 What a verifier can conclude on its own, and what it cannot
+
+Added 2026-10-21 after the evidence-grade audit. This subsection describes the reference
+verifier; it does not weaken anything above. Where a requirement cannot be established from a
+bundle alone, the verifier caps the grade and states the reason.
+
+| Rung | What the reference verifier tests | What it still needs from outside the bundle |
+|---|---|---|
+| E1 | That an identified signer produced the events, and, where the operator provisions `observation_authorities`, that the observer is one of those parties. Without such a policy the verifier reports E1 as "identified signer" and warns that identity was not authenticated. | A trust decision naming who the instrumentation speaks for. |
+| E2 | That a policy decision and an authorisation both precede the action in the same case, in addition to chain, ledger, manifest and batch integrity. | That the enforcement point is genuinely non-bypassable. That is a property of the gateway's execution path, not of a file. |
+| E3 | That a provider acknowledgement is signed by a key the operator provisions in `corroboration_authorities`, that the key signed nothing else in the case, that the acknowledgement carries a provider record identifier and digest, and that it is bound by id and digest to the subject event in this case. | An independently obtained provider key. A key inside the bundle proves signature consistency, never identity. |
+| E4 | E3 plus Merkle inclusion, an RFC 3161 timestamp verified against an operator-supplied trust anchor, and an intact WORM copy. | Nothing further. Anchoring never substitutes for E3. |
+
+Two consequences are worth stating plainly, because both were once assumed rather than
+checked:
+
+- **An event type is not evidence.** A record that writes `provider.confirmed` has asserted
+  that a provider confirmed something. The assertion is recorded and it moves no grade until a
+  key the operator trusts signs it and binds it to this action.
+- **Naming a party is not corroboration.** Naming a provider, a peer or an engine in a payload
+  proves that a string was written. Independence is decided by key custody and by what the key
+  signed, never by the number of names that agree.
+
 ## 4. Properties are not rungs
 
 Some facts about a record are real and worth reporting. They are still not grades. They are
