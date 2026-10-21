@@ -96,7 +96,7 @@ Every receipt carries exactly one grade. No ambiguity.
 
 **Evidence grade measures strength of evidence, not business success.** An E4 receipt can legitimately show `provider_failed`, `unknown`, or `effect_confirmed`.
 
-**Dashboard language:** Never "immutable." Always: "E4 - Gateway-enforced, provider-confirmed, externally anchored."
+**Dashboard language:** Never "immutable." Say which rung, and what stands behind it: "E2 Enforced - gateway-enforced, policy-checked" or "E4 Anchored - independently timestamped and checkpointed, on top of corroborated evidence." A provider acknowledgement the deployment recorded is not corroboration, so it does not make a receipt E3.
 
 ---
 
