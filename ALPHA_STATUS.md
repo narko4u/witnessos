@@ -13,7 +13,7 @@
 - Action permits with JTI redemption and DPoP binding
 - Event-sourced lifecycle with all 11 event types
 - Hash-chained receipts with Merkle checkpointing
-- RFC 3161 TSA external anchoring (E4 anchored receipts issuing live since 2026-09-05)
+- RFC 3161 TSA external anchoring with offline re-verification (E4-capable verification. Current production receipts: E2 pending independent provider corroboration.)
 - Independent CLI verifier (`witnessos verify`)
 - RBAC with separation of duties
 - Kill-switch and financial caps
@@ -38,9 +38,9 @@ Current Alpha operates under these constraints:
 
 ## Evidence Grade Precision
 
-- **E3 (Corroborated):** Destination provider acknowledged the action. This means Gmail API accepted the send - it does NOT independently prove delivery, inbox placement, or read status.
+- **E3 (Corroborated):** A party other than the deployment, whose identity a verifier establishes from its own trust input, confirmed the outcome. A gateway record of a provider acknowledgement is not that on its own: it is the deployment's own account, so current production receipts cap at E2 Enforced.
 - **Stripe operations:** Test mode only during Alpha. Does not constitute proof of a live financial transaction.
-- **E4 (Anchored):** Strict-mode issuance is live (2026-09-05) with CRL/OCSP revocation at generation time and persisted TSA endpoint provenance. E4 anchored receipts issue against a provisioned, revocation-verifiable TSA trust root; each receipt exports as a bundle (TSA token plus signed case-head commitment) that a third party can re-verify offline with zero trust in the operator. Deployments without strict mode or a revocation-verifiable anchor cap at E3. Independent review proceeds through the design-partner alpha.
+- **E4 (Anchored):** WitnessOS supports E4 Anchored evidence and independently verifies RFC 3161 timestamping and Merkle inclusion proofs. Current production receipts remain E2 Enforced until independently authenticated provider/counterparty corroboration is available. The capability is built and verified: strict-mode anchoring with CRL/OCSP revocation at generation time and persisted TSA endpoint provenance, exported as a bundle (TSA token plus signed case-head commitment) that a third party re-verifies offline with zero trust in the operator. Anchoring does not, on its own, establish E4: it presupposes Corroborated evidence, and E3/E4 production issuance is gated on independent provider corroboration. Independent review proceeds through the design-partner alpha.
 
 ## Contact
 

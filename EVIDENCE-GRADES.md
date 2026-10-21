@@ -1,15 +1,16 @@
 # WitnessOS Evidence Grades
 
 **Status:** normative
-**Version:** 1.1, published 2026-10-13 (version 1.0 published 2026-10-04)
+**Version:** 1.2, published 2026-10-21 (1.1 published 2026-10-13, 1.0 published 2026-10-04)
 **Canonical at:** this document
 
 WitnessOS defined this ladder in 2026-06. It is the ladder the product uses. This is its
 canonical statement. Where another surface states it differently this document wins and that
 surface is a defect to fix.
 
-Version 1.1 removes one ambiguity in the E3 row and changes nothing else. The rungs, their
-names and their prerequisites are otherwise the ones version 1.0 stated.
+Version 1.1 removed one ambiguity in the E3 row. Version 1.2 states how a verifier establishes
+that the party behind E3 is someone other than the deployment, and lists what does not establish
+it. The rungs, their names and their prerequisites are otherwise unchanged.
 
 ## 1. What a grade is
 
@@ -71,9 +72,9 @@ bundle alone, the verifier caps the grade and states the reason.
 
 | Rung | What the reference verifier tests | What it still needs from outside the bundle |
 |---|---|---|
-| E1 | That an identified signer produced the events, and, where the operator provisions `observation_authorities`, that the observer is one of those parties. Without such a policy the verifier reports E1 as "identified signer" and warns that identity was not authenticated. | A trust decision naming who the instrumentation speaks for. |
+| E1 | That at least one event was recorded by something other than the acting agent, and that every event carries a valid signature under a key the bundle publishes. This is a check on the record's shape, not on who wrote it. | A trust decision naming who the instrumentation speaks for. The reference verifier has no such input yet, so it reports E1 as observed-in-the-record and says plainly that the observer's identity was not authenticated. |
 | E2 | That a policy decision and an authorisation both precede the action in the same case, in addition to chain, ledger, manifest and batch integrity. | That the enforcement point is genuinely non-bypassable. That is a property of the gateway's execution path, not of a file. |
-| E3 | That a provider acknowledgement is signed by a key the operator provisions in `corroboration_authorities`, that the key signed nothing else in the case, that the acknowledgement carries a provider record identifier and digest, and that it is bound by id and digest to the subject event in this case. | An independently obtained provider key. A key inside the bundle proves signature consistency, never identity. |
+| E3 | That a provider acknowledgement is signed by a key the operator provisions under `provider_keys` in the verifier's trust policy (or `WITNESSOS_PROVIDER_KEYS_FILE` for standalone CLI use), that the key is not one of the bundle's own signing keys, that the acknowledgement carries a provider record identifier and digest that are not its own event's, and that it commits to this case and to this action. | An independently obtained provider key. A key inside the bundle proves signature consistency, never identity. |
 | E4 | E3 plus Merkle inclusion, an RFC 3161 timestamp verified against an operator-supplied trust anchor, and an intact WORM copy. | Nothing further. Anchoring never substitutes for E3. |
 
 Two consequences are worth stating plainly, because both were once assumed rather than
@@ -85,6 +86,34 @@ checked:
 - **Naming a party is not corroboration.** Naming a provider, a peer or an engine in a payload
   proves that a string was written. Independence is decided by key custody and by what the key
   signed, never by the number of names that agree.
+
+### 3.2 What does not establish that the other party is who it claims
+
+Added in version 1.2. Each of these has been read as provider identity on some surface at some
+point, and none of them is:
+
+- a **provider name** written in a payload
+- a **provider event type**, such as `provider.confirmed` or `provider.acknowledged`
+- a **bundled key**, including one published in the same record's `keys.json`
+- **producer metadata**, including operation ids, receipt hashes and timestamps the producer wrote
+- a **producer custody declaration**, including a field that says `EXTERNAL`
+- a **basis engine name**, including ours
+
+Identity comes from one place only: a verifier or operator trust route that exists outside the
+producer's evidence and that the producer cannot write. The reference verifier reads provider keys
+from its own trust policy file. Where it has none, it reports the failure and caps the record.
+
+The two consequences are absolute, and no combination of the items above changes either:
+
+- **No authenticated identity means no E3.** An acknowledgement whose signer cannot be tied to a
+  party outside the deployment is the deployment's own account of itself.
+- **No E3 means no E4.** Anchoring proves that a record existed in a given form at a given time.
+  It cannot supply a corroboration the record never had.
+
+This is the position WitnessOS publishes about its own deployment: **E4 Anchored evidence is
+supported and independently verified, including RFC 3161 timestamping and Merkle inclusion
+proofs; current production receipts are E2 Enforced until independently authenticated
+provider/counterparty corroboration is available.**
 
 ## 4. Properties are not rungs
 

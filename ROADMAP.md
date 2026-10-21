@@ -67,7 +67,7 @@
 - [ ] Multi-tenant cloud deployment
 - [ ] Full operator dashboard
 - [ ] SLA and compliance reporting
-- [ ] E4 at enterprise scale - production TSA wiring for client deployments (live in our production deployment since 2026-09-05)
+- [ ] E4 at enterprise scale - production TSA wiring for client deployments (anchoring implemented and independently verified; E4 issuance gated on independent provider corroboration)
 - [ ] Customer-managed KMS/HSM
 - [ ] SSO, enterprise RBAC
 - [ ] 7-year retention, audit packs

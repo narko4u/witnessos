@@ -319,10 +319,10 @@ WitnessOS is currently in **Phase F - Design Partner Alpha**. Here's the path to
 
 ### Current: Design Partner Alpha ✅
 - Single design partner, invitation-only onboarding
-- Maximum evidence grade: E4 (anchored) in strict mode with CRL/OCSP revocation and TSA endpoint provenance; E3 in all other configurations
+- Maximum grade the engine can issue: E4 (anchored) in strict mode with CRL/OCSP revocation and TSA endpoint provenance, gated on independent provider corroboration; current production receipts: E2 Enforced
 - Gmail governed sends (sandbox), Stripe test-mode operations
 - Full security review complete (R0–R7.1, 360+ tests passing)
-- **Live proof:** 2026-09-05 — an E4 anchored receipt (RFC 3161 TSA, revocation-verified at issuance) independently re-verified offline from the export bundle with zero trust in the operator, plus the 2026-09-04 full-loop gateway-mediated send (credentialless agent request, human approval bound to exact content, gateway-held OAuth execution, provider acknowledgment) verified via the WitnessOS CLI verifier. See [ALPHA_STATUS.md](ALPHA_STATUS.md).
+- **Live proof:** 2026-09-05: a receipt anchored by a real RFC 3161 timestamp authority (revocation-verified at issuance) whose timestamp and Merkle inclusion proof independently re-verify offline from the export bundle with zero trust in the operator; plus the 2026-09-04 full-loop gateway-mediated send (credentialless agent request, human approval bound to exact content, gateway-held OAuth execution, provider acknowledgment) verified via the WitnessOS CLI verifier. The anchoring capability is proven. The corroboration behind that receipt is our own record of the provider response, which is why current production receipts grade **E2 Enforced**. See [ALPHA_STATUS.md](ALPHA_STATUS.md).
 - **Status:** Active. One design partner onboarded, operational review in progress.
 
 ### Evaluating the Gateway
@@ -348,7 +348,7 @@ The public repo ([SPEC.md](SPEC.md), [SECURITY.md](SECURITY.md), [THREAT-ASSESSM
 - Multi-tenant cloud deployment
 - Full operator dashboard with approval workflows
 - SLA and compliance reporting
-- E4 evidence grade with CRL/OCSP revocation infrastructure (live in production since 2026-09-05; enterprise TSA wiring for client deployments in this phase)
+- E4-capable anchoring with CRL/OCSP revocation infrastructure (implemented and independently verified; current production receipts: E2 pending independent provider corroboration; enterprise TSA wiring for client deployments in this phase)
 - Customer-managed KMS/HSM, SSO, enterprise RBAC
 - 7-year audit retention, compliance packs
 
