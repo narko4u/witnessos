@@ -1,7 +1,7 @@
 # WitnessOS - Alpha Status
 
 **Current phase:** F - Design Partner Alpha
-**Maximum evidence grade:** E4 (strict mode; E3 default in all other configurations)
+**Maximum evidence grade:** E4 Anchored (strict mode; E3 default in all other configurations)
 **Design partners:** One at a time, invitation-only
 
 ---
@@ -13,7 +13,7 @@
 - Action permits with JTI redemption and DPoP binding
 - Event-sourced lifecycle with all 11 event types
 - Hash-chained receipts with Merkle checkpointing
-- RFC 3161 TSA external anchoring with offline re-verification (E4-capable verification. Current production receipts: E2 pending independent provider corroboration.)
+- Hardened E3 corroboration path and RFC 3161 external anchoring with offline re-verification, released as Gateway v0.1.0 with witnessos-verifier v0.3.5
 - Independent CLI verifier (`witnessos verify`)
 - RBAC with separation of duties
 - Kill-switch and financial caps
@@ -38,9 +38,11 @@ Current Alpha operates under these constraints:
 
 ## Evidence Grade Precision
 
-- **E3 (Corroborated):** A party other than the deployment, whose identity a verifier establishes from its own trust input, confirmed the outcome. A gateway record of a provider acknowledgement is not that on its own: it is the deployment's own account, so current production receipts cap at E2 Enforced.
+- **E3 (Corroborated):** A party other than the deployment, whose identity a verifier establishes from its own trust input, confirmed the outcome. The verifier appraises an executed action, a provider attestation signed under a trusted key, a provider record that identifies the effect, a binding between that record and this action, substantive provider facts, and no reuse of that record on another action. A provider event type on its own is not corroboration: a gateway record of an acknowledgement it wrote itself is the deployment's own account, and it caps at E2 Enforced.
+- **Hardened E4 is supported** by Gateway v0.1.0 and witnessos-verifier v0.3.5 when the required independent corroboration and authenticated anchoring conditions are satisfied.
+- **Historical demonstration receipts** issued before the hardened model remain E2 where that is what the current verifier establishes.
 - **Stripe operations:** Test mode only during Alpha. Does not constitute proof of a live financial transaction.
-- **E4 (Anchored):** WitnessOS supports E4 Anchored evidence and independently verifies RFC 3161 timestamping and Merkle inclusion proofs. Current production receipts remain E2 Enforced until independently authenticated provider/counterparty corroboration is available. The capability is built and verified: strict-mode anchoring with CRL/OCSP revocation at generation time and persisted TSA endpoint provenance, exported as a bundle (TSA token plus signed case-head commitment) that a third party re-verifies offline with zero trust in the operator. Anchoring does not, on its own, establish E4: it presupposes Corroborated evidence, and E3/E4 production issuance is gated on independent provider corroboration. Independent review proceeds through the design-partner alpha.
+- **E4 (Anchored):** E4 presupposes legitimate E3 corroborated evidence and adds independently authenticated external anchoring. The implementation authenticates the timestamp's certificate path against a trust anchor the verifier supplies, checks revocation at generation time, and carries Merkle inclusion, exported as a bundle (TSA token plus signed case-head commitment) that a third party re-verifies offline with zero trust in the operator. Anchoring is not a substitute for corroboration, and an unrecognised grade value is a failure rather than a new rung. Retention and custody are reported as attributes: a deployment may verify them, leave them unverified or require them by policy, and none of that lifts E3 to E4. Independent review proceeds through the design-partner alpha.
 
 ## Contact
 

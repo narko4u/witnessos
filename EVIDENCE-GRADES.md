@@ -1,7 +1,7 @@
 # WitnessOS Evidence Grades
 
 **Status:** normative
-**Version:** 1.2, published 2026-10-21 (1.1 published 2026-10-13, 1.0 published 2026-10-04)
+**Version:** 1.3, published 2026-10-22 (1.2 published 2026-10-21, 1.1 published 2026-10-13, 1.0 published 2026-10-04)
 **Canonical at:** this document
 
 WitnessOS defined this ladder in 2026-06. It is the ladder the product uses. This is its
@@ -10,7 +10,11 @@ surface is a defect to fix.
 
 Version 1.1 removed one ambiguity in the E3 row. Version 1.2 states how a verifier establishes
 that the party behind E3 is someone other than the deployment, and lists what does not establish
-it. The rungs, their names and their prerequisites are otherwise unchanged.
+it. Version 1.3 aligns the normative wording with the hardened implementation released as
+WitnessOS Gateway v0.1.0 and witnessos-verifier v0.3.5, following
+MOP-WITNESSOS-EVIDENCE-GRADE-AUDIT-001: the E3 row states the chain a verifier appraises, the E4
+row no longer carries a custody requirement, and retention is named only as an attribute. The
+rungs, their names and their prerequisites are otherwise unchanged.
 
 ## 1. What a grade is
 
@@ -40,8 +44,8 @@ Every receipt carries exactly one grade, drawn from this closed set of five rung
 | **E0** | Declared | An agent claims it acted. Nothing independent stands behind the claim. | Nothing. This is the floor and the honest answer when only a claim exists. |
 | **E1** | Observed | An independent party witnessed the action. Gaps remain possible. | Instrumentation outside the acting agent, plus a trust decision that identifies who the instrumentation speaks for. |
 | **E2** | Enforced | The action was authorised and routed through an enforcement point and policy was applied by something other than the acting agent. | A route the agent cannot bypass, plus a recorded policy decision against the specific action. |
-| **E3** | Corroborated | The destination confirmed the outcome. | A provider response or a state probe from a party other than the deployment, speaking to the outcome rather than to the request. |
-| **E4** | Anchored | The record carries an external timestamp and a Merkle checkpoint. A third party can verify both offline. | An external timestamp from a trust service, a Merkle inclusion proof and verification against a trust anchor the verifier supplies, with no access to the producer's storage and no trust in the producer's clock. |
+| **E3** | Corroborated | The destination confirmed the outcome, and the verifier can show the confirmation belongs to this action. | An executed action, a provider attestation signed under a key the verifier trusts, a provider record that identifies the effect, a binding between that record and this action, substantive provider facts rather than a restatement of the request, and no reuse of a provider record already spent on another action. |
+| **E4** | Anchored | Legitimate E3 corroborated evidence, plus an external timestamp and a Merkle checkpoint that a third party can verify offline. | Everything E3 requires, plus an external timestamp from a trust service whose certificate path authenticates against a trust anchor the verifier supplies, revocation checked at the timestamp's generation time, and a Merkle inclusion proof. No access to the producer's storage and no trust in the producer's clock. |
 
 Use the name with the rung. The names are **Declared, Observed, Enforced, Corroborated,
 Anchored**. A bare letter is not a definition and a bare adjective is not one either.
@@ -74,8 +78,8 @@ bundle alone, the verifier caps the grade and states the reason.
 |---|---|---|
 | E1 | That at least one event was recorded by something other than the acting agent, and that every event carries a valid signature under a key the bundle publishes. This is a check on the record's shape, not on who wrote it. | A trust decision naming who the instrumentation speaks for. The reference verifier has no such input yet, so it reports E1 as observed-in-the-record and says plainly that the observer's identity was not authenticated. |
 | E2 | That a policy decision and an authorisation both precede the action in the same case, in addition to chain, ledger, manifest and batch integrity. | That the enforcement point is genuinely non-bypassable. That is a property of the gateway's execution path, not of a file. |
-| E3 | That a provider acknowledgement is signed by a key the operator provisions under `provider_keys` in the verifier's trust policy (or `WITNESSOS_PROVIDER_KEYS_FILE` for standalone CLI use), that the key is not one of the bundle's own signing keys, that the acknowledgement carries a provider record identifier and digest that are not its own event's, and that it commits to this case and to this action. | An independently obtained provider key. A key inside the bundle proves signature consistency, never identity. |
-| E4 | E3 plus Merkle inclusion, an RFC 3161 timestamp verified against an operator-supplied trust anchor, and an intact WORM copy. | Nothing further. Anchoring never substitutes for E3. |
+| E3 | That a provider attestation is signed by a key the operator provisions under `provider_keys` in the verifier's trust policy (or `WITNESSOS_PROVIDER_KEYS_FILE` for standalone CLI use), that the key is not one of the bundle's own signing keys, that it follows an executed action in the same case, that the provider record it names is bound to this action and carries substantive provider facts, and that the record has not already been spent on a different action. | An independently obtained provider key. A key inside the bundle proves signature consistency, never identity. |
+| E4 | E3 plus Merkle inclusion and an RFC 3161 timestamp verified against an operator-supplied trust anchor, with revocation checked at generation time. | Nothing further. Anchoring never substitutes for E3. Retention is reported separately and is not part of this test. |
 
 Two consequences are worth stating plainly, because both were once assumed rather than
 checked:
@@ -110,10 +114,13 @@ The two consequences are absolute, and no combination of the items above changes
 - **No E3 means no E4.** Anchoring proves that a record existed in a given form at a given time.
   It cannot supply a corroboration the record never had.
 
-This is the position WitnessOS publishes about its own deployment: **E4 Anchored evidence is
-supported and independently verified, including RFC 3161 timestamping and Merkle inclusion
-proofs; current production receipts are E2 Enforced until independently authenticated
-provider/counterparty corroboration is available.**
+This is the position WitnessOS publishes about its own deployment: **the released platform,
+WitnessOS Gateway v0.1.0 with witnessos-verifier v0.3.5, supports hardened E4 Anchored evidence
+when the required independent corroboration and authenticated external anchoring conditions are
+satisfied.** Historical demonstration receipts issued before the hardened model remain at the
+grade the current verifier establishes, which for the project's published demonstration record is
+E2 Enforced. Nothing here asserts that every governed action reaches E4: the grade is what the
+verifier concludes from the evidence in front of it, and a missing prerequisite caps it.
 
 ## 4. Properties are not rungs
 
@@ -171,15 +178,25 @@ appears, name the rung instead.
 Cite this document rather than a README table, so that the citation pins to a version and a
 path:
 
-> WitnessOS evidence grades, E0 Declared through E4 Anchored, version 1.1,
+> WitnessOS evidence grades, E0 Declared through E4 Anchored, version 1.3,
 > Empire Labs Pty Ltd,
 > https://github.com/narko4u/witnessos/blob/main/EVIDENCE-GRADES.md
+
+## 8.1 Revision notes
+
+- v1.3, 2026-10-22: aligned normative wording with Gateway v0.1.0 and verifier v0.3.5 following
+  MOP-WITNESSOS-EVIDENCE-GRADE-AUDIT-001. E3 states the chain a verifier appraises, E4 states
+  authenticated anchoring and drops the custody requirement, and retention is named only as an
+  attribute.
 
 ## 9. Related documents
 
 - [SPEC.md](SPEC.md) section 2. The frozen specification's statement of the same ladder,
   unchanged since the v1.0 freeze.
 - [ALPHA_STATUS.md](ALPHA_STATUS.md). Current issuance constraints.
+- WitnessOS Gateway v0.1.0 (release notes available to partners under NDA) and
+  [witnessos-verifier v0.3.5](https://github.com/narko4u/witnessos-verifier/releases/tag/v0.3.5),
+  the aligned release that implements this version.
 - [README.md](README.md). The product-facing summary.
 
 ---

@@ -1,7 +1,7 @@
 # WitnessOS - Roadmap
 
 ## Current Status
-**Phase E Complete** - Security review, R7.1 hardening, OpenSSL boundary, crash safety, Docker deployment, 360 tests passing. **Phase F (Design Partner Alpha)** is the current phase - single partner, invitation-only, E4 evidence grade in strict mode (E3 default in all other configurations). **Live proof 2026-09-04:** first full-loop gateway-mediated send (human-approved, provider-acknowledged) independently verified via the WitnessOS CLI verifier.
+**Phase E Complete** - Security review, R7.1 hardening, OpenSSL boundary, crash safety, Docker deployment; the released v0.1.0 engine suite is 855 passed, 2 skipped and CI gates it. **Phase F (Design Partner Alpha)** is the current phase - single partner, invitation-only, E4 Anchored evidence grade in strict mode (E3 Corroborated the default in all other configurations), where E4 requires legitimate E3 corroboration plus independently authenticated external anchoring, as implemented by Gateway v0.1.0 with witnessos-verifier v0.3.5. **Live proof 2026-09-04:** first full-loop gateway-mediated send (human-approved, provider-acknowledged) independently verified via the WitnessOS CLI verifier; that record predates the hardened model and verifies at E2 Enforced.
 
 ---
 

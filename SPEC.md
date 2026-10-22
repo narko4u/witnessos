@@ -1,6 +1,12 @@
 # WitnessOS - Frozen Specification v1.0
 
-> **Status note (2026-09-03):** Evidence grades are no longer capped at E3 - E4 strict-mode issuance is enabled (E3 remains the default in non-strict configurations). Normative E1-E4 definitions below are unchanged from the v1.0 freeze. See [ALPHA_STATUS.md](ALPHA_STATUS.md) for current constraints. The canonical statement of the ladder is [EVIDENCE-GRADES.md](EVIDENCE-GRADES.md).
+> **HISTORICAL BUILD REFERENCE.** This frozen v1.0 specification predates the hardened Evidence Grade model released in WitnessOS Gateway v0.1.0 and witnessos-verifier v0.3.5. For current evidence-grade semantics use **[EVIDENCE-GRADES.md](EVIDENCE-GRADES.md) v1.3**. The body below is preserved as it was frozen so the historical record stays auditable. Legacy provider event types in this document (including `provider.confirmed` and `provider.acknowledged`) must not be interpreted as independently sufficient for E3 or E4.
+>
+> - [EVIDENCE-GRADES.md v1.3](EVIDENCE-GRADES.md)
+> - WitnessOS Gateway v0.1.0 (release notes available to partners under NDA)
+> - [witnessos-verifier v0.3.5](https://github.com/narko4u/witnessos-verifier/releases/tag/v0.3.5)
+>
+> **Earlier status note (2026-09-03), superseded and retained for history:** evidence grades were no longer capped at E3 after that date, with E4 strict-mode issuance enabled and E3 the default in non-strict configurations.
 
 **Status:** FROZEN - Build Reference  
 **Date:** 2026-06-26  
