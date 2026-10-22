@@ -41,13 +41,24 @@ This is the **public marketing site and documentation** for WitnessOS - a creden
 
 The **gateway engine** (source code, tests, scripts) is proprietary and maintained in a **private repository**, protected while the patent is pending. Access is available under NDA for qualified partners, security researchers, and investors - see [Evaluating the Gateway](#evaluating-the-gateway).
 
+**Hardened Evidence Grade release.** WitnessOS Gateway v0.1.0 and
+[witnessos-verifier v0.3.5](https://github.com/narko4u/witnessos-verifier/releases/tag/v0.3.5)
+are the aligned release that implements the hardened model. The verifier is public; Gateway release
+notes are available to partners under NDA. WitnessOS can produce independently
+verifiable E4 evidence for governed agent actions, where E4 requires legitimate E3 corroborated
+evidence plus independently authenticated external anchoring. The same evidence package must
+derive the same action grade through issuance, local verification and the public verifier, given
+equivalent evidence and trust state. Historical demonstration receipts issued before the hardened
+model remain at the grade the current verifier establishes, which for the project's published
+demonstration record is E2 Enforced.
+
 ---
 
 ## What Can I Do Right Now
 
 **For developers:**
 
-- ▶️ **[Try the interactive simulation](https://narko4u.github.io/witnessos/demo.html)** - one governed action, end to end: credentialless agent request, human approval, gateway-held execution, externally timestamped receipt (current production receipts grade E2 Enforced)
+- ▶️ **[Try the interactive simulation](https://narko4u.github.io/witnessos/demo.html)** - one governed action, end to end: credentialless agent request, human approval, gateway-held execution, externally timestamped receipt (the demonstration record verifies at E2 Enforced under the hardened ladder)
 - 📖 **[Read the specification](SPEC.md)** - the evidence-grade record format, schema, and grading model
 - 📖 **[aci-spec](https://github.com/narko4u/aci-spec)** · **[aip-spec](https://github.com/narko4u/aip-spec)** · **[ajson](https://github.com/narko4u/ajson)** - the open standards WitnessOS is built on; feedback windows open until 2026-09-15
 - 🗣️ **[Join the discussions](https://github.com/narko4u/witnessos/discussions)** - shape the v1.0 roadmap
@@ -224,12 +235,12 @@ Every receipt carries exactly one grade. The grade measures the strength of cryp
 | **E0** | Declared | Agent self-reports the action. No independent observation. Trust-based. |
 | **E1** | Observed | A sidecar or SDK witnessed the action. Gaps are possible. |
 | **E2** | Enforced | Gateway authorized and routed the action. Credential broker enforced policy. |
-| **E3** | Corroborated | A party other than the deployment confirmed the outcome, through an evidence route the verifier checks outside the bundle. |
-| **E4** | Anchored | Externally timestamped via TSA. Merkle-checkpointed. Independently verifiable. |
+| **E3** | Corroborated | A party other than the deployment confirmed the outcome, through an evidence route the verifier checks outside the bundle: a recorded action, a provider attestation signed by a key the verifier trusts, a provider record that belongs to this action, and no reuse of another action's record. |
+| **E4** | Anchored | Legitimate E3 corroborated evidence plus independently authenticated external anchoring: an RFC 3161 timestamp verified against a trust anchor the verifier supplies, with revocation checked at generation time, plus Merkle inclusion. Re-verifies offline. |
 
-**E4 (Anchored) - capability, and what it needs:** CRL/OCSP revocation at generation time, persisted TSA endpoint provenance and strict-mode anchoring are implemented and independently verified, and each receipt exports as a bundle (TSA token plus signed case-head commitment) that a third party re-verifies offline with zero trust in the operator. Anchoring is one requirement of E4, not a substitute for corroboration: current production receipts grade **E2 Enforced** until an independently authenticated provider acknowledgement exists (see [ALPHA_STATUS.md](ALPHA_STATUS.md)). Deployments without strict mode or a revocation-verifiable anchor still cannot anchor at all.
+**E4 (Anchored) - capability, and what it needs:** CRL/OCSP revocation at generation time, persisted TSA endpoint provenance and strict-mode anchoring are implemented and independently verified, and each receipt exports as a bundle (TSA token plus signed case-head commitment) that a third party re-verifies offline with zero trust in the operator. Anchoring is one requirement of E4, not a substitute for corroboration, so a timestamp on its own establishes nothing above the rung its own evidence already supports. The released platform supports hardened E4 evidence when the required corroboration and external anchoring conditions are satisfied. Where a receipt was issued before the hardened model, it remains at the grade the current verifier establishes, which for the project's demonstration record is **E2 Enforced** (see [ALPHA_STATUS.md](ALPHA_STATUS.md)).
 
-**Post-quantum hybrid signing.** Receipts are signed with an Ed25519 signature and an ML-DSA-65 signature over the same bytes and the declared suite travels inside the bytes both signatures cover. The published [verifier](https://github.com/narko4u/witnessos-verifier) performs both halves, names the declared suite in its verdict and refuses a record whose declared hybrid suite is missing a half, so a hybrid receipt cannot be downgraded to its classical half after the fact. On 2026-10-04 a hybrid receipt was verified at exit 0 from the record and two public keys alone, in an environment where none of Empire Labs' software is installed. What that run proves is stated narrowly: both signature halves, the chain and the anchor verified with no trust in the operator's tooling. The corroboration behind that record is Empire Labs' own account of the provider response, so under the current ladder it grades **E2 Enforced**, not E3 or E4. The ladder closes at E4; an unrecognised value is a failure, not a new rung.
+**Post-quantum hybrid signing.** Receipts are signed with an Ed25519 signature and an ML-DSA-65 signature over the same bytes and the declared suite travels inside the bytes both signatures cover. The published [verifier](https://github.com/narko4u/witnessos-verifier) performs both halves, names the declared suite in its verdict and refuses a record whose declared hybrid suite is missing a half, so a hybrid receipt cannot be downgraded to its classical half after the fact. On 2026-10-04 a hybrid receipt was verified at exit 0 from the record and two public keys alone, in an environment where none of Empire Labs' software is installed. What that run proves is stated narrowly: both signature halves, the chain and the anchor verified with no trust in the operator's tooling. The corroboration behind that record is Empire Labs' own account of the provider response, issued before the hardened model, so the current verifier grades it **E2 Enforced**, not E3 or E4. The ladder closes at E4; an unrecognised value is a failure, not a new rung.
 
 The ladder itself is defined once, normatively, in **[EVIDENCE-GRADES.md](EVIDENCE-GRADES.md)**: the rungs and their exact names, what each rung requires, what counts as a property rather than a rung and how to cite it. The table above is a summary of that document.
 
@@ -319,10 +330,10 @@ WitnessOS is currently in **Phase F - Design Partner Alpha**. Here's the path to
 
 ### Current: Design Partner Alpha ✅
 - Single design partner, invitation-only onboarding
-- Maximum grade the engine can issue: E4 (anchored) in strict mode with CRL/OCSP revocation and TSA endpoint provenance, gated on independent provider corroboration; current production receipts: E2 Enforced
+- Maximum grade the engine can issue: E4 Anchored in strict mode with CRL/OCSP revocation and TSA endpoint provenance, gated on legitimate E3 corroboration. Gateway v0.1.0 implements the hardened corroboration path; historical demonstration receipts remain E2 Enforced where that is what the current verifier establishes
 - Gmail governed sends (sandbox), Stripe test-mode operations
-- Full security review complete (R0–R7.1, 360+ tests passing)
-- **Live proof:** 2026-09-05: a receipt anchored by a real RFC 3161 timestamp authority (revocation-verified at issuance) whose timestamp and Merkle inclusion proof independently re-verify offline from the export bundle with zero trust in the operator; plus the 2026-09-04 full-loop gateway-mediated send (credentialless agent request, human approval bound to exact content, gateway-held OAuth execution, provider acknowledgment) verified via the WitnessOS CLI verifier. The anchoring capability is proven. The corroboration behind that receipt is our own record of the provider response, which is why current production receipts grade **E2 Enforced**. See [ALPHA_STATUS.md](ALPHA_STATUS.md).
+- Full security review complete (R0-R7.1; the v0.1.0 engine suite is 855 passed, 2 skipped, and CI gates it)
+- **Live proof:** 2026-09-05: a receipt anchored by a real RFC 3161 timestamp authority (revocation-verified at issuance) whose timestamp and Merkle inclusion proof independently re-verify offline from the export bundle with zero trust in the operator; plus the 2026-09-04 full-loop gateway-mediated send (credentialless agent request, human approval bound to exact content, gateway-held OAuth execution, provider acknowledgment) verified via the WitnessOS CLI verifier. The anchoring capability is proven. The corroboration behind that receipt is our own record of the provider response, and the record predates the hardened model, so it grades **E2 Enforced**. See [ALPHA_STATUS.md](ALPHA_STATUS.md).
 - **Status:** Active. One design partner onboarded, operational review in progress.
 
 ### Evaluating the Gateway
@@ -348,7 +359,7 @@ The public repo ([SPEC.md](SPEC.md), [SECURITY.md](SECURITY.md), [THREAT-ASSESSM
 - Multi-tenant cloud deployment
 - Full operator dashboard with approval workflows
 - SLA and compliance reporting
-- E4-capable anchoring with CRL/OCSP revocation infrastructure (implemented and independently verified; current production receipts: E2 pending independent provider corroboration; enterprise TSA wiring for client deployments in this phase)
+- E4 anchoring with CRL/OCSP revocation infrastructure (implemented and independently verified in Gateway v0.1.0; hardened E4 issuance applies when independent provider corroboration and authenticated anchoring are both satisfied; enterprise TSA wiring for client deployments in this phase)
 - Customer-managed KMS/HSM, SSO, enterprise RBAC
 - 7-year audit retention, compliance packs
 
@@ -375,7 +386,7 @@ The Empire Stack is designed to compound: as more organisations adopt **ACI** (p
 |--------|---------|---------------|----------------|----------------|
 | Organisations | 1 (design partner) | 10 | 100 | 1,000+ |
 | Actions receipted | < 1,000 | 10,000 | 1M | 100M+ |
-| Evidence grade | E4 strict-mode capable (E3 default) | E4 | E4 | E4+ |
+| Evidence grade | E4 strict-mode capable (E3 default) | E4 | E4 | E4 |
 | ACI manifests published | 0 | 5 | 100 | 10,000+ |
 | Connectors | 2 (Gmail, Stripe) | 5 | 20+ | 50+ |
 | Revenue | $0 (alpha) | $10K/mo | $100K/mo | $1M+/mo |
