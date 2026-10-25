@@ -16,5 +16,17 @@ dependencies = [
 "Documentation" = "https://witnessos.com.au"
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+# The package lives under src/. Package discovery is declared explicitly because
+# hatchling read this repo's VCS ignore context and produced a wheel containing
+# only dist-info: installation "succeeded" and the import failed. A build that
+# ships no modules must not be possible, and tests/test_packaging.py proves it
+# is not by building a wheel and requiring the modules inside it.
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["witnessos_sdk*"]
