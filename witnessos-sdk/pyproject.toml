@@ -11,6 +11,12 @@ dependencies = [
     "pydantic>=2.0,<3.0",
 ]
 
+[project.optional-dependencies]
+# The suite needs pytest and nothing else; the runtime dependencies above cover
+# the rest. Declared so a clean environment can be built with one command
+# instead of guessing what the tests import.
+test = ["pytest>=8,<9"]
+
 [project.urls]
 "Homepage" = "https://github.com/narko4u/witnessos"
 "Documentation" = "https://witnessos.com.au"
