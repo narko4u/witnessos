@@ -1,17 +1,24 @@
 """WitnessOS Python SDK - enforce, audit, and verify AI agent actions."""
 
+__version__ = "0.1.1"
+
+
 from .client import WitnessOSClient
 from .contract import (
     CONTRACT_VERSION,
     AuthorityState,
     Decision,
-    DecisionRecord,
     ExecutionState,
     FoundationCase,
     GradeStatus,
-    Grades,
-    Proposal,
-    SealedBatch,
+)
+from .digest import (
+    DIGEST_ALGORITHM,
+    DIGEST_FIELDS,
+    DIGEST_RULE,
+    canonical_mission_bytes,
+    canonical_mission_digest,
+    canonical_mission_preimage,
 )
 from .models import (
     ActionType,
@@ -29,14 +36,16 @@ from .models import (
 __all__ = [
     "WitnessOSClient",
     "CONTRACT_VERSION",
+    "DIGEST_ALGORITHM",
+    "DIGEST_FIELDS",
+    "DIGEST_RULE",
+    "canonical_mission_bytes",
+    "canonical_mission_digest",
+    "canonical_mission_preimage",
     "FoundationCase",
-    "Proposal",
-    "DecisionRecord",
     "Decision",
     "AuthorityState",
     "ExecutionState",
-    "SealedBatch",
-    "Grades",
     "GradeStatus",
     "GmailSendRequest",
     "GmailSendResponse",

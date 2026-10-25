@@ -1,6 +1,6 @@
 [project]
 name = "witnessos-sdk"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python SDK for WitnessOS - the credential-brokered enforcement gateway for autonomous AI agents"
 authors = [{ name = "Empire Labs Pty Ltd", email = "contact@empirelabs.com.au" }]
 license = { text = "Apache-2.0" }

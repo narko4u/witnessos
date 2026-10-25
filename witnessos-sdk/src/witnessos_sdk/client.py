@@ -12,6 +12,7 @@ from urllib.parse import urljoin
 
 import httpx
 
+from .contract import FoundationCase
 from .models import (
     CaseSummary,
     CasesResponse,
@@ -160,6 +161,39 @@ class WitnessOSClient:
         resp = self._client.get(self._url(f"/demo/receipt/{case_id}"))
         resp.raise_for_status()
         return ReceiptData(**resp.json())
+
+    # ── Foundation contract projection ────────────────────────────────────
+
+    def get_foundation_case(self, case_id: str, stage: str = "issuance") -> FoundationCase:
+        """Read a case's Foundation Contract v1.0 projection.
+
+        This is the supported way for a dependent product to obtain the contract
+        object. The projection is produced by the gateway from its own record and
+        validated against the frozen schema before it is returned, so a consumer
+        does not import engine internals and does not reimplement the projection.
+
+        Args:
+            case_id: The Foundation case identifier.
+            stage: ``issuance`` (default) or ``verification``, using the issuer's
+                own definition of the derivation stages.
+
+        Returns:
+            A ``FoundationCase``: contract version, case id, proposal reference,
+            decision, authority and execution states, sealed batch reference,
+            grades, grade status and scope, cap reason and the UNKNOWN states. It
+            is validated by the gateway against the frozen schema before it is
+            sent, and parsed here into the frozen consumer model.
+
+        Raises:
+            httpx.HTTPStatusError: 404 when the case has no recorded events, 500
+                when the projection could not be produced. A 200 always carries
+                the full contract.
+        """
+        resp = self._client.get(
+            self._url(f"/v1/foundation/cases/{case_id}"), params={"stage": stage}
+        )
+        resp.raise_for_status()
+        return FoundationCase(**resp.json())
 
     # ── Wait Helpers ──────────────────────────────────────────────────────
 

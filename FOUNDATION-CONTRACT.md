@@ -100,6 +100,21 @@ The same rule holds outside Python. A consumer in any language validates the pay
 against the JSON schema, pins `contract_version`, and refuses any `UNKNOWN` before
 treating an action as authorised or its evidence as verified.
 
+## 4a. Where the projection comes from
+
+A consumer obtains this contract object read-only:
+
+```
+GET /v1/foundation/cases/{case_id}
+```
+
+The gateway produces it from its own record, validates it against
+[FOUNDATION-CONTRACT.schema.json](FOUNDATION-CONTRACT.schema.json) before
+returning it and answers `404` for a case it has nothing recorded for. The SDK
+method is `WitnessOSClient.get_foundation_case()`, which parses the body into
+`FoundationCase`. A consumer must not import engine internals or rebuild the
+projection; see [INTEGRATION-v1.0.1.md](INTEGRATION-v1.0.1.md).
+
 ---
 
 Part of the [WitnessOS](https://github.com/narko4u/witnessos) family,
