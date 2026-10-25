@@ -25,13 +25,24 @@ Optional query parameter `stage` is `issuance` (default) or `verification`.
 ```python
 from witnessos_sdk import WitnessOSClient
 
-with WitnessOSClient("http://127.0.0.1:8400") as client:
+# Foundation consumer ingress is a Unix domain socket. The operator id must be
+# the account that opens the socket: the gateway derives it from the peer
+# credential and signs over the derived value.
+with WitnessOSClient(
+    "http://localhost",           # host is irrelevant when a socket is given
+    uds="/opt/witnessos/gateway.sock",
+    secret=caller_secret,         # from 0600 file, never in source
+    caller_id="atlas",
+    operator_id="vault",
+) as client:
     case = client.get_foundation_case("wos_...")
     print(case.contract_version, case.decision, case.authority_state,
           case.execution_state, case.provisional_grade, case.grade_cap_reason)
-    if case.refuse_if_unknown():
-        ...
+    case.refuse_if_unknown()   # raises when any contract fact is UNKNOWN
 ```
+
+SDK 0.1.2 and later sign every request. An unsigned client is refused by a
+deployment that has authentication on, which is every provisioned deployment.
 
 In another language, call the route and validate the body against
 [FOUNDATION-CONTRACT.schema.json](FOUNDATION-CONTRACT.schema.json). The response

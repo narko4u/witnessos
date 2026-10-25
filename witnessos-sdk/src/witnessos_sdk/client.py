@@ -12,6 +12,7 @@ from urllib.parse import urljoin
 
 import httpx
 
+from .auth import sign_request
 from .contract import FoundationCase
 from .models import (
     CaseSummary,
@@ -35,12 +36,50 @@ class WitnessOSClient:
     Args:
         base_url: Base URL of the WitnessOS server (e.g. http://localhost:8400)
         timeout: HTTP request timeout in seconds (default: 30)
+        secret: shared caller secret. When set, every request is signed with the
+            HMAC envelope in ``witnessos_sdk.auth``. A Gateway deployment with
+            authentication on refuses unsigned requests, so the projection is
+            unreadable without this.
+        caller_id: identity the caller asserts, sent as ``X-WitnessOS-Caller``
+        operator_id: the account that opens the connection. The Gateway derives
+            the operator from the Unix peer credential of the socket, so this
+            must match that account or the signature cannot verify.
+        uds: path to a Unix domain socket. Foundation consumer ingress is a
+            local-host socket, so a deployment is reached by socket, not TCP.
     """
 
-    def __init__(self, base_url: str, timeout: int = 30):
+    def __init__(
+        self,
+        base_url: str,
+        timeout: int = 30,
+        *,
+        secret: Optional[str] = None,
+        caller_id: Optional[str] = None,
+        operator_id: Optional[str] = None,
+        uds: Optional[str] = None,
+    ):
         self.base_url = base_url.rstrip("/")
-        self._client = httpx.Client(timeout=httpx.Timeout(timeout))
+        transport = httpx.HTTPTransport(uds=uds) if uds else None
+        self._client = httpx.Client(
+            timeout=httpx.Timeout(timeout), transport=transport
+        )
         self._url = lambda path: urljoin(f"{self.base_url}/", path.lstrip("/"))
+        self._secret = secret
+        self._caller_id = caller_id or "witnessos-sdk"
+        self._operator_id = operator_id or ""
+
+    def _headers(self, method: str, path: str, body: bytes) -> dict[str, str]:
+        """Signed headers for one request, or JSON content type when unsigned."""
+        if not self._secret:
+            return {"Content-Type": "application/json"}
+        return sign_request(
+            method,
+            path,
+            body,
+            caller_id=self._caller_id,
+            operator_id=self._operator_id,
+            secret=self._secret,
+        )
 
     # ── Health & Policy ───────────────────────────────────────────────────
 
@@ -189,8 +228,11 @@ class WitnessOSClient:
                 when the projection could not be produced. A 200 always carries
                 the full contract.
         """
+        path = f"/v1/foundation/cases/{case_id}"
         resp = self._client.get(
-            self._url(f"/v1/foundation/cases/{case_id}"), params={"stage": stage}
+            self._url(path),
+            params={"stage": stage},
+            headers=self._headers("GET", path, b""),
         )
         resp.raise_for_status()
         return FoundationCase(**resp.json())
