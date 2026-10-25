@@ -106,6 +106,14 @@ Every receipt carries exactly one grade. No ambiguity.
 
 ---
 
+The normative statement of these grades, including provisional versus achieved versus
+verified, grade scope and cap reasons, sealed snapshots, unanchored E3 export and the
+offline verification boundary, is
+[EVIDENCE-GRADES.md](EVIDENCE-GRADES.md) version 1.4. The machine-readable shape a
+consumer reads them through is [FOUNDATION-CONTRACT.md](FOUNDATION-CONTRACT.md)
+version 1.0. Where this section and those documents differ, those documents win for
+the grade semantics and this section remains the frozen product specification.
+
 ## 3. Receipt Lifecycle - Event-Sourced
 
 ### 3.1 Principle

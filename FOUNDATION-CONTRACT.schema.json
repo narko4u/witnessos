@@ -1,0 +1,289 @@
+{
+  "$defs": {
+    "AuthorityState": {
+      "description": "Whether a grant stood behind the action, as far as the record shows.",
+      "enum": [
+        "GRANTED",
+        "DENIED",
+        "EXPIRED",
+        "UNKNOWN"
+      ],
+      "title": "AuthorityState",
+      "type": "string"
+    },
+    "Decision": {
+      "description": "What the authority decided about the proposed action.",
+      "enum": [
+        "ALLOW",
+        "DENY",
+        "UNKNOWN"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "ExecutionState": {
+      "description": "What happened to the action once authorised.\n\nUNKNOWN is the honest answer for an action whose effect was never observed. A\ndispatch acknowledgement is not execution and must not be reported as it.",
+      "enum": [
+        "EXECUTED",
+        "FAILED",
+        "DISPATCHED",
+        "UNKNOWN"
+      ],
+      "title": "ExecutionState",
+      "type": "string"
+    },
+    "GradeStatus": {
+      "description": "Which grade the issuer is reporting.",
+      "enum": [
+        "PROVISIONAL",
+        "ACHIEVED",
+        "UNKNOWN"
+      ],
+      "title": "GradeStatus",
+      "type": "string"
+    }
+  },
+  "description": "One governed action as a consumer sees it, at contract version 1.0.",
+  "properties": {
+    "contract_version": {
+      "default": "1.0",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "case_id": {
+      "description": "Stable identifier for the governed action",
+      "title": "Case Id",
+      "type": "string"
+    },
+    "action_family": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Governed action family, for example 'provider.charge'",
+      "title": "Action Family"
+    },
+    "target": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Provider or peer the action addresses",
+      "title": "Target"
+    },
+    "proposal_digest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "sha256 over the canonical proposal bytes; what the policy decided against",
+      "title": "Proposal Digest"
+    },
+    "requested_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "RFC 3339 timestamp (UTC)",
+      "title": "Requested At"
+    },
+    "decision": {
+      "$ref": "#/$defs/Decision",
+      "default": "UNKNOWN"
+    },
+    "authority_state": {
+      "$ref": "#/$defs/AuthorityState",
+      "default": "UNKNOWN"
+    },
+    "policy_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Policy that produced the decision",
+      "title": "Policy Id"
+    },
+    "decided_by": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Enforcement point identity, never the acting agent",
+      "title": "Decided By"
+    },
+    "execution_state": {
+      "$ref": "#/$defs/ExecutionState",
+      "default": "UNKNOWN"
+    },
+    "sealed_batch_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sealed Batch Id"
+    },
+    "sealed_through_sequence": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Last event sequence the sealed batch covers",
+      "title": "Sealed Through Sequence"
+    },
+    "unsealed_tail_events": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Events outside the sealed batch. Non-zero does not weaken the sealed grade",
+      "title": "Unsealed Tail Events"
+    },
+    "provisional_grade": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Issuer, before batch binding. Never final evidence",
+      "title": "Provisional Grade"
+    },
+    "achieved_evidence_grade": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Issuer, for the sealed batch. Empty until a batch binding exists",
+      "title": "Achieved Evidence Grade"
+    },
+    "verified_grade": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relying party's verifier. Always empty from the issuer",
+      "title": "Verified Grade"
+    },
+    "grade_status": {
+      "$ref": "#/$defs/GradeStatus",
+      "default": "UNKNOWN"
+    },
+    "grade_scope": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Boundary the grade describes, for example 'E2 @ sealed batch X'",
+      "title": "Grade Scope"
+    },
+    "grade_cap_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Rung that stopped the ladder and the missing prerequisite, null when uncapped",
+      "title": "Grade Cap Reason"
+    },
+    "receipt_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Evidence receipt for this case",
+      "title": "Receipt Id"
+    },
+    "provider_operation_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Provider-side identifier, when a provider was involved",
+      "title": "Provider Operation Id"
+    }
+  },
+  "required": [
+    "case_id"
+  ],
+  "title": "WitnessOS Foundation consumer contract",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-contract-version": "1.0"
+}
