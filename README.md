@@ -279,20 +279,13 @@ See [ROADMAP.md](ROADMAP.md) for the full phase history.
 
 ## Repository Structure
 
-This repository is the public home for WitnessOS: the website, the open receipt specification, and supporting material. The gateway source code, test suite, and deployment scripts are proprietary and kept in a **private repository** (NDA-protected access - see [Evaluating the Gateway](#evaluating-the-gateway)).
+This repository is the public home for WitnessOS: the website source, the open receipt specification, and supporting material. The gateway source code, test suite, and deployment scripts are proprietary and kept in a **private repository** (NDA-protected access - see [Evaluating the Gateway](#evaluating-the-gateway)).
+
+The public website is built from `site/` and published to `https://witnessos.com.au`. GitHub Pages is no longer used, so there is exactly one public copy of the site.
 
 ```
 witnessos/
-├── index.html                # Home page
-├── demo.html                 # Interactive simulation (in-browser)
-├── casestudy.html            # Case study: governing Empire Labs' 9-agent fleet
-├── manifesto.html            # Why governed action, not blind trust
-├── roadmap.html              # Product roadmap
-├── signup.html               # Request early access
-├── terms.html                # Terms of Service
-├── privacy.html              # Privacy Policy
-├── assets/                   # Site images (logo, overview, proof, banner)
-├── robots.txt / sitemap.xml  # Search metadata
+├── site/                     # Source of https://witnessos.com.au (Netlify, python3 build_and_verify.py)
 ├── SPEC.md                   # Receipt specification (open standard)
 ├── SECURITY.md               # Security posture
 ├── THREAT-ASSESSMENT.md      # Adversarial security review summary
@@ -300,8 +293,11 @@ witnessos/
 ├── witnessos-sdk/            # Open-source SDK (generic HTTP client)
 ├── packs/                    # Policy pack examples
 ├── audit-tool/               # Evidence verification tool
-├── deck.html                 # Investor / partner deck
-└── witnessos-investor-deck.html
+├── assets/                   # Images used by the retained standalone pages
+├── deck.html                 # Investor / partner deck (standalone, not part of the site build)
+├── witnessos-investor-deck.html
+├── verifier.html             # Earlier standalone verifier page (superseded by the site's Conformance page)
+└── audit-dashboard.html      # Earlier standalone dashboard capture
 ```
 
 ---
