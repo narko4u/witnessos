@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://witnessos.com.au/sitemap.xml

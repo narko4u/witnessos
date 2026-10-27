@@ -1,0 +1,14 @@
+/* Case-study page additions (navy palette) */
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 8px}
+.metric{border-top:2px solid var(--accent);background:#0a1726;padding:24px 20px}
+.metric strong{display:block;font:700 40px/1.1 ui-monospace,monospace;color:var(--accent);letter-spacing:-.02em;margin-bottom:6px}
+.metric span{color:var(--muted);font-size:var(--floor);line-height:1.4}
+.quote{border-left:3px solid var(--good);background:#0b1928;padding:24px 26px;margin:26px 0;color:#d5e2ef;font-size:20px;line-height:1.5;letter-spacing:-.01em}
+.quote footer{margin-top:14px;color:var(--muted);font-size:var(--floor);border:0;padding:0;display:block;flex:none}
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.card-grid .card h3{margin-top:0}
+.prose ol,.prose ul{padding-left:22px}
+.prose li{margin:8px 0;color:var(--muted)}
+.prose li strong{color:var(--text)}
+.prose h3{margin-top:28px}
+@media(max-width:900px){.metrics-grid,.card-grid{grid-template-columns:1fr}}

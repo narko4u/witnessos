@@ -1,0 +1,99 @@
+<section class="subhero">
+<div>
+<div class="eyebrow">Quickstart</div>
+<h1>Evaluate WitnessOS in 15 minutes</h1>
+<p class="lead">Start with the in-browser simulation, read the public specification, and run the open-source SDK against the local demo stack. The full gateway engine is proprietary and available to NDA partners for deployment on your own infrastructure.</p>
+<p class="value">No install required &middot; Python 3.12+ for the SDK &middot; Docker optional</p>
+</div>
+</section>
+<section id="steps">
+<div class="prose" style="max-width:780px">
+<div class="toc">
+<a href="#step-1">1. Get access to the gateway engine</a>
+<a href="#step-2">2. Try the interactive simulation</a>
+<a href="#step-3">3. Use the public Python SDK</a>
+<a href="#step-4">4. Evaluate the architecture</a>
+</div>
+</div>
+</section>
+<section id="step-1">
+<div>
+<div class="eyebrow">Step 1</div>
+<h2>Get access to the gateway engine</h2>
+<div class="prose">
+<p>The WitnessOS gateway engine (credential broker, policy enforcement, evidence chaining) is <strong>proprietary and kept in a private repository</strong> while the patent (AU 2026906017) is pending. This protects the implementation without hiding the design.</p>
+<p>We provide <strong>NDA-protected access</strong> to:</p>
+<ul>
+<li>Security researchers and infrastructure teams evaluating the architecture</li>
+<li>Enterprise design partners integrating WitnessOS</li>
+<li>Qualified investors conducting technical due diligence</li>
+</ul>
+<blockquote>
+<strong>Access process.</strong> Email <a href="mailto:contact@empirelabs.com.au">contact@empirelabs.com.au</a> with your organisation and use case, we schedule a 30-minute intro call, and following mutual fit we share our standard mutual NDA before granting repository access. Access is revocable at any time.
+</blockquote>
+</div>
+</div>
+</section>
+<section id="step-2">
+<div>
+<div class="eyebrow">Step 2</div>
+<h2>Try the interactive simulation</h2>
+<div class="prose">
+<p>No install required. The interactive simulation at <a href="demo.html">demo.html</a> runs entirely in your browser with sample data. It illustrates the governed-action flow, policy evaluation, hash-chained evidence, and signed receipts, including the E0-E4 evidence grades and exact-approval binding. No real action is executed; the gateway engine itself is not exposed publicly.</p>
+</div>
+</div>
+</section>
+<section id="step-3">
+<div>
+<div class="eyebrow">Step 3</div>
+<h2>Use the public Python SDK</h2>
+<div class="prose">
+<p>The SDK is open source and works against the local demo stack included in the public repository:</p>
+</div>
+<div class="prose">
+<pre><code>cd witnessos-sdk
+pip install -e .</code></pre>
+</div>
+<div class="prose">
+<pre><code>from witnessos_sdk import WitnessOSClient
+
+with WitnessOSClient("http://localhost:8400") as client:
+    resp = client.fire_and_approve(
+        to="partner@example.com",
+        subject="Hello from WitnessOS",
+        body="This email was governed by WitnessOS."
+    )
+    print(f"Case: {resp.case_id}, Receipt: {resp.receipt_id}")
+
+    receipt = client.get_receipt(resp.case_id)
+    print(f"Evidence grade: {receipt.evidence_grade}")</code></pre>
+</div>
+</div>
+</section>
+<section id="step-4">
+<div>
+<div class="eyebrow">Step 4</div>
+<h2>Evaluate the architecture without the source</h2>
+<div class="prose">
+<p>The public repository contains everything needed to evaluate the design without exposing the implementation:</p>
+<ul>
+<li><a href="https://github.com/narko4u/witnessos/blob/main/SPEC.md">SPEC.md</a>, the frozen receipt specification v1.0 (E0-E4 evidence grades)</li>
+<li><a href="https://github.com/narko4u/witnessos/blob/main/SECURITY.md">SECURITY.md</a>, the full security posture</li>
+<li><a href="https://github.com/narko4u/witnessos/blob/main/THREAT-ASSESSMENT.md">THREAT-ASSESSMENT.md</a>, adversarial review findings and mitigations</li>
+<li><a href="whitepaper.html">Whitepaper</a>, the technical deep-dive</li>
+</ul>
+<blockquote>
+<strong>Deployment.</strong> The full stack (<code>docker compose up</code>) requires the proprietary gateway engine and is available to NDA partners. Public users run the simulation in-browser and exercise the SDK against the local demo stack.
+</blockquote>
+</div>
+</div>
+</section>
+<section class="cta">
+<div class="eyebrow">Next</div>
+<h2>Run the simulation</h2>
+<p>See the governed-action flow, evidence grades, and signed receipts in your browser.</p>
+<div class="actions">
+<a class="button" href="demo.html">Try the simulation</a>
+<a class="button secondary" href="pricing.html">View access options</a>
+</div>
+</section>

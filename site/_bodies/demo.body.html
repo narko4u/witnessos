@@ -1,0 +1,653 @@
+<section class="subhero">
+<div>
+<div class="eyebrow">Interactive simulation</div>
+<h1>WitnessOS in your browser</h1>
+<p class="lead">Fire governed actions, evaluate policy, and inspect signed receipts. The evidence ladder is real: this page demonstrates the same receipt structure the gateway produces, including the anchoring step where an RFC 3161 authority timestamps the record.</p>
+</div>
+</section>
+<div class="demo-shell">
+<div class="sim-top">
+<div class="brand">WitnessOS <span>Simulation</span></div>
+<div class="badge"><span class="dot"></span> Interactive Simulation</div>
+</div>
+<div class="sim-notice">
+<strong>In-browser simulation:</strong> this page runs entirely in your browser with sample data. It illustrates the WitnessOS governed-action flow (policy evaluation, hash-chained events, signed receipts). No real action is executed here. The real record, made 5 Sep 2026, carries an RFC 3161 timestamp (revocation-verified at issuance) whose timestamp and Merkle inclusion proof independently re-verify offline from the export bundle: <strong>anchoring VERDICT PASS</strong>. The provider response behind that record is our own, so under the hardened ladder the receipt grades <strong>E2 Enforced</strong>. It was issued under an earlier evidence path and is shown here as E2, not E4. WitnessOS can produce independently verifiable E4 evidence for governed agent actions: E4 requires legitimate E3 corroborated evidence plus independently authenticated external anchoring, as introduced in WitnessOS Gateway v0.1.0 and witnessos-verifier v0.3.5.
+</div>
+<div class="layout">
+<div class="sidebar">
+<div class="sidebar-section">
+<h3>Policy Mode</h3>
+<div class="policy-toggle" id="policyToggle">
+<button class="active" data-mode="strict">Strict</button>
+<button data-mode="permissive">Permissive</button>
+</div>
+<div class="mode-desc" id="modeDesc">All external actions require human approval</div>
+</div>
+<div class="sidebar-section">
+<h3>Fire Action</h3>
+<div class="action-buttons">
+<button id="fireEmail">Send Email</button>
+<button id="fireRefund">Stripe Refund</button>
+</div>
+<div class="form-field">
+<input id="actionTarget" type="text" placeholder="partner@example.com" value="partner@example.com">
+</div>
+</div>
+<div class="sidebar-section" style="padding-bottom: 6px;">
+<div class="stats" id="statsBar">
+<div class="stat pending">Pending <strong>0</strong></div>
+<div class="stat approved">Approved <strong>0</strong></div>
+<div class="stat denied">Denied <strong>0</strong></div>
+</div>
+</div>
+<div class="case-list" id="caseList"></div>
+</div>
+<div class="main-panel" id="mainPanel">
+<div class="empty-state" id="emptyState">
+<h2>No actions yet</h2>
+<p>Fire an email or refund action from the sidebar to see WitnessOS governance in action - policy evaluation, Merkle-chain evidence, and signed receipts.</p>
+</div>
+<div id="detailView" style="display:none;">
+<div id="banner" class="banner"></div>
+<div class="detail-header">
+<h2 id="caseIdDisplay"></h2>
+<div class="dh-meta">
+<span id="caseTypeDisplay"></span>
+<span id="caseStatusDisplay"></span>
+<span id="caseCreatedDisplay"></span>
+</div>
+</div>
+<div class="demo-card">
+<h4>Lifecycle Timeline</h4>
+<div class="timeline" id="timeline"></div>
+</div>
+<div class="demo-card" id="chainCard">
+<h4>Event Hash Chain</h4>
+<div id="chainVisual"></div>
+</div>
+<div class="demo-card" id="receiptCard">
+<h4>Signed Receipt</h4>
+<pre class="receipt-json" id="receiptJson"></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section class="cta" style="margin-top:40px">
+<div class="eyebrow">After the simulation</div>
+<h2>Evaluate the real thing</h2>
+<p>The simulation mirrors the gateway receipt structure. For a live evaluation against your stack, request early access.</p>
+<div class="actions">
+<a class="button" href="signup.html">Request early access</a>
+<a class="button secondary" href="roadmap.html">See the roadmap</a>
+</div>
+</section>
+<script>
+// ══════════════════════════════════════════════════════════════════════
+// State
+// ══════════════════════════════════════════════════════════════════════
+let selectedCaseId = null;
+let policyMode = 'strict';
+let sseIndex = 0;
+
+// ══════════════════════════════════════════════════════════════════════
+// API - in-browser simulation engine
+// (This static page simulates the runtime client-side. Response shapes
+//  mirror the demo server exactly.)
+// ══════════════════════════════════════════════════════════════════════
+const demoStore = {
+  policyMode: 'strict',
+  seq: 0,
+  cases: new Map(), // case_id -> case
+};
+
+function nowIso() {
+  return new Date().toISOString().replace(/\.\d{3}Z$/, '');
+}
+
+function randHex(len) {
+  const arr = new Uint8Array(len / 2);
+  crypto.getRandomValues(arr);
+  return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function newCaseId() { return 'case_' + randHex(12); }
+function newReceiptId() { return 'rct_' + randHex(16); }
+
+// ── Hashing: SHA-256 where available, deterministic fallback otherwise ──
+async function hashHex(input) {
+  const data = new TextEncoder().encode(input);
+  if (window.crypto && crypto.subtle) {
+    const buf = await crypto.subtle.digest('SHA-256', data);
+    return 'sha256:' + Array.from(new Uint8Array(buf), b => b.toString(16).padStart(2, '0')).join('');
+  }
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < data.length; i++) {
+    const ch = data[i];
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 'sha256:' + (h2 >>> 0).toString(16).padStart(8, '0') + (h1 >>> 0).toString(16).padStart(8, '0');
+}
+
+// ── Merkle chain ──
+async function buildMerkle(leaves) {
+  const levels = [];
+  let level = leaves;
+  levels.push({ level: 0, nodes: level });
+  while (level.length > 1) {
+    const next = [];
+    for (let i = 0; i < level.length; i += 2) {
+      const left = level[i];
+      const right = level[i + 1] || left;
+      next.push(await hashHex(left + right));
+    }
+    levels.push({ level: levels.length, nodes: next });
+    level = next;
+  }
+  return { levels, root: level[0] || null };
+}
+
+// ── Case lifecycle helpers ──
+function pushEvent(caseObj, eventType, detail) {
+  const ev = {
+    event_type: eventType,
+    timestamp: nowIso(),
+    sequence_num: ++demoStore.seq,
+    detail: Object.assign({ event_type: eventType }, detail),
+  };
+  caseObj.events.push(ev);
+  caseObj.updated_at = ev.timestamp;
+  return ev;
+}
+
+function buildReceipt(caseObj) {
+  const last = caseObj.events[caseObj.events.length - 1];
+  const ev = caseObj.events.find(e => e.event_type === 'policy.evaluated') || {};
+  return {
+    receipt_id: caseObj.receipt_id || (caseObj.receipt_id = newReceiptId()),
+    case_id: caseObj.case_id,
+    evidence_grade: 'A',
+    action: {
+      action_type: caseObj.action_type,
+      action_summary: caseObj.preview,
+      action_hash: caseObj.action_hash,
+    },
+    verification: {
+      timestamp: last ? last.timestamp : nowIso(),
+      policy_pack_id: (ev.detail && ev.detail.pack) || 'packs/demo',
+      rule_id: (ev.detail && ev.detail.rule) || 'demo.rule.1',
+      decision: (ev.detail && ev.detail.decision) || 'allow',
+    },
+    signature: {
+      algorithm: 'Ed25519',
+      key_id: 'key:demo',
+      signature: 'sig_' + randHex(32),
+    },
+  };
+}
+
+async function fireAction(body) {
+  const type = body.type || 'email';
+  const isRefund = type === 'refund';
+  const actionType = isRefund ? 'stripe.refund.create' : 'gmail.send';
+  const target = isRefund ? 'stripe/refunds' : 'gmail/send';
+  const preview = isRefund
+    ? `Refund $${(body.amount || 5000) / 100} ${(body.currency || 'usd').toUpperCase()} on ${body.payment_intent || 'pi_test_demo_' + randHex(8)}`
+    : `Email to ${body.to || 'partner@example.com'}: ${body.subject || 'Demo email'}`;
+
+  const caseObj = {
+    case_id: newCaseId(),
+    action_type: actionType,
+    queue_status: 'pending',
+    tenant_id: 'tenant-acme',
+    approver: '',
+    approver_note: '',
+    created_at: nowIso(),
+    updated_at: nowIso(),
+    evidence_grade: '',
+    receipt_id: '',
+    case_status: 'pending',
+    preview: preview,
+    action_hash: 'sha256:' + randHex(32),
+    events: [],
+    receipt: null,
+  };
+  demoStore.cases.set(caseObj.case_id, caseObj);
+
+  pushEvent(caseObj, 'action.requested', {
+    action: actionType, target: target, agent: 'spiffe://witnessos/demo/agent',
+  });
+
+  if (demoStore.policyMode === 'permissive') {
+    pushEvent(caseObj, 'policy.evaluated', { decision: 'allow', pack: 'packs/demo', rule: 'permissive.pass-through' });
+    pushEvent(caseObj, 'approval.granted', { approver: 'approver@example.com' });
+    pushEvent(caseObj, 'dispatch.started', { provider_op: 'op_' + randHex(10) });
+    pushEvent(caseObj, 'dispatch.completed', { provider_op: 'op_' + randHex(10) });
+    pushEvent(caseObj, 'provider.acknowledged', { provider_op: 'op_' + randHex(10) });
+    caseObj.queue_status = 'dispatched';
+    caseObj.case_status = 'completed';
+    caseObj.receipt = buildReceipt(caseObj);
+    return {
+      case_id: caseObj.case_id,
+      status: 'dispatched',
+      receipt_id: caseObj.receipt.receipt_id,
+      provider_operation_id: 'op_' + randHex(10),
+      action_hash: caseObj.action_hash,
+    };
+  }
+
+  pushEvent(caseObj, 'policy.evaluated', { decision: 'require_approval', pack: 'packs/demo', rule: 'human-in-the-loop.required' });
+  return {
+    case_id: caseObj.case_id,
+    status: 'approval_required',
+    message: 'Action requires human approval under strict policy',
+    preview: preview,
+    action_hash: caseObj.action_hash,
+    expires_at: nowIso(),
+  };
+}
+
+async function listCases() {
+  const cases = Array.from(demoStore.cases.values())
+    .sort((a, b) => b.created_at.localeCompare(a.created_at))
+    .map(c => ({
+      case_id: c.case_id,
+      queue_status: c.queue_status,
+      action_type: c.action_type,
+      approver: c.approver,
+      approver_note: c.approver_note,
+      tenant_id: c.tenant_id,
+      created_at: c.created_at,
+      updated_at: c.updated_at,
+      evidence_grade: c.evidence_grade,
+      receipt_id: c.receipt_id,
+      case_status: c.case_status,
+      event_count: c.events.length,
+      events: c.events.slice(-20).map(e => ({ event_type: e.event_type, timestamp: e.timestamp, detail: e.detail })),
+      receipt_summary: c.receipt ? {
+        evidence_grade: c.receipt.evidence_grade,
+        action_summary: c.receipt.action.action_summary,
+        timestamp: c.receipt.verification.timestamp,
+      } : null,
+    }));
+  return {
+    policy_mode: demoStore.policyMode,
+    total_cases: cases.length,
+    pending: cases.filter(c => c.queue_status === 'pending').length,
+    approved: cases.filter(c => ['approved', 'dispatching'].includes(c.queue_status)).length,
+    denied: cases.filter(c => c.queue_status === 'denied').length,
+    completed: cases.filter(c => ['dispatched', 'completed'].includes(c.queue_status)).length,
+    cases: cases,
+  };
+}
+
+async function getCase(caseId) {
+  const c = demoStore.cases.get(caseId);
+  if (!c) throw new Error('Case not found');
+  return {
+    case_id: c.case_id,
+    events: c.events.map(e => ({
+      event_type: e.event_type,
+      timestamp: e.timestamp,
+      sequence_num: e.sequence_num,
+      detail: e.detail,
+      raw: e.detail,
+    })),
+    receipt: c.receipt,
+    queue_status: c.queue_status,
+  };
+}
+
+async function getChain(caseId) {
+  const c = demoStore.cases.get(caseId);
+  if (!c || c.events.length === 0) throw new Error('No events for case');
+  const leaves = [];
+  for (const e of c.events) {
+    leaves.push(await hashHex(JSON.stringify({ event_type: e.event_type, timestamp: e.timestamp, detail: e.detail })));
+  }
+  const { levels, root } = await buildMerkle(leaves);
+  return {
+    case_id: caseId,
+    leaf_count: leaves.length,
+    root: root,
+    root_hash: root,
+    levels: levels,
+    leaves: leaves,
+    proof: null,
+  };
+}
+
+async function approveCaseApi(caseId) {
+  const c = demoStore.cases.get(caseId);
+  if (!c) return { status: 'error', message: `Case ${caseId} not found` };
+  if (c.queue_status !== 'pending') return { status: 'error', message: 'Case is not pending' };
+  pushEvent(c, 'approval.granted', { approver: 'approver@example.com' });
+  pushEvent(c, 'dispatch.started', { provider_op: 'op_' + randHex(10) });
+  pushEvent(c, 'dispatch.completed', { provider_op: 'op_' + randHex(10) });
+  pushEvent(c, 'provider.acknowledged', { provider_op: 'op_' + randHex(10) });
+  c.queue_status = 'dispatched';
+  c.case_status = 'completed';
+  c.approver = 'approver@example.com';
+  c.receipt = buildReceipt(c);
+  c.receipt_id = c.receipt.receipt_id;
+  return {
+    case_id: caseId,
+    status: 'dispatched',
+    provider_status: 'succeeded',
+    provider_operation_id: 'op_' + randHex(10),
+    receipt_id: c.receipt.receipt_id,
+  };
+}
+
+async function denyCaseApi(caseId) {
+  const c = demoStore.cases.get(caseId);
+  if (!c) return { status: 'error', message: `Case ${caseId} not found` };
+  if (c.queue_status !== 'pending') return { status: 'error', message: 'Case is not pending' };
+  pushEvent(c, 'approval.denied', { reason: 'Demo evaluation - action denied' });
+  c.queue_status = 'denied';
+  c.case_status = 'denied';
+  return { status: 'ok', case_id: caseId, message: 'Case denied' };
+}
+
+// ── Router (same URL space as the demo server) ──
+async function api(method, url, body) {
+  await new Promise(r => setTimeout(r, 120 + Math.random() * 120)); // simulated latency
+  const parts = url.split('/').filter(Boolean);
+  const route = parts.slice(1); // strip leading 'demo'
+  try {
+    if (method === 'POST' && route[0] === 'policy' && route[1]) {
+      demoStore.policyMode = route[1];
+      return { status: 'ok', policy_mode: demoStore.policyMode };
+    }
+    if (method === 'POST' && route[0] === 'action') return await fireAction(body || {});
+    if (method === 'GET' && route[0] === 'cases' && route.length === 1) return await listCases();
+    if (method === 'GET' && route[0] === 'cases' && route[1]) return await getCase(route[1]);
+    if (method === 'GET' && route[0] === 'chain' && route[1]) return await getChain(route[1]);
+    if (method === 'POST' && route[0] === 'approve' && route[1]) return await approveCaseApi(route[1]);
+    if (method === 'POST' && route[0] === 'deny' && route[1]) return await denyCaseApi(route[1]);
+    if (method === 'POST' && route[0] === 'reset') {
+      demoStore.cases.clear();
+      demoStore.seq = 0;
+      return { status: 'ok', message: 'Demo reset. All data purged.' };
+    }
+    return { status: 'error', message: `Unknown route: ${url}` };
+  } catch (e) {
+    return { status: 'error', message: e.message };
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// Policy Mode
+// ══════════════════════════════════════════════════════════════════════
+document.querySelectorAll('#policyToggle button').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const mode = btn.dataset.mode;
+    await api('POST', `/demo/policy/${mode}`);
+    policyMode = mode;
+    document.querySelectorAll('#policyToggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('modeDesc').textContent =
+      mode === 'strict'
+        ? 'All external actions require human approval'
+        : 'All actions auto-allowed - pass-through mode';
+    showBanner('info', `Switched to ${mode} policy mode`);
+    await refresh();
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════
+// Fire Actions
+// ══════════════════════════════════════════════════════════════════════
+document.getElementById('fireEmail').addEventListener('click', async () => {
+  const target = document.getElementById('actionTarget').value || 'partner@example.com';
+  const result = await api('POST', '/demo/action', {
+    type: 'email',
+    to: target,
+    subject: `Demo email ${Date.now().toString(36)}`,
+    body: 'This email is governed by WitnessOS - real policy engine, real Merkle chain evidence.',
+  });
+  if (result.case_id) {
+    showBanner('success', `Email action fired - Case ${result.case_id.slice(0,12)}... (${result.status})`);
+    selectedCaseId = result.case_id;
+    await refresh();
+    await showCase(result.case_id);
+  } else {
+    showBanner('error', result.message || 'Failed to fire action');
+  }
+});
+
+document.getElementById('fireRefund').addEventListener('click', async () => {
+  const result = await api('POST', '/demo/action', {
+    type: 'refund',
+    amount: 5000,
+    currency: 'usd',
+    reason: 'requested_by_customer',
+  });
+  if (result.case_id) {
+    showBanner('success', `Refund action fired - Case ${result.case_id.slice(0,12)}... (${result.status})`);
+    selectedCaseId = result.case_id;
+    await refresh();
+    await showCase(result.case_id);
+  } else {
+    showBanner('error', result.message || 'Failed to fire action');
+  }
+});
+
+// ══════════════════════════════════════════════════════════════════════
+// Case List
+// ══════════════════════════════════════════════════════════════════════
+async function renderCaseList() {
+  const data = await api('GET', '/demo/cases');
+  const list = document.getElementById('caseList');
+  const stats = document.getElementById('statsBar');
+
+  // Stats
+  stats.innerHTML = `
+    <div class="stat pending">Pending <strong>${data.pending}</strong></div>
+    <div class="stat approved">Approved <strong>${data.approved}</strong></div>
+    <div class="stat denied">Denied <strong>${data.denied}</strong></div>
+  `;
+
+  if (!data.cases || data.cases.length === 0) {
+    list.innerHTML = '<div style="padding: 24px 16px; text-align: center; color: var(--text-dim); font-size: var(--floor);">No cases yet. Fire an action to begin.</div>';
+    return;
+  }
+
+  list.innerHTML = data.cases.map(c => {
+    const id = c.case_id.slice(0, 16);
+    const sel = c.case_id === selectedCaseId ? 'selected' : '';
+    const type = c.action_type === 'stripe.refund.create' ? 'Refund' : 'Email';
+    const created = c.created_at ? new Date(c.created_at + 'Z').toLocaleTimeString() : '';
+    return `<div class="case-item ${sel}" data-id="${c.case_id}">
+      <div class="ci-top">
+        <span class="ci-id">${id}</span>
+        <span class="ci-type">${type}</span>
+      </div>
+      <div class="ci-meta">
+        <span class="ci-status ${c.queue_status}">${c.queue_status}</span>
+        ${created ? ' &middot; ' + created : ''}
+        ${c.receipt_id ? ' &middot; receipt' : ''}
+      </div>
+      ${c.queue_status === 'pending' ? `
+        <div class="ci-actions">
+          <button class="btn-approve" data-action="approve">Approve</button>
+          <button class="btn-deny" data-action="deny">Deny</button>
+        </div>
+      ` : ''}
+    </div>`;
+  }).join('');
+}
+
+// One delegated listener replaces the inline handlers the list used to carry.
+// The content security policy refuses inline event handlers and a handler
+// built by string interpolation is also the thing that breaks when a case id
+// needs escaping. Reading the id back off the element avoids both problems.
+document.getElementById('caseList').addEventListener('click', (e) => {
+  const item = e.target.closest('.case-item');
+  if (!item) return;
+  const id = item.dataset.id;
+  const action = e.target.closest('[data-action]')?.dataset.action;
+  if (action === 'approve') { approveCase(id); return; }
+  if (action === 'deny') { denyCase(id); return; }
+  selectCase(id);
+});
+
+async function selectCase(caseId) {
+  selectedCaseId = caseId;
+  document.querySelectorAll('.case-item').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.case-item[data-id="${caseId}"]`)?.classList.add('selected');
+  await showCase(caseId);
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// Case Detail
+// ══════════════════════════════════════════════════════════════════════
+async function showCase(caseId) {
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('detailView').style.display = 'block';
+
+  const data = await api('GET', `/demo/cases/${caseId}`);
+
+  document.getElementById('caseIdDisplay').textContent = caseId;
+  document.getElementById('caseTypeDisplay').textContent =
+    data.events?.[0]?.detail?.action || data.case_id || '-';
+  document.getElementById('caseStatusDisplay').textContent = data.queue_status || 'unknown';
+  document.getElementById('caseCreatedDisplay').textContent =
+    data.events?.[0]?.timestamp ? new Date(data.events[0].timestamp + 'Z').toLocaleString() : '';
+
+  // Timeline
+  const tl = document.getElementById('timeline');
+  if (data.events && data.events.length > 0) {
+    tl.innerHTML = data.events.map(e => {
+      const evClass = e.detail?.decision === 'allow' ? 'allow'
+        : e.detail?.decision === 'deny' ? 'deny'
+        : e.event_type.includes('approval') ? 'approval'
+        : e.event_type.includes('dispatch') ? 'dispatch'
+        : 'pending';
+      const time = e.timestamp ? new Date(e.timestamp + 'Z').toLocaleTimeString() : '';
+      const detailText = Object.entries(e.detail || {}).map(([k,v]) =>
+        k !== 'event_type' && v ? `<span style="color:var(--text-dim)">${k}:</span> ${v}` : ''
+      ).filter(Boolean).join(' &middot; ');
+      return `<div class="timeline-event">
+        <div class="tl-dot ${evClass}"></div>
+        <div class="tl-content">
+          <div class="tl-type">${e.event_type}</div>
+          <div class="tl-detail">${detailText}</div>
+          <div class="tl-time">${time}</div>
+        </div>
+      </div>`;
+    }).join('');
+  } else {
+    tl.innerHTML = '<div style="color:var(--text-dim);font-size:var(--floor);padding:12px 0;">No events recorded for this case.</div>';
+  }
+
+  // Chain
+  renderChain(caseId);
+
+  // Receipt
+  renderReceipt(data);
+}
+
+async function renderChain(caseId) {
+  const container = document.getElementById('chainVisual');
+  try {
+    const chain = await api('GET', `/demo/chain/${caseId}`);
+    if (chain.levels && chain.levels.length > 0) {
+      let html = '<div class="chain-viz">';
+      chain.levels.forEach((level, i) => {
+        const isRoot = i === chain.levels.length - 1;
+        html += '<div class="chain-level">';
+        level.nodes.forEach((hash, j) => {
+          const cls = isRoot ? 'chain-node root' : (i === 0 ? 'chain-node leaf' : 'chain-node');
+          const label = hash.slice(0, 24) + '...';
+          html += `<div class="${cls}" title="${hash}">${isRoot ? 'ROOT: ' : ''}${label}</div>`;
+        });
+        html += '</div>';
+        if (!isRoot) html += '<div class="chain-arrow">&#9660;</div>';
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    } else {
+      container.innerHTML = '<div style="color:var(--text-dim);font-size:var(--floor);">Chain data not yet available.</div>';
+    }
+  } catch {
+    container.innerHTML = '<div style="color:var(--text-dim);font-size:var(--floor);">Chain data not yet available.</div>';
+  }
+}
+
+function renderReceipt(data) {
+  const container = document.getElementById('receiptJson');
+  if (data.receipt) {
+    container.textContent = JSON.stringify(data.receipt, null, 2);
+  } else {
+    container.textContent = 'Receipt not yet generated. Approve and dispatch the action to generate a signed receipt.';
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// Approve / Deny
+// ══════════════════════════════════════════════════════════════════════
+async function approveCase(caseId) {
+  const result = await api('POST', `/demo/approve/${caseId}`, { human: 'approver@example.com' });
+  if (result.status === 'dispatched' || result.receipt_id) {
+    showBanner('success', `Case approved and dispatched - Receipt: ${result.receipt_id?.slice(0, 16) || 'pending'}`);
+  } else if (result.status) {
+    showBanner('success', `Case approved - ${result.status}`);
+  } else {
+    showBanner('error', result.message || 'Approval failed');
+  }
+  await refresh();
+  if (selectedCaseId) await showCase(selectedCaseId);
+}
+
+async function denyCase(caseId) {
+  const result = await api('POST', `/demo/deny/${caseId}`, { reason: 'Demo evaluation - action denied' });
+  if (result.status === 'ok') {
+    showBanner('info', `Case denied`);
+  } else {
+    showBanner('error', result.message || 'Deny failed');
+  }
+  await refresh();
+  if (selectedCaseId) await showCase(selectedCaseId);
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// SSE - Real-time updates
+// ══════════════════════════════════════════════════════════════════════
+function connectSSE() {
+  // Static demo: there is no event stream on the deployed page. Every action
+  // handler already calls refresh() + showCase() after mutating state,
+  // so the UI stays in sync without server-sent events.
+  return;
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// Banner
+// ══════════════════════════════════════════════════════════════════════
+function showBanner(type, message) {
+  const el = document.getElementById('banner');
+  el.className = `banner show ${type}`;
+  el.textContent = message;
+  setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// Refresh
+// ══════════════════════════════════════════════════════════════════════
+async function refresh() {
+  await renderCaseList();
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// Init
+// ══════════════════════════════════════════════════════════════════════
+async function init() {
+  await refresh();
+  connectSSE();
+}
+
+init();
+</script>

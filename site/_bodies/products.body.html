@@ -1,0 +1,117 @@
+<section class="subhero">
+<div>
+<div class="eyebrow">Products</div>
+<h1>What we build, and what each piece proves</h1>
+<p class="lead">WitnessOS is a family of components for governed agent action. The tools below are public and free and run on your machine. The governed-action engine is proprietary and runs inside your infrastructure under the design-partner programme.</p>
+</div>
+</section>
+<section id="tools">
+<div>
+<div class="eyebrow">Open source</div>
+<h2>Tools you can run today</h2>
+<p class="copy">Each card states the boundary plainly: what the component proves, and what it deliberately does not. Nothing here calls home.</p>
+<div class="cap-grid">
+<div class="cap">
+<code>PASSPORT</code>
+<h3>Identity and scoped authority</h3>
+<p>Issuer-signed claims for an agent, with the agent's own key bound inside the signature. Deny-by-default authorisation with machine-readable refusal codes, and holder-bound presentation over a single-use challenge.</p>
+<p><strong>Proves:</strong> which key speaks for an agent, and what that agent is allowed to do.<br>
+<strong>Does not prove:</strong> that the action happened. That is the evidence layer's job.</p>
+<p><a href="passport.html">How it works</a> · <a href="https://github.com/narko4u/witnessos-passport">Repository</a> · Python 3.10+</p>
+</div>
+<div class="cap">
+<code>VERIFIER</code>
+<h3>Independent verification</h3>
+<p>Checks Ed25519 event and manifest signatures, canonical event chains, sequence bounds, event membership, binding to the signed batch root, Merkle inclusion proofs and authenticated RFC 3161 timestamps. Derives the evidence grade and exits non-zero when a bundle fails.</p>
+<p><strong>Proves:</strong> what an evidence bundle can actually support, with no gateway, no credentials and no network.<br>
+<strong>Does not prove:</strong> the identity of the keys beyond the trust anchors you supply yourself.</p>
+<p><a href="https://github.com/narko4u/witnessos-verifier">Repository</a> · Python 3.12+ · OpenSSL 3 for timestamp authentication</p>
+</div>
+<div class="cap">
+<code>MCP VALIDATOR</code>
+<h3>Declared versus observed</h3>
+<p>Captures what an MCP server publishes, observes what it does at runtime, and reports the gap: an annotation no longer bound, a contract that mutated, privilege used outside declared scope. Every result is committed to a SHA-256 hash chain whose head you keep elsewhere.</p>
+<p><strong>Proves:</strong> whether a server behaves like it says it does, and that the ledger of that comparison was not edited afterwards.<br>
+<strong>Does not prove:</strong> that the server is safe, or that its declarations are true of anything but its own behaviour.</p>
+<p><a href="https://github.com/narko4u/mcp-evidence-validator">Repository</a> · Python 3.10+ · zero dependencies</p>
+</div>
+<div class="cap">
+<code>EVIDENCE RECORD</code>
+<h3>A portable record format</h3>
+<p>A data model and validator for evidence records about agent actions, with samples and conformance vectors so two implementations can agree on bytes rather than on prose.</p>
+<p><strong>Proves:</strong> that a record is well formed and comparable across implementations.<br>
+<strong>Does not prove:</strong> anything about the record's content being true.</p>
+<p><a href="https://github.com/narko4u/evidence-record-spec">Repository</a></p>
+</div>
+<div class="cap">
+<code>TXAUTHAGENT</code>
+<h3>Human authorisation, in hardware</h3>
+<p>An application profile on the W3C WebAuthn signing extension: the human's own authenticator signs a canonical digest of the exact action bytes. Verifiable against a published key, with no validation server and without breaking pairwise-credential privacy.</p>
+<p><strong>Proves:</strong> that a specific human authorised these exact bytes.<br>
+<strong>Does not prove:</strong> that the action was correctly executed afterwards.</p>
+<p><a href="https://github.com/narko4u/webauthn-agent-action-extension">Repository</a> · MIT</p>
+</div>
+<div class="cap">
+<code>EU AI ACT</code>
+<h3>Readiness grading</h3>
+<p>A self-assessment that maps an estate's logging and oversight posture to the record-keeping and human-oversight obligations that apply to high-risk systems.</p>
+<p><strong>Proves:</strong> where an estate stands against those obligations today.<br>
+<strong>Does not prove:</strong> compliance, and it is not legal advice.</p>
+<p><a href="https://github.com/narko4u/eu-ai-act-compliance-grade">Repository</a></p>
+</div>
+</div>
+</div>
+</section>
+<section id="engine">
+<div>
+<div class="eyebrow">The engine</div>
+<h2>Governed action, enforced before it happens</h2>
+<div class="split">
+<div>
+<p class="value">The WitnessOS gateway engine sits between an agent wanting to act and the agent being allowed to act. Policy is evaluated before execution, credentials are brokered rather than handed over, and each governed action produces a signed receipt whose evidence grade is derived from what the record can actually support.</p>
+<p class="value">It is proprietary, self-hosted and deployed inside your infrastructure, so no data leaves your estate and the signing keys are generated and held by you.</p>
+</div>
+<div class="card">
+<h3>How it is delivered</h3>
+<p>Access is released through the design-partner programme, under NDA, with direct engineering support and a scoped deployment plan.</p>
+<p><strong>Live connector lanes:</strong> email dispatch for human-in-the-loop approvals, payment operations, and HTTP payment rails.</p>
+<div class="connector-row">
+<span class="connector-chip">Gmail <span>approval dispatch</span></span>
+<span class="connector-chip">Stripe <span>payment operations</span></span>
+<span class="connector-chip">x402 <span>machine payments</span></span>
+<span class="connector-chip">MCP <span>tool invocation</span></span>
+</div>
+<div class="actions"><a class="button" href="signup.html">Request access</a></div>
+</div>
+</div>
+</div>
+</section>
+<section id="rigour">
+<div>
+<div class="eyebrow">Rigour</div>
+<h2>Built to be checked by someone who does not trust us</h2>
+<div class="grid3">
+<div class="card">
+<h3>OpenSSF best practices</h3>
+<p>Every repository in the family carries an OpenSSF Best Practices badge, and three core projects hold all three baseline badges at a hundred percent. That is an independently audited supply-chain posture, not a marketing claim.</p>
+</div>
+<div class="card">
+<h3>Signed releases</h3>
+<p>Release assets ship with Sigstore signatures, a checksum manifest and a CycloneDX software bill of materials, built by CI from a tagged commit. You can verify the artifact you install.</p>
+</div>
+<div class="card">
+<h3>Honest by default</h3>
+<p>Where a capability depends on something we cannot supply, we say so. Retention by an independent custodian is supplied from outside, not proven by our code, and the grade does not move because you assert it.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="cta">
+<div class="eyebrow">Start</div>
+<h2>Run the checks yourself</h2>
+<p>Install the tools from the instructions page, or watch the governed-action flow run in your browser first.</p>
+<div class="actions">
+<a class="button" href="instructions.html">Read the instructions</a>
+<a class="button secondary" href="demo.html">Open the simulation</a>
+</div>
+</section>

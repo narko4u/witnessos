@@ -1,0 +1,223 @@
+<section class="subhero">
+<div>
+<div class="eyebrow">Post-quantum readiness</div>
+<h1>Know what your cryptography depends on. Then move it on a plan.</h1>
+<p class="lead">Australian government systems must inventory their cryptography and maintain a post-quantum transition plan. We produce both as signed artifacts, in the vocabulary your assessor already checks against.</p>
+</div>
+</section>
+<section id="dates">
+<div>
+<div class="eyebrow">Why now</div>
+<h2>The milestones are already set</h2>
+<p class="copy" style="max-width:760px">ASD's post-quantum guidance names three dates, and they are the dates a transition plan will be measured against. The work is phased as Locate, Assess, Triage, Implement, and Communicate and educate.</p>
+<ul class="timeline">
+<li>
+<div class="when">End 2026</div>
+<h3>Refined transition plan</h3>
+<p>A defined plan covering the systems in scope, the sequence of work, and the owner accountable for each part of it.</p>
+</li>
+<li>
+<div class="when">End 2028</div>
+<h3>Transition commenced</h3>
+<p>Migration work started across the agreed scope, rather than planned and left standing.</p>
+</li>
+<li>
+<div class="when">End 2030</div>
+<h3>Transition complete</h3>
+<p>Post-quantum cryptography in place for the systems the plan named, with the inventory as the record of what changed.</p>
+</li>
+</ul>
+</div>
+</section>
+<section id="controls">
+<div>
+<div class="eyebrow">Control basis</div>
+<h2>The controls name the artifacts</h2>
+<p class="copy" style="max-width:760px">Two ISM controls turn this from a discussion into a deliverable. Both are quoted from the Australian Information Security Manual, which is published and free to read.</p>
+<div class="cap-grid">
+<div class="card">
+<div class="eyebrow">ism-2083</div>
+<h3>A CBOM, produced and handed over</h3>
+<p>"A cryptographic bill of materials is produced and made available to consumers of software." If you ship software, the inventory leaves the building and goes to whoever consumes it.</p>
+</div>
+<div class="card">
+<div class="eyebrow">ism-2073</div>
+<h3>A plan, maintained</h3>
+<p>"A post-quantum cryptography transition plan is developed, implemented and maintained." Maintained is the operative word, and it is why the inventory is re-issued rather than filed once.</p>
+</div>
+<div class="card">
+<div class="eyebrow">ism-2082</div>
+<h3>Imported components</h3>
+<p>Where a supplier provides a CBOM for imported third-party components, it is used during development to confirm those components support ASD-approved algorithms.</p>
+</div>
+<div class="card">
+<div class="eyebrow">ism-principle-pro-17</div>
+<h3>Cryptographic agility</h3>
+<p>Systems are designed, configured and managed to support timely, prioritised and orderly changes to cryptography, including post-quantum cryptography.</p>
+</div>
+<div class="card">
+<div class="eyebrow">ism-1990</div>
+<h3>Validation is preferred, not required</h3>
+<p>Adherence to FIPS 140-3 validation for ML-DSA and ML-KEM is preferred under the ISM. That softness is what makes the work deliverable today, and it is treated honestly rather than as a loophole.</p>
+</div>
+<div class="card">
+<div class="eyebrow">ism-1996</div>
+<h3>Hybrid schemes</h3>
+<p>Where a post-quantum and traditional hybrid is used, at least one component is an ASD-approved algorithm.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="delivery">
+<div>
+<div class="eyebrow">The engagement</div>
+<h2>One boundary, six deliverables</h2>
+<p class="copy" style="max-width:760px">We agree a single boundary with you, take the inventory inside it, and hand you artifacts you keep and can verify without us.</p>
+<div class="cap-grid">
+<div class="card">
+<h3>Cryptographic inventory</h3>
+<p>The algorithms, protocols, libraries, certificates and key-custody points the boundary depends on, delivered as CycloneDX 1.6 and validated against the published schema.</p>
+</div>
+<div class="card">
+<h3>Quantum exposure register</h3>
+<p>Each asset graded by exposure: harvest-now-decrypt-later, signature forgery or no post-quantum exposure, weighed against how long the data it protects must stay secret.</p>
+</div>
+<div class="card">
+<h3>Transition plan for ism-2073</h3>
+<p>Sequencing, owners and milestones against the 2026, 2028 and 2030 dates, with a cryptographic-agility position and an explicit hybrid posture.</p>
+</div>
+<div class="card">
+<h3>Signed evidence record</h3>
+<p>The inventory and the plan bound to a single root and independently timestamped, so the version you hold is provably the version we produced.</p>
+</div>
+<div class="card">
+<h3>Verification you run yourself</h3>
+<p>The verification path is free, local and needs no account and no network. It is your engineer's run, not ours, and it is the demonstration that matters.</p>
+</div>
+<div class="card">
+<h3>Currency proof</h3>
+<p>On a cadence you choose, the inventory is re-taken and re-anchored, so drift is detected and named rather than assumed absent.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="proof">
+<div class="prose">
+<div class="eyebrow">Proof, not a spreadsheet</div>
+<h2>A scan is a list. A record is evidence.</h2>
+<p>An inventory tells you what was present when somebody looked. It cannot tell you that the list you were handed is the list that was measured, that the assets were inside the agreed boundary, or that nothing changed after the report was signed. Those three questions are the ones an assessor asks.</p>
+<p>So we bind the inventory to the estate it was taken from. Take the same estate twice and the record is stable. Add one certificate to that estate and the binding breaks and names the exact asset that appeared. Change one byte inside the issued inventory and the record no longer verifies. Those are the properties we demonstrate in a scoping call, on your boundary or on ours.</p>
+<p>We also report what the inventory found rather than what sounds impressive. A first pass typically flags classical primitives with a finite security life, including RSA-2048, ECDSA P-256, DH-2048, AES-128 and X25519 key exchange. Our own evidence records are signed with ML-DSA-65 and carry a countersignature for compatibility with verifiers that do not yet support it.</p>
+<p>That is demonstrated rather than asserted. The receipt below was produced by the gateway, then checked by our public verifier <strong>on a machine where the engine is not installed</strong>, from the record and two public keys alone. It reports three verdicts: the Ed25519 and ML-DSA-65 signatures, the Merkle anchor rebuilt from the stored leaves, plus an RFC 3161 timestamp from an independent authority.</p>
+</div>
+</section>
+<section id="hybrid-receipt">
+<div class="prose">
+<div class="eyebrow">Checkable, not claimed</div>
+<h2>The hybrid receipt</h2>
+<p>This is a real receipt. The gateway produced it. Our public verifier then checked it on a machine where the engine is not installed. It carries four things a reader can confirm without asking us anything: an Ed25519 signature, an ML-DSA-65 signature, a Merkle anchor, plus an RFC 3161 timestamp from an authority that is not Empire Labs.</p>
+<div class="receipt" aria-label="WitnessOS hybrid evidence receipt, verified with the engine absent">
+<div class="receipt-top">
+<span>WITNESSOS / HYBRID EVIDENCE RECEIPT</span>
+<span class="seal">VERIFIED OFFLINE</span>
+</div>
+<div class="row">
+<span>signature suite</span>
+<span>ED25519 + ML-DSA-65</span>
+</div>
+<div class="row">
+<span>post-quantum half</span>
+<span>VALID</span>
+</div>
+<div class="row">
+<span>classical half</span>
+<span>VALID</span>
+</div>
+<div class="row">
+<span>merkle anchor</span>
+<span>VALID</span>
+</div>
+<div class="row">
+<span>timestamp</span>
+<span>RFC 3161</span>
+</div>
+<div class="hash">MERKLE ROOT<br>d9608f3b...9f550019<br>
+<br>EXTERNAL TIMESTAMP 2026-10-03 20:36:33 UTC<br>VERIFIED WITH THE ENGINE NOT INSTALLED</div>
+<div class="receipt-foot">
+<span>BOTH HALVES REQUIRED</span>
+<span>VERIFY WITHOUT EMPIRE TRUST</span>
+</div>
+</div>
+<p>Read it line by line. The <strong>signature suite</strong> names both algorithms, so a verifier has to perform both rather than choose one. The two halves marked <strong>VALID</strong> are the results of performing each. <strong>Merkle anchor</strong> means the batch root was rebuilt from the stored per-event hashes and matched exactly, so no event was added or removed after signing. The <strong>timestamp</strong> is an outside authority stating that those exact bytes existed at that moment.</p>
+<p>Two properties are worth naming. Both halves are required, so a record that drops the post-quantum half fails rather than quietly falling back to the classical one. And the whole check runs from the record and two public keys, so it needs nothing from us and works with no network.</p>
+<p>Two behaviours follow from the current verifier and both are demonstrated rather than asserted. It <strong>names the declared suite in its verdict</strong>, so a reader sees which algorithms were performed rather than a bare pass. And it <strong>refuses a record whose declared hybrid suite is missing a half</strong>: remove the countersignature and it exits non-zero naming the absent half, remove the suite declaration while the countersignature is present and it does the same. A hybrid receipt cannot be talked back down to its classical half once it has been issued.</p>
+<p>This is a demonstration record, signed with test keys rather than a customer's evidence, so it shows the mechanism rather than a client's transaction. Real records verify the same way with real keys.</p>
+<p><a href="https://github.com/narko4u/witnessos-verifier/blob/main/examples/engine-record/RECEIPT.txt" rel="noopener">Read the full receipt</a>. To check the signatures and the timestamp yourself, clone the verifier and run:</p>
+<p><code>witnessos-verifier verify-engine examples/engine-record</code></p>
+</div>
+</section>
+<section id="gap">
+<div class="prose">
+<div class="eyebrow">The honest position</div>
+<h2>No validated module carries ML-DSA today</h2>
+<p>Under ism-1990 adherence to FIPS 140-3 validation for ML-DSA and ML-KEM is preferred rather than required. That is fortunate, because no currently validated cryptographic module implements them. The NIST validation programme's active certificate list for the OpenSSL provider covers the classical primitives: AES, the SHA family, RSA, ECDSA and the TLS key derivation functions. ML-DSA and ML-KEM are absent from it.</p>
+<p>The practical consequence is that nobody can buy their way to a validated post-quantum inventory today, at any price. What can be done is an accurate inventory, an honest statement of which assets sit outside a validated boundary and a plan that does not depend on a module that does not yet exist. We tell you which of your assets fall outside that boundary rather than implying otherwise.</p>
+</div>
+</section>
+<section id="honesty">
+<div class="prose">
+<div class="eyebrow">Before you engage</div>
+<h2>What a fee does not buy</h2>
+<ul>
+<li><strong>No compliance certificate.</strong> We produce the inventory, the plan and the evidence behind them. We do not certify you. We do not opine on your compliance.</li>
+<li><strong>No legal advice.</strong> Mapping your obligations to your systems is your counsel's call, not ours.</li>
+<li><strong>No remediation.</strong> We do not re-key your estate. The transition plan says what should change and who owns it.</li>
+<li><strong>No module validation.</strong> We cannot obtain a FIPS 140-3 validation, and no vendor can currently supply one for ML-DSA.</li>
+<li><strong>No outcome guarantee.</strong> An inventory describes an estate at a point in time. It cannot promise the estate will not change, only prove that it did.</li>
+</ul>
+</div>
+</section>
+<section id="faq">
+<div class="prose" style="max-width:780px">
+<div class="eyebrow">FAQ</div>
+<h2>Questions people ask</h2>
+<div class="faq">
+<div class="faq-item">
+<div class="faq-question">What is a cryptographic bill of materials?</div>
+<div class="faq-answer">A CBOM is an itemised record of the cryptography a boundary depends on: algorithms, protocols, libraries, certificates and where keys are held. It is the artifact the ISM names for knowing what you would have to change, and the Locate phase of the transition is built on it.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Is this the same as a vulnerability scan?</div>
+<div class="faq-answer">No. A scan reports what is present and known-bad today. A CBOM records the cryptographic dependencies of a boundary. Our record additionally binds that inventory to the estate it was measured from, so a later change is detected rather than assumed absent.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Do we need FIPS 140-3 validated cryptography to comply?</div>
+<div class="faq-answer">The ISM prefers validation for ML-DSA and ML-KEM rather than requiring it, and no validated module currently implements them. We state plainly which of your assets sit outside a validated boundary, because an assessor will ask.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">What counts as a boundary?</div>
+<div class="faq-answer">Whatever you scope: a system, a service, a platform or a set of components with a shared owner. The statement of work names it. Anything beyond it is quoted separately rather than assumed included.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">How does this relate to the rest of WitnessOS?</div>
+<div class="faq-answer">Same evidence engine, different subject. WitnessOS makes agent action provable. This makes your cryptographic inventory provable. Both produce records that verify independently, with no trust in us required.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">What does verification cost?</div>
+<div class="faq-answer">Nothing. The verification path for a record we issue is free, local and needs no account and no network. A proof you have to pay to check is not a proof, and we do not sell one.</div>
+</div>
+</div>
+</div>
+</section>
+<section class="cta">
+<div class="eyebrow">Next step</div>
+<h2>Scope one boundary</h2>
+<p>A short call is enough to agree a boundary and a fixed scope. You will see the inventory and the drift detection run before you commit to anything.</p>
+<div class="actions">
+<a class="button" href="mailto:contact@empirelabs.com.au?subject=Post-Quantum%20Readiness%20Scoping">Book a scoping call</a>
+<a class="button secondary" href="pricing.html">See pricing</a>
+</div>
+</section>
+<script>
+(function(){var qs=document.querySelectorAll('.faq-question');qs.forEach(function(q){var icon=document.createElement('span');icon.className='icon';icon.textContent='+';q.appendChild(icon);q.addEventListener('click',function(){this.parentNode.classList.toggle('open');});});})();
+</script>

@@ -1,0 +1,20 @@
+/* Request-access page additions (navy palette) */
+.split-form{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start;margin-top:10px}
+.form-benefit{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:20px 22px;margin:14px 0}
+.form-benefit h3{margin:0 0 6px;font-size:18px}
+.form-benefit p{margin:0;color:var(--muted);font-size:var(--floor)}
+.form-card{border:1px solid var(--line);border-radius:10px;background:linear-gradient(145deg,#10233b,var(--panel));padding:30px}
+.form-card h2{margin-top:0}
+.field{margin:16px 0}
+.field label{display:block;color:var(--text);font-size:var(--floor);font-weight:700;margin-bottom:6px}
+.field input,.field textarea{width:100%;padding:12px 14px;border:1px solid #2b4d6d;border-radius:6px;background:#081420;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:var(--floor);line-height:1.5;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
+.field .err{display:none;color:#ff8a8a;font-size:var(--floor);margin-top:4px}
+.field.error .err{display:block}
+.field.error input,.field.error textarea{border-color:#ff8a8a}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-note{color:var(--muted);font-size:var(--floor);margin:18px 0 0}
+.form-note a{color:var(--text)}
+#success{display:none;text-align:center;padding:18px 6px}
+#success .tick{font:700 40px ui-monospace,monospace;color:var(--good)}
+@media(max-width:900px){.split-form{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}

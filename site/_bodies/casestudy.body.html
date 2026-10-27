@@ -1,0 +1,136 @@
+<section class="subhero">
+<div>
+<div class="eyebrow">Case study</div>
+<h1>Governing 9 autonomous agents with WitnessOS</h1>
+<p class="value">Empire Labs Pty Ltd &middot; Dogfood &middot; Autonomous Fleet &middot; July 2026</p>
+</div>
+</section>
+<section id="summary">
+<div class="prose">
+<div class="eyebrow">Overview</div>
+<h2>Executive Summary</h2>
+<p>Empire Labs Pty Ltd operates the Empire Autonomous Business (EAB), a fleet of 9 autonomous AI agents that run the company's marketing, sales, lead generation, customer intelligence, and revenue operations. Each agent has access to real business tools: email, social media, CRM, web search, and payment platforms.</p>
+<p>The challenge was clear: 9 autonomous agents with real-world impact, zero governance, and no audit trail. Before WitnessOS, every agent action was trusted by default. After deploying WitnessOS, every action is evaluated, enforced, and cryptographically verified.</p>
+</div>
+<div class="metrics-grid">
+<div class="metric">
+<strong>9</strong>
+<span>Autonomous agents governed</span>
+</div>
+<div class="metric">
+<strong>15</strong>
+<span>Policy rules active</span>
+</div>
+<div class="metric">
+<strong>0</strong>
+<span>Unauthorised actions since deployment</span>
+</div>
+</div>
+<blockquote class="quote">
+"We were building autonomous AI agents that could email clients, post on social media, and manage revenue operations, but we had no way to prove what they were doing or stop them if they went rogue. WitnessOS turned 'trust me' into 'proven'."
+<footer>Empire Labs Pty Ltd</footer>
+</blockquote>
+</section>
+<section id="challenge">
+<div class="prose">
+<div class="eyebrow">The problem</div>
+<h2>The Challenge</h2>
+<p>The EAB fleet runs on a daily execution cycle. Agents include:</p>
+<ul>
+<li><strong>Code Generator</strong> writes and deploys production code</li>
+<li><strong>Lead Intelligence Agent</strong> researches prospects via web search</li>
+<li><strong>Outreach Agent</strong> sends B2B cold emails from the company inbox</li>
+<li><strong>Chief of Staff Agent</strong> coordinates cross-agent workflows</li>
+<li><strong>Revenue Report Agent</strong> accesses financial dashboards and generates reports</li>
+<li><strong>Customer Intelligence Agent</strong> monitors client activity and support tickets</li>
+<li><strong>Social Media Agent</strong> posts on X/Twitter and LinkedIn</li>
+<li><strong>Idea Generation Agent</strong> researches and proposes new products</li>
+<li><strong>Business Model Architect</strong> analyses markets and optimises pricing</li>
+</ul>
+<p>Every agent has tool access: filesystem, API clients, email (IMAP/SMTP), web browsers, and database queries. Before WitnessOS, there was no runtime gate between an agent's decision and its execution. A prompt injection or hallucinated tool call could have real consequences and we wouldn't know until after the fact.</p>
+</div>
+</section>
+<section id="solution">
+<div class="prose">
+<div class="eyebrow">The fix</div>
+<h2>The Solution</h2>
+<p>We deployed WitnessOS as a transparent middleware layer between every agent and its tool execution. The deployment took <strong>under 2 hours per agent</strong>:</p>
+<ol>
+<li><strong>Wrap agent tool calls with the WitnessOS SDK.</strong> Each agent's tool-calling function was replaced with a WitnessOS-evaluated proxy. The agent sees no difference; the governance layer is invisible.</li>
+<li><strong>Define policy rules.</strong> 15 policy rules across 3 tiers: system-level invariants (never delete files), agent-level guardrails (outreach agent can only email from approved templates), and context-aware rules (rate limits on API calls).</li>
+<li><strong>Verify audit chain integrity.</strong> After the first week of operation, we ran a full audit chain verification. All 417 actions were confirmed intact, zero tampered entries.</li>
+</ol>
+<h3>Policy examples</h3>
+</div>
+<div class="card-grid">
+<div class="card">
+<h3>Rule: block-file-delete</h3>
+<p><strong>Effect:</strong> Deny all file deletion actions across all agents. <strong>Triggered</strong> 3 times in the first week when agents attempted to clean up temp files using <em>os.remove()</em> instead of moving to a trash directory.</p>
+</div>
+<div class="card">
+<h3>Rule: email-template-allowlist</h3>
+<p><strong>Effect:</strong> The Outreach Agent may only send emails from approved templates in <em>/templates/email/</em>. <strong>Prevented</strong> 2 incidents where the agent generated non-compliant email copy.</p>
+</div>
+<div class="card">
+<h3>Rule: social-post-quarantine</h3>
+<p><strong>Effect:</strong> All social media posts are flagged for human review before going live (sandboxed). <strong>Caught</strong> 1 post that would have violated the company's brand voice policy.</p>
+</div>
+</div>
+</section>
+<section id="results">
+<div class="prose">
+<div class="eyebrow">Outcome</div>
+<h2>Results</h2>
+<p>After 30 days of running the full EAB fleet through WitnessOS:</p>
+</div>
+<div class="metrics-grid">
+<div class="metric">
+<strong>1,247</strong>
+<span>Actions evaluated</span>
+</div>
+<div class="metric">
+<strong>7</strong>
+<span>Policies triggered (denials)</span>
+</div>
+<div class="metric">
+<strong>12ms</strong>
+<span>Average evaluation latency</span>
+</div>
+</div>
+<div class="prose">
+<ul>
+<li><strong>Zero human review time wasted</strong> on false positives: every denial was a genuine policy violation, not a false alarm</li>
+<li><strong>12ms average evaluation latency</strong>, imperceptible to the agents and to downstream users</li>
+<li><strong>Full audit chain integrity</strong> verified on day 30 with zero tampered entries</li>
+<li><strong>3 near-miss incidents</strong> prevented that would have required manual recovery (file deletion, non-compliant email, brand voice violation)</li>
+<li><strong>Regulatory readiness</strong>: the audit trail meets the evidence standards required by Australian Privacy Principle (APP) compliance</li>
+</ul>
+<blockquote class="quote">
+"The 12ms of latency is invisible. The peace of mind is priceless. Every agent action is now provable, and we sleep better knowing our autonomous fleet has a guardian."
+<footer>Empire Labs Pty Ltd</footer>
+</blockquote>
+</div>
+</section>
+<section id="learnings">
+<div class="prose">
+<div class="eyebrow">Insights</div>
+<h2>What We Learned</h2>
+<p>Deploying WitnessOS on our own fleet revealed several insights that shaped our product roadmap:</p>
+<ol>
+<li><strong>Agents don't always do what you think.</strong> Even well-prompted agents occasionally attempt unexpected tool calls. Policy rules catch these before they become incidents.</li>
+<li><strong>Rate limiting is essential for autonomous fleets.</strong> Without governance, a looping agent can burn through API budgets in minutes. WitnessOS rate-limit policies prevented this.</li>
+<li><strong>Human-in-the-loop is the right default for high-risk actions.</strong> Flag-for-review policies let us maintain speed for routine operations while keeping a safety net for critical paths.</li>
+<li><strong>Audit trails build trust with customers.</strong> When we show prospective clients the integrity-verified audit chain from our own fleet, the conversation shifts from "why do we need this?" to "how soon can we deploy?"</li>
+</ol>
+</div>
+</section>
+<section id="cta" class="cta">
+<div class="eyebrow">Deploy for your fleet</div>
+<h2>Run your agents with a guardian</h2>
+<p>If you're running autonomous AI agents in production, whether it's one agent or a hundred, you need runtime governance. Empire Labs proved it on our own fleet. Now you can too.</p>
+<div class="actions">
+<a class="button" href="signup.html">Request early access</a>
+<a class="button secondary" href="manifesto.html">Read the manifesto</a>
+</div>
+<p class="fine">WitnessOS is covered by patent pending. Built by Empire Labs Pty Ltd.</p>
+</section>

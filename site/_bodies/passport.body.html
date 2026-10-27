@@ -1,0 +1,108 @@
+<section class="subhero">
+<div>
+<div class="eyebrow">WitnessOS Passport</div>
+<h1>Which key speaks for your agent, and what it may do</h1>
+<p class="lead">A passport is a signed statement about an agent: who issued it, which key the agent holds, and exactly what that agent is allowed to do. It is checked offline, by you, against keys you chose to trust.</p>
+<p class="lead" style="margin-top:14px">Free and open source under Apache-2.0. Issue locally, verify locally, no account and no call home.</p>
+</div>
+</section>
+<section id="why">
+<div>
+<div class="eyebrow">The problem</div>
+<h2>An agent with no identity has only your network to thank</h2>
+<div class="grid3">
+<div class="card">
+<h3>Any agent, any name</h3>
+<p>Without an issued identity, an agent is only as trustworthy as the row it holds in your config file. A borrowed name carries borrowed authority.</p>
+</div>
+<div class="card">
+<h3>Authority nobody can name</h3>
+<p>"The agent may send this email" is prose until it is a scope a machine can check, refuse on, and hand to an auditor.</p>
+</div>
+<div class="card">
+<h3>Proof that needs a server</h3>
+<p>If checking an identity requires asking a vendor, you have traded one dependency for another and your evidence lives in someone else's building.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="flow">
+<div>
+<div class="eyebrow">How it works</div>
+<h2>Five steps, all offline</h2>
+<div class="grid3">
+<div class="card"><h3>1. Issue</h3><p>An issuer signs a statement about a subject: the agent's public key is bound inside the signature, along with the scopes it may exercise. Issuing in an issuer's name without that issuer's key is refused, not warned about.</p></div>
+<div class="card"><h3>2. Verify</h3><p>The verifier checks the signature against the issuer keys it trusts and reports the identity route, such as issuer attested. Trust is supplied by the verifier, never assumed from the document.</p></div>
+<div class="card"><h3>3. Authorise</h3><p>Ask whether a specific action on a specific resource is inside the agent's scope. The answer is deny by default, and a refusal carries a machine-readable code rather than a shrug.</p></div>
+<div class="card"><h3>4. Challenge</h3><p>A verifier issues a single-use challenge for one action, with a short window. It is not a bearer token: it dies with its window and with its nonce.</p></div>
+<div class="card"><h3>5. Prove and check</h3><p>The agent proves it holds the private key its passport carries, over that challenge. A presentation that reuses a spent challenge is refused, and a replay guard that cannot be consulted is a refusal, not an assumption.</p></div>
+<div class="card"><h3>Where it sits</h3><p>The passport answers who an agent is and what it may do. It does not claim the action happened: that is the evidence layer's job, and the two records are checked against each other.</p></div>
+</div>
+</div>
+</section>
+<section id="trust">
+<div class="prose">
+<div class="eyebrow">The trust model</div>
+<h2>Verification that does not trust us</h2>
+<p>The proof is checked on your machine against keys you already hold. There is no validation service in the path, no account, and no network call to Empire Labs. If we disappeared tomorrow, every passport you issued would still verify.</p>
+<p>That property is why the library is free and stays free. A verification you have to buy from us is a verification you cannot check without us, and it would be worth nothing to your auditor.</p>
+<blockquote>Bundled keys prove consistency with those keys. Authenticate their identity independently.</blockquote>
+<p>The same discipline applies to grades. A passport reaches the identity rung of the ladder and no higher. Anchored records require an externally provisioned timestamp. Custody and retention are separate attributes of a record: we report whether they were verified rather than implying that a copy in someone's storage makes a grade.</p>
+</div>
+</section>
+<section id="install">
+<div class="prose">
+<div class="eyebrow">Install</div>
+<h2>Run it now</h2>
+<p>Python 3.10 or newer and nothing else. A packaged release is going through the same signed-release path the verifier and the MCP validator already use, so today it installs from source:</p>
+<pre>git clone https://github.com/narko4u/witnessos-passport.git
+cd witnessos-passport
+pip install .</pre>
+<p>Then issue for an agent, verify offline, and ask whether an action is inside scope:</p>
+<pre>witnessos-passport keygen --key-out issuer.key
+witnessos-passport issue  --subject agent-01 --issuer empire-labs \
+                          --issuer-key issuer.key --key-out agent.key \
+                          --scope "fs.write:workdir:/srv/notes"
+witnessos-passport verify passport.json \
+                          --trusted empire-labs=&lt;issuer-public-key-hex&gt;
+witnessos-passport authorise passport.json --action fs.write \
+                          --resource workdir:/srv/notes \
+                          --trusted empire-labs=&lt;issuer-public-key-hex&gt;</pre>
+<p>The full sequence, including the challenge and the holder-bound presentation, is on the <a href="instructions.html">instructions page</a>.</p>
+</div>
+</section>
+<section id="hosted">
+<div>
+<div class="eyebrow">Hosted option</div>
+<h2>The parts a library cannot do for itself</h2>
+<p class="copy">The library is free forever, including every local check. What we operate, for teams who would rather not run it themselves, is the state and the independence around it. Early access, priced per call and per month rather than per seat.</p>
+<div class="caps-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px">
+<div class="card">
+<h3>Shared replay guard</h3>
+<p>A single-use claim that spans machines, so a second verifier can see what the first one spent. The library ships a local one and says plainly that it cannot cover a second machine.</p>
+</div>
+<div class="card">
+<h3>Issuer directory</h3>
+<p>A signed, published directory of issuer keys with revocation, so trust can be delegated without handing out keys by email.</p>
+</div>
+<div class="card">
+<h3>Managed anchoring</h3>
+<p>Batched RFC 6962 inclusion proofs and external RFC 3161 timestamps over your records. You still verify offline against your own anchors.</p>
+</div>
+</div>
+<p class="copy" style="margin-top:22px">Not in the path of any check: nothing above is required to issue, verify or authorise a passport, and no hosted component can see your keys or your records.</p>
+<div class="actions" style="margin-top:24px">
+<a class="button" href="mailto:contact@empirelabs.com.au?subject=WitnessOS%20Passport%20hosted%20access">Join the early access list</a>
+<a class="button secondary" href="pricing.html">See pricing</a>
+</div>
+</div>
+</section>
+<section class="cta">
+<div class="eyebrow">Next</div>
+<h2>Give your agents an identity an auditor can check</h2>
+<p>Issue one in the next ten minutes, or watch the governed-action flow first.</p>
+<div class="actions">
+<a class="button" href="instructions.html">Read the instructions</a>
+<a class="button secondary" href="demo.html">Open the simulation</a>
+</div>
+</section>

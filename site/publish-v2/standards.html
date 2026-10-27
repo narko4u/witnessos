@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Flinders is the engagement programme that defines what evidence must exist for AI assurance in Australia. WitnessOS is the product that produces it. The definition comes first.">
+<meta name="theme-color" content="#07101d">
+<title>WitnessOS | WitnessOS and Flinders</title>
+<link rel="canonical" href="https://witnessos.com.au/standards.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WitnessOS">
+<meta property="og:title" content="WitnessOS | WitnessOS and Flinders">
+<meta property="og:description" content="Flinders is the engagement programme that defines what evidence must exist for AI assurance in Australia. WitnessOS is the product that produces it. The definition comes first.">
+<meta property="og:url" content="https://witnessos.com.au/standards.html">
+<meta property="og:image" content="https://narko4u.github.io/witnessos/witnessos-logo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="400">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WitnessOS | WitnessOS and Flinders">
+<meta name="twitter:description" content="Flinders is the engagement programme that defines what evidence must exist for AI assurance in Australia. WitnessOS is the product that produces it. The definition comes first.">
+<meta name="twitter:image" content="https://narko4u.github.io/witnessos/witnessos-logo.png">
+<style>
+:root{color-scheme:dark;--floor:20px;--bg:#07101d;--panel:#0d1a2b;--line:#23415f;--text:#f4f8ff;--muted:#a8bbce;--accent:#55c7ff;--good:#7ce7c0;--max:1180px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:radial-gradient(circle at 82% 8%,#0d3258 0,transparent 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:var(--floor);line-height:1.65}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.wrap{width:min(var(--max),90%);margin:auto}
+.nav{min-height:72px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.logo-stage{display:block;width:100%;padding:30px 0 0}.logo-stage img{display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:contain;border:1px solid #23415f;border-radius:8px}
+.nav nav{display:flex;align-items:center;flex-wrap:nowrap;gap:clamp(8px,1.1vw,20px);color:var(--muted);font-size:clamp(16px,1.25vw,19px)}
+.nav nav a{white-space:nowrap}
+.nav nav .button{font-size:inherit;padding:11px clamp(11px,1.3vw,18px)}
+.button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 18px;border:1px solid var(--accent);border-radius:5px;background:var(--accent);color:#03111e;font-weight:750;font-size:var(--floor)}
+.button.secondary{background:transparent;color:var(--text);border-color:#56728b}
+.button:hover{filter:brightness(1.12)}
+.mobile{display:none}
+.eyebrow{color:var(--accent);font-family:ui-monospace,monospace;font-weight:700;font-size:var(--floor);line-height:1.5;letter-spacing:.14em;text-transform:uppercase}
+.hero{min-height:630px;display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:center;padding:32px 0 88px}
+h1,h2,h3{line-height:1.08;letter-spacing:-.04em}
+h1{font-size:clamp(48px,6vw,82px);margin:22px 0 25px;font-weight:650}
+h1 span{color:var(--accent)}
+h2{font-size:clamp(34px,4.4vw,54px);margin:15px 0 22px;font-weight:650}
+h3{font-size:22px;margin:12px 0}
+.lead{font-size:20px;color:#d5e2ef}
+.value,.copy,.card p,.step p,.cap p,.proof p{color:var(--muted)}
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+.receipt{border:1px solid #35668e;border-radius:12px;background:linear-gradient(145deg,#102842,#091525 65%);box-shadow:0 24px 80px #001428;padding:28px}
+.receipt-top,.row,.receipt-foot{display:flex;justify-content:space-between;gap:20px}
+.receipt-top{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:8px;font-family:ui-monospace,monospace;font-size:var(--floor);color:var(--muted)}
+.seal,.receipt-foot{color:var(--good)}
+.row{padding:11px 0;border-bottom:1px solid #1d344c;font-family:ui-monospace,monospace;font-size:var(--floor)}
+.row span:first-child{color:#7994ad}
+.row span:last-child{text-align:right}
+.hash{margin:22px 0;padding:16px;border-left:2px solid var(--accent);background:#06111e;color:#8ea8bd;font-family:ui-monospace,monospace;font-size:var(--floor);line-height:1.75;overflow-wrap:anywhere}
+.receipt-foot{font-family:ui-monospace,monospace;font-size:var(--floor)}
+section{padding:86px 0;border-top:1px solid var(--line)}
+.split{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:30px}
+.card img{display:block;width:min(100%,430px);height:auto;margin:0 auto 26px;border-radius:7px;border:1px solid var(--line)}
+.card blockquote{margin:0 0 22px;font-size:28px;line-height:1.25;letter-spacing:-.03em}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:38px}
+.step{padding:27px;background:linear-gradient(145deg,#10233b,var(--panel));border-right:1px solid var(--line)}
+.step:last-child{border:0}
+.num{font-family:ui-monospace,monospace;font-weight:700;font-size:var(--floor);color:var(--accent)}
+.ladder-layout{display:grid;grid-template-columns:1fr .86fr;gap:64px;align-items:start}
+.ladder,.assurances{display:grid;gap:10px}
+.rung{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:19px 22px;border:1px solid var(--line);background:var(--panel);border-radius:7px}
+.rung b{color:var(--accent);font:700 25px ui-monospace,monospace}
+.rung strong,.assurance strong{display:block}
+.rung span,.assurance span{color:var(--muted);font-size:var(--floor)}
+.rung.e4{border-color:var(--accent);background:linear-gradient(90deg,#123352,#0c1b2c)}
+.assurance{padding:20px;border-left:2px solid var(--good);background:#0b1928}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.cap{padding:25px;border:1px solid var(--line);border-radius:8px;background:var(--panel);min-height:190px}
+.cap code{color:var(--accent);font-size:var(--floor)}
+.proof-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:36px}
+.proof{padding:22px 18px;background:#0a1726;border-top:2px solid var(--accent)}
+.proof strong{display:block;font-size:var(--floor);line-height:1.25}
+.standards{margin-top:30px;padding:22px;border:1px solid var(--line);color:var(--muted)}
+.standards strong{color:var(--text)}
+.faq{margin-top:48px;padding-top:8px;border-top:1px solid var(--line)}
+.faq h2{font-size:clamp(28px,3.6vw,44px)}
+.faq-item{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:18px 22px;margin:14px 0}
+.faq-item h3{color:var(--text);font-size:18px;margin:0 0 8px}
+.faq-item p{color:var(--muted);margin:0}
+.connectors{margin-top:30px;padding:22px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--muted)}
+.connectors strong{color:var(--text)}
+.connector-row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px}
+.connector-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:#0a1726;color:var(--accent);font-family:ui-monospace,monospace;font-weight:700;font-size:var(--floor);line-height:1.4;letter-spacing:.02em}
+.connector-chip span{color:var(--muted);font-family:ui-sans-serif,system-ui,sans-serif;font-weight:400;font-size:var(--floor);line-height:1.4;letter-spacing:0}
+.cta{text-align:center;background:linear-gradient(180deg,transparent,#0d2a47 150%)}
+.cta p{color:var(--muted);max-width:640px;margin:0 auto 28px}
+.cta .actions{justify-content:center}
+footer.empire{padding:0 0 34px;display:block;color:var(--muted)}
+footer.empire .empire__plate{position:relative;container-type:inline-size;display:block}
+footer.empire .empire__art{display:block;width:100%;height:auto;object-fit:contain;border:1px solid var(--line);border-radius:8px}
+footer.empire .empire__bar{position:absolute;left:4.4%;right:4.9%;top:75.4%;height:12.7%;display:flex;align-items:center;justify-content:flex-end;font-size:1.09cqw;line-height:1}
+footer.empire .empire__bar > *{position:relative;padding:0 0.55em;white-space:nowrap}
+footer.empire .empire__bar > * + *::before{content:"";position:absolute;left:0;top:50%;width:1px;height:1.05em;margin-top:-0.52em;background:rgba(85,199,255,.38)}
+footer.empire .empire__legal{color:#cfe0f0}
+footer.empire .empire__bar a{color:var(--accent)}
+footer.empire .empire__bar a:hover,footer.empire .empire__bar a:focus-visible{color:#fff}
+@media(max-width:1120px){footer.empire .empire__art{aspect-ratio:1280/322;object-fit:cover;object-position:top}
+footer.empire .empire__bar{position:relative;left:auto;right:auto;top:auto;height:auto;margin-top:16px;flex-wrap:wrap;justify-content:flex-start;font-size:12.5px;line-height:1.5;padding:16px 0 0}
+footer.empire .empire__bar::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,rgba(85,199,255,0),rgba(85,199,255,.85) 5%,rgba(163,227,255,.95) 50%,rgba(85,199,255,.85) 95%,rgba(85,199,255,0));box-shadow:0 0 9px rgba(85,199,255,.45)}
+footer.empire .empire__legal{opacity:.8;letter-spacing:.08em;padding-bottom:4px}
+footer.empire .empire__bar > *{flex:1 0 100%;padding:2px 0}
+footer.empire .empire__bar > * + *::before{display:none}}
+@media(max-width:700px){footer.empire .empire__bar{position:static;left:auto;right:auto;top:auto;height:auto;flex-wrap:wrap;justify-content:flex-start;font-size:12.5px;line-height:1.5;padding:14px 0 0}
+@media(max-width:980px){.hero,.ladder-layout,.split{grid-template-columns:1fr}
+.hero{gap:42px;padding-top:55px}
+.steps{grid-template-columns:repeat(2,1fr)}
+.step:nth-child(2){border-right:0}
+.step:nth-child(-n+2){border-bottom:1px solid var(--line)}
+.proof-grid{grid-template-columns:repeat(2,1fr)}
+.proof:last-child{grid-column:1/-1}
+.nav nav a:not(.button){display:none}
+}
+@media(max-width:650px){:root{--floor:18px}
+.wrap{width:min(92%,560px)}
+.nav{min-height:74px}
+.nav nav{display:none}
+.mobile{display:inline-flex}.logo-stage{padding-top:22px}.logo-stage img{width:100%;height:auto;aspect-ratio:3/1;object-fit:contain;border-radius:6px}
+h1{font-size:clamp(42px,13vw,60px)}
+.hero{min-height:auto;padding:48px 0 65px}
+.lead{font-size:18px}
+.steps,.cap-grid,.proof-grid{grid-template-columns:1fr}
+.step,.step:nth-child(2){border-right:0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.proof:last-child{grid-column:auto}
+.rung{grid-template-columns:48px 1fr;padding:17px}
+.receipt{padding:20px}
+section{padding:62px 0}
+.actions{flex-direction:column}
+.button{width:100%}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+}
+
+
+/* ===== Sub-page hero (keeps the original hero feel, shorter) ===== */
+.subhero{min-height:0;display:block;padding:64px 0 30px}
+.subhero .eyebrow{margin-bottom:10px}
+.subhero h1{font-size:clamp(40px,5vw,64px);margin:14px 0 18px;font-weight:650}
+.subhero p.lead{max-width:760px;margin:0}
+
+/* ===== Document / article prose (whitepaper, roadmap, terms, privacy, manifesto) ===== */
+.prose{max-width:780px}
+.prose h2{margin:56px 0 12px;scroll-margin-top:100px}
+.prose h3{margin:34px 0 8px;color:var(--text)}
+.prose h4{margin:24px 0 6px;color:var(--text)}
+.prose p{color:var(--muted);margin:0 0 16px}
+.prose ul,.prose ol{margin:0 0 18px;padding-left:22px;color:var(--muted)}
+.prose li{margin:6px 0}
+.prose li strong,.prose p strong{color:var(--text)}
+.prose blockquote{margin:22px 0;padding:16px 20px;border-left:3px solid var(--accent);background:var(--panel);border-radius:0 8px 8px 0;color:#d5e2ef}
+.prose code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:var(--floor);background:#0a1726;border:1px solid var(--line);color:var(--accent);padding:1px 6px;border-radius:4px}
+.prose pre{margin:18px 0 22px;padding:16px 18px;background:#06111e;border:1px solid var(--line);border-radius:8px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:var(--floor);line-height:1.7;color:#8ea8bd}
+.prose hr{border:0;border-top:1px solid var(--line);margin:44px 0}
+.prose table{width:100%;border-collapse:collapse;margin:18px 0 24px;font-size:14px;color:var(--muted)}
+.prose th,.prose td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+.prose th{background:var(--panel);color:var(--text);font-weight:600}
+.prose tr:nth-child(even) td{background:#0a1726}
+.prose .rung{grid-template-columns:56px 1fr;margin-bottom:10px}
+
+/* ===== Table of contents ===== */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:18px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.toc a{padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:var(--floor)}
+.toc a:hover{color:var(--accent);border-color:var(--accent)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="nav">
+<nav aria-label="Main navigation">
+<a href="index.html">Home</a>
+<a href="products.html">Products</a>
+<a href="passport.html">Passport</a>
+<a href="instructions.html">Instructions</a>
+<a href="conformance.html">Conformance</a>
+<a href="pricing.html">Pricing</a>
+<a href="pqc.html">Post-quantum</a>
+<a class="button" href="mailto:contact@empirelabs.com.au?subject=WitnessOS%20Assessment">Book an assessment</a>
+</nav>
+<a class="button mobile" href="mailto:contact@empirelabs.com.au?subject=WitnessOS%20Assessment">Contact</a>
+</header>
+<main id="top">
+<a class="logo-stage" href="index.html">
+<img src="assets/witnessos-logo.webp" width="1800" height="600" alt="WitnessOS">
+</a>
+<section class="subhero">
+<div>
+<div class="eyebrow">Flinders</div>
+<h1>The definition comes first</h1>
+<p class="lead">Empire Labs runs two things. One defines what evidence has to exist. The other produces it.</p>
+<p class="value">WitnessOS by Empire Labs Pty Ltd</p>
+</div>
+</section>
+<section id="two-halves">
+<div>
+<div class="eyebrow">Two halves of one argument</div>
+<h2>A definition, then the product that meets it</h2>
+<div class="prose">
+<p>Flinders is our engagement programme with the Australian bodies setting the rules for AI assurance: the Department of the Prime Minister and Cabinet's AI consultation, the South Australian Royal Commission into AI and the Australian AI Safety Institute. Its deliverable is a definition, not a product. Two questions. What counts as a reportable AI incident. And what evidence must exist to support one.</p>
+<p>The programme is named after Matthew Flinders, who charted the coast of the continent he named Australia and left charts other navigators steered by for decades. Two things about that matter here. The chart was built from measured observation rather than assertion. It outlived him as the reference others used.</p>
+<p>WitnessOS is the product. It is the implementation that produces evidence a third party can check without trusting us.</p>
+</div>
+<div class="card">
+<blockquote>Revenue follows the definition. It never leads it.</blockquote>
+</div>
+</div>
+</section>
+<section id="vocabulary">
+<div>
+<div class="eyebrow">Where they meet</div>
+<h2>One vocabulary, two jobs</h2>
+<div class="prose">
+<p>Flinders contributes the vocabulary. Three parts of it matter.</p>
+<p>The <strong>evidence ladder</strong>, which names how strong a record is rather than whether it exists at all.</p>
+<p>The difference between a control that was <strong>declared</strong> and a control that was <strong>observed</strong>, which is the difference between a policy and a fact.</p>
+<p>And the principle that a record should be <strong>checkable by a party who does not operate the system that produced it</strong>. That one is the whole argument in a sentence.</p>
+<p>WitnessOS implements that vocabulary. Nothing here asks you to take our word for it. We are not claiming to be the standard, because the Commonwealth assigns standards status and not us. We are contributing a precise definition to public consultations and then meeting it with something that works.</p>
+</div>
+</div>
+</section>
+<section id="closing" class="cta">
+<div class="eyebrow">The call</div>
+<h2>Start with the definition</h2>
+<p>If your organisation is preparing for the Australian cryptographic transition deadlines or needs to establish what evidence it holds for the AI systems it operates, we would like to hear from you.</p>
+<div class="actions">
+<a class="button" href="mailto:contact@empirelabs.com.au?subject=WitnessOS%20and%20Flinders">Contact Empire Labs</a>
+<a class="button secondary" href="roadmap.html">See the roadmap</a>
+</div>
+</section>
+
+</main>
+<footer class="empire">
+<div class="empire__plate">
+<img class="empire__art" src="assets/empire-footer.webp" width="1280" height="455" loading="lazy" alt="Empire Labs Pty Ltd and WitnessOS. WitnessOS is the runtime governance layer for autonomous agents.">
+<div class="empire__bar">
+<span class="empire__legal">Legal:</span>
+<a href="terms.html">Terms of Service</a>
+<a href="privacy.html">Privacy Policy</a>
+<a href="https://www.empirelabs.com.au">www.empirelabs.com.au</a>
+<a href="mailto:contact@empirelabs.com.au">contact@empirelabs.com.au</a>
+<a href="https://github.com/narko4u/witnessos">github.com/narko4u/witnessos</a>
+</div>
+</div>
+</footer>
+</div>
+
+</body></html>

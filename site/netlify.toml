@@ -1,0 +1,35 @@
+[build]
+  publish = "dist"
+  command = "python3 build_and_verify.py"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Security headers for witnessos.com.au
+#
+# The site is served straight from Netlify with no proxy in front of it, so there is no
+# edge-injected script to accommodate and the policy can stay strict.
+#
+# script-src names each inline block by its SHA-256 hash instead of allowing
+# 'unsafe-inline'. Five pages carried an inline script when this was written: the
+# simulation engine on demo.html, the accordion toggle shared by pricing.html and
+# pqc.html plus the form validation on signup.html. A hash is used rather than a nonce
+# because the estate is static and a nonce written into a file is worth no more than
+# 'unsafe-inline'. build_and_verify.py recomputes these hashes from the built pages and
+# fails the build if the policy and the pages disagree, so editing one of those scripts
+# cannot silently break the page it belongs to.
+#
+# style-src keeps 'unsafe-inline' because the pages carry inline style blocks and inline
+# style attributes.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-SHk502EkostjUbPzrzVe1maOacZC6K1ai3usfflc2z8=' 'sha256-jmS1SbW8Elk9sXV962gDZHMuW/G6wAndmnw5uPOJU/c=' 'sha256-omZuThVvpaKBVPOHyFE3n/O/wa48y0xmE4+bkmH9OwA='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+    X-XSS-Protection = "0"

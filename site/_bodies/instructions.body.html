@@ -1,0 +1,115 @@
+<section class="subhero">
+<div>
+<div class="eyebrow">Instructions</div>
+<h1>Start in the terminal</h1>
+<p class="lead">Every command on this page runs on your machine. Each block ends with the output you should expect, so you can tell success from silence.</p>
+</div>
+</section>
+<section id="what">
+<div>
+<div class="eyebrow">Before you start</div>
+<h2>What you need</h2>
+<div class="grid3">
+<div class="card"><h3>Python</h3><p>The verifier needs Python 3.12 or newer and OpenSSL 3 on your path for timestamp authentication. The MCP validator and the passport need Python 3.10 or newer.</p></div>
+<div class="card"><h3>Nothing else</h3><p>No account, no key, no network call to us. Verification happens on your machine and the tools behave the same offline.</p></div>
+<div class="card"><h3>Your own trust anchors</h3><p>You supply the keys and timestamp authorities you choose to trust. That is the point: the checks are worth nothing if we supply the answer.</p></div>
+</div>
+</div>
+</section>
+<section id="verifier">
+<div class="prose">
+<div class="eyebrow">Tool one</div>
+<h2>Verify an evidence bundle</h2>
+<p>The verifier is published on PyPI and installs in one line:</p>
+<pre>pip install witnessos-verifier
+witnessos-verifier --version</pre>
+<p>Run it against a bundle with no trust supplied and it reports the grade the evidence can support, capped by the checks you have given it:</p>
+<pre>witnessos-verifier verify --alpha ./path/to/evidence-bundle/</pre>
+<p>Supply your own timestamp authority and trust policy and the same bundle is checked against them:</p>
+<pre>witnessos-verifier verify ./path/to/evidence-bundle/ \
+  --trust-policy /path/to/operator-policy.json \
+  --tsa-url https://freetsa.org/tsr</pre>
+<p><strong>Expected behaviour.</strong> The tool prints the derived grade and exits 0 when the bundle verifies. It exits 1 when supplied evidence fails or cannot be verified, including when it grades lower than the record claims. A lower grade never overrides an invalid result.</p>
+<p>The grades it derives are the public ladder, and each grade names the evidence it requires:</p>
+<table>
+<tr><th>Grade</th><th>Required evidence</th></tr>
+<tr><td>E0</td><td>No events loaded</td></tr>
+<tr><td>E1</td><td>Events loaded</td></tr>
+<tr><td>E2</td><td>E1 plus valid event and manifest signatures, chain, sequence bounds and signed batch binding</td></tr>
+<tr><td>E3</td><td>E2 plus corroboration: a provider acknowledgement signed by a key the verifier provisions outside the bundle, naming the provider record and bound to this action</td></tr>
+<tr><td>E4</td><td>E3 plus anchoring: a timestamp that authenticates against operator-provisioned trust roots, covers this action's evidence through a bound inclusion proof, and re-verifies offline</td></tr>
+</table>
+<p><strong>Read this before you quote a grade.</strong> An event type is not evidence. A record that writes <code>provider.confirmed</code> has asserted that a provider confirmed something; the grade moves only when a key the verifier provisions outside the bundle signs the acknowledgement and binds it to this action. A bundled key, a provider name, producer metadata and a custody declaration establish nothing about identity. E4 needs externally provisioned timestamp roots. Retention and custody are attributes of a bundle, not a rung: a deployment may verify them, leave them unverified, or require them by policy, and doing so never lifts E3 to E4. A matching checksum on your own disk is not immutability evidence, and no fixture shipped with the tool should be presented as real custody.</p>
+</div>
+</section>
+<section id="validator">
+<div class="prose">
+<div class="eyebrow">Tool two</div>
+<h2>Check an MCP server against its own declarations</h2>
+<pre>pip install mcp-evidence-validator</pre>
+<p>Compare what a server declares with what it did, and write the head of the resulting ledger somewhere the ledger's holder cannot reach:</p>
+<pre>mcp-ev-validate validate \
+  --declared examples/fictional-server-declared.json \
+  --observed examples/fictional-server-observed.json \
+  --out evidence.json --head-out evidence.head</pre>
+<p>Then audit that ledger later, against the head you kept elsewhere:</p>
+<pre>mcp-ev-validate verify --ledger evidence.json \
+  --expected-head "$(cat evidence.head)"</pre>
+<p><strong>Expected output.</strong> The audit prints:</p>
+<pre>ledger intact: 3 blocks, chain verified against the expected head
+block types: {"declaration": 1, "observation_batch": 1, "report": 1}</pre>
+<p>It exits 1 when the ledger does not reach the expected head and 2 when you invoke it without one. The head is required because a chain read on its own proves nothing to anyone but the person holding the file.</p>
+</div>
+</section>
+<section id="passport">
+<div class="prose">
+<div class="eyebrow">Tool three</div>
+<h2>Issue a passport and present it</h2>
+<p>The passport is not on PyPI yet, so install it from source today. A packaged release is going through the same signed-release process the tools above already use.</p>
+<pre>git clone https://github.com/narko4u/witnessos-passport.git
+cd witnessos-passport
+pip install .</pre>
+<p>Create an issuer key, issue for an agent, and verify offline against the issuer's public key:</p>
+<pre>witnessos-passport keygen --key-out issuer.key
+witnessos-passport issue  --subject agent-01 --issuer empire-labs \
+                          --issuer-key issuer.key --key-out agent.key \
+                          --scope "fs.write:workdir:/srv/notes"
+witnessos-passport verify passport.json \
+                          --trusted empire-labs=&lt;issuer-public-key-hex&gt;</pre>
+<p>Ask whether an action is inside the agent's authority:</p>
+<pre>witnessos-passport authorise passport.json --action fs.write \
+                          --resource workdir:/srv/notes \
+                          --trusted empire-labs=&lt;issuer-public-key-hex&gt;</pre>
+<p>Then prove the agent holds the key its passport carries, over a challenge you issued for that one action:</p>
+<pre>witnessos-passport challenge --action fs.write --resource workdir:/srv/notes \
+                          --ttl 120 --out challenge.json
+witnessos-passport prove   --passport passport.json --key agent.key \
+                          --challenge challenge.json --out presentation.json
+witnessos-passport check   --presentation presentation.json \
+                          --challenge challenge.json \
+                          --trusted empire-labs=&lt;issuer-public-key-hex&gt;</pre>
+<p><strong>Expected behaviour.</strong> Authorisation is deny-by-default: an action outside scope is refused with a machine-readable refusal code rather than a warning. A challenge is single use and dies with its window. If the replay guard cannot be consulted, the presentation is refused rather than assumed safe.</p>
+</div>
+</section>
+<section id="limits">
+<div class="prose">
+<div class="eyebrow">Boundaries</div>
+<h2>What none of these tools do</h2>
+<ul>
+<li>They do not make a record true. They measure what a record can support, and refuse to inflate it.</li>
+<li>They do not establish that an operator honoured its own policy. That is what enforcement, not evidence, is for.</li>
+<li>They do not supply trust. You supply the keys and timestamp authorities you accept, and the checks fail closed without them.</li>
+<li>They do not replace your auditor. They give your auditor something checkable.</li>
+</ul>
+<p>If a claim on this site ever outruns what these tools can prove, that is our defect, not your ambiguity. Tell us and we will correct it.</p>
+</div>
+</section>
+<section class="cta">
+<div class="eyebrow">Next</div>
+<h2>Need it deployed rather than installed?</h2>
+<p>Assessments, audits and adapter builds are priced per engagement. The governed-action engine runs inside your infrastructure under the design-partner programme.</p>
+<div class="actions">
+<a class="button" href="pricing.html">See pricing</a>
+<a class="button secondary" href="signup.html">Request access</a>
+</div>
+</section>

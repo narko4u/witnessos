@@ -1,0 +1,26 @@
+__pycache__/
+*.pyc
+dist/
+.netlify/
+*.bak-*
+preview/
+
+# publish-v2 is mostly a build directory: assemble.py rewrites eleven of its pages on
+# every build. Four pages are hand-maintained source that lives there (index, privacy,
+# terms, standards), so the generated ones are ignored by name and a stale page can never
+# again be mistaken for the current one.
+publish-v2/passport.html
+publish-v2/products.html
+publish-v2/instructions.html
+publish-v2/pricing.html
+publish-v2/demo.html
+publish-v2/casestudy.html
+publish-v2/manifesto.html
+publish-v2/roadmap.html
+publish-v2/signup.html
+publish-v2/pqc.html
+publish-v2/conformance.html
+
+# Node dependencies for the traffic collector. Bundled at deploy time by the
+# Netlify CLI, so the tree is reproducible from package.json alone.
+node_modules/

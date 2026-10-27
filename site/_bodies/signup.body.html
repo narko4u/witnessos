@@ -1,0 +1,102 @@
+<section class="subhero">
+<div>
+<div class="eyebrow">Request early access</div>
+<h1>Run your agents with proof</h1>
+<p class="lead">WitnessOS is released through a design-partner programme. Tell us about your deployment and we will come back to you within two business days.</p>
+</div>
+</section>
+<section id="form">
+<div class="split-form">
+<div>
+<div class="eyebrow">What you get</div>
+<h2>Engine access under NDA</h2>
+<p class="copy">Design partners deploy the proprietary gateway engine on their own infrastructure with direct engineering support from Empire Labs Pty Ltd.</p>
+<div class="form-benefit">
+<h3>Deploy on your infrastructure</h3>
+<p>The gateway engine runs self-hosted. Evidence receipts verify offline with zero trust in Empire Labs.</p>
+</div>
+<div class="form-benefit">
+<h3>Hardened E4 evidence</h3>
+<p>Governed actions carry receipts graded E0 to E4. WitnessOS can produce independently verifiable E4 evidence for governed agent actions: E4 requires legitimate E3 corroborated evidence plus independently authenticated external anchoring. The aligned releases, WitnessOS Gateway v0.1.0 and witnessos-verifier v0.3.5, introduce this hardened model.</p>
+</div>
+<div class="form-benefit">
+<h3>Framework agnostic</h3>
+<p>Works with LangChain, CrewAI, AutoGen and custom agents over a standard HTTP interface.</p>
+</div>
+</div>
+<div>
+<div class="form-card" id="form-card">
+<h2>Request access</h2>
+<form id="access-form" novalidate>
+<div class="row2">
+<div class="field" id="field-first">
+<label for="first-name">First name</label>
+<input type="text" id="first-name" autocomplete="given-name">
+<div class="err">Please enter your first name.</div>
+</div>
+<div class="field" id="field-last">
+<label for="last-name">Last name</label>
+<input type="text" id="last-name" autocomplete="family-name">
+<div class="err">Please enter your last name.</div>
+</div>
+</div>
+<div class="field" id="field-email">
+<label for="email">Work email</label>
+<input type="email" id="email" autocomplete="email">
+<div class="err">Please enter a valid work email address.</div>
+</div>
+<div class="field" id="field-org">
+<label for="org">Organisation</label>
+<input type="text" id="org" autocomplete="organization">
+</div>
+<div class="field" id="field-use">
+<label for="use-case">What would you like to govern?</label>
+<textarea id="use-case" rows="4" placeholder="For example: an AI support agent dispatching customer emails, where we need an auditable approval trail."></textarea>
+<div class="err">Please describe your use case in a sentence.</div>
+</div>
+<button class="button" type="submit" id="submit-btn">Request early access</button>
+<p class="form-note">We reply from contact@empirelabs.com.au. By submitting you agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+</form>
+</div>
+<div id="success">
+<div class="tick">&#10003;</div>
+<h2>One last step</h2>
+<p class="copy">Your email app should have opened with your request pre-filled. If nothing opened, email us directly at contact@empirelabs.com.au and we will reply within two business days.</p>
+</div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+  var form = document.getElementById('access-form');
+  var card = document.getElementById('form-card');
+  var success = document.getElementById('success');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok = true;
+    function check(id, fieldId){
+      var input = document.getElementById(id);
+      var val = input.value.trim();
+      var bad = !val;
+      if (id === 'email') bad = !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val);
+      document.getElementById(fieldId).classList.toggle('error', bad);
+      if (bad) ok = false;
+    }
+    check('first-name','field-first');
+    check('last-name','field-last');
+    check('email','field-email');
+    check('use-case','field-use');
+    if (!ok) return;
+    var subject = encodeURIComponent('WitnessOS early access request: ' + document.getElementById('first-name').value.trim() + ' ' + document.getElementById('last-name').value.trim());
+    var body = encodeURIComponent(
+      'Name: ' + document.getElementById('first-name').value.trim() + ' ' + document.getElementById('last-name').value.trim() + '\n' +
+      'Email: ' + document.getElementById('email').value.trim() + '\n' +
+      'Organisation: ' + (document.getElementById('org').value.trim() || '-') + '\n\n' +
+      'Use case:\n' + document.getElementById('use-case').value.trim()
+    );
+    window.location.href = 'mailto:contact@empirelabs.com.au?subject=' + subject + '&body=' + body;
+    card.style.display = 'none';
+    success.style.display = 'block';
+  });
+})();
+</script>
