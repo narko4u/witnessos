@@ -41,16 +41,17 @@ This is the **public marketing site and documentation** for WitnessOS - a creden
 
 The **gateway engine** (source code, tests, scripts) is proprietary and maintained in a **private repository**, protected while the patent is pending. Access is available under NDA for qualified partners, security researchers, and investors - see [Evaluating the Gateway](#evaluating-the-gateway).
 
-**Hardened Evidence Grade release.** WitnessOS Gateway v0.1.0 and
-[witnessos-verifier v0.3.5](https://github.com/narko4u/witnessos-verifier/releases/tag/v0.3.5)
-are the aligned release that implements the hardened model. The verifier is public; Gateway release
+**Hardened Evidence Grade release.** WitnessOS Gateway v1.0.5 and
+[witnessos-verifier v1.1.1](https://github.com/narko4u/witnessos-verifier/releases/tag/v1.1.1)
+are the current releases that implement the hardened model. The verifier is public; Gateway release
 notes are available to partners under NDA. WitnessOS can produce independently
 verifiable E4 evidence for governed agent actions, where E4 requires legitimate E3 corroborated
 evidence plus independently authenticated external anchoring. The same evidence package must
 derive the same action grade through issuance, local verification and the public verifier, given
 equivalent evidence and trust state. Historical demonstration receipts issued before the hardened
 model remain at the grade the current verifier establishes, which for the project's published
-demonstration record is E2 Enforced.
+demonstration record is E2 Enforced. The canonical site is
+[https://witnessos.com.au](https://witnessos.com.au).
 
 ---
 
@@ -58,14 +59,14 @@ demonstration record is E2 Enforced.
 
 **For developers:**
 
-- ▶️ **[Try the interactive simulation](https://narko4u.github.io/witnessos/demo.html)** - one governed action, end to end: credentialless agent request, human approval, gateway-held execution, externally timestamped receipt (the demonstration record verifies at E2 Enforced under the hardened ladder)
+- ▶️ **[Try the interactive simulation](https://witnessos.com.au/demo.html)** - one governed action, end to end: credentialless agent request, human approval, gateway-held execution, externally timestamped receipt (the demonstration record verifies at E2 Enforced under the hardened ladder)
 - 📖 **[Read the specification](SPEC.md)** - the evidence-grade record format, schema, and grading model
 - 📖 **[aci-spec](https://github.com/narko4u/aci-spec)** · **[aip-spec](https://github.com/narko4u/aip-spec)** · **[ajson](https://github.com/narko4u/ajson)** - the open standards WitnessOS is built on; feedback windows open until 2026-09-15
 - 🗣️ **[Join the discussions](https://github.com/narko4u/witnessos/discussions)** - shape the v1.0 roadmap
 
 **For investors and enterprise partners:**
 
-- 📄 Read the [site](https://narko4u.github.io/witnessos/) and [NOTICE](NOTICE.md) for the honest picture of what is open vs proprietary
+- 📄 Read the [site](https://witnessos.com.au/) and [NOTICE](NOTICE.md) for the honest picture of what is open vs proprietary
 - 🤝 Request gateway access under NDA via [Evaluating the Gateway](#evaluating-the-gateway)
 - 📬 Contact **Empire Labs Pty Ltd** at [contact@empirelabs.com.au](mailto:contact@empirelabs.com.au)
 
@@ -157,15 +158,23 @@ Every step is governed by WitnessOS: the agent's purchase commitment, the suppli
 
 This isn't futuristic speculation. ACI, AIP, and AJSON are open standards available today. WitnessOS provides the governance runtime that makes agent-to-company commerce trustworthy enough for production.
 
-### 6. AtlasOS-Robotics - Autonomous Physical Systems
+### 6. AtlasOS - Orchestration Consumer and Integration Reference
 
-An autonomous drone conducts surveillance over a mining facility. A robotic harvester navigates a crop field, making real-time decisions about what to cut and what to leave. An unmanned underwater vehicle maps seafloor infrastructure without human supervision. A military UMAC (Unmanned Aircraft) executes a mission profile autonomously.
+**AtlasOS** is Empire Labs' agent orchestration product, and it consumes WitnessOS today. The
+integration lives in the AtlasOS repository, not in this one: `src/atlasos/gateway/` calls a
+WitnessOS Gateway over HTTP with HMAC-signed caller envelopes, `vendor/witnessos_sdk` pins
+witnessos-sdk 0.1.2, and `src/atlasos/gateway/contract_status.py` pins the Gateway robot-action
+status contract by digest (contract v1, `CONTRACT_SHA256`
+`b1a119d6b5455377447e3de8888ff9b9a84282337d0efc38e414cf84f6c52d2b`), so a widening of that enum on
+the server fails the client's own test suite instead of surfacing to a caller as a transport fault.
+AtlasOS runs that client in a simulated mode and in a live mode that requires a configured Gateway
+URL and caller secret. No engine internals and no engine signing keys sit in AtlasOS, which is why
+it is the reference model for every other consumer.
 
-Who verifies these systems acted within bounds?
-
-**AtlasOS-Robotics** is the intended autonomous robotics consumer of this evidence layer, for agriculture, mining, aquatics, security and unmanned aircraft. **That integration does not exist yet.** AtlasOS is not a consumer of the current release, no AtlasOS code is integrated, and nothing here should be read as a deployed robotics deployment. What exists today is the general governance and evidence layer that such a system would have to be wired into, and the consumer contract it would be wired through.
-
-When the integration is built, AtlasOS would produce the telemetry and WitnessOS would provide the governance, enforcement and evidence, on the same ladder: a receipt states what was actually proven about the record, and a robotics action whose effect was never observed carries `UNKNOWN` rather than an assumed success.
+What does not exist is an AtlasOS **robotics** deployment over agriculture, mining, aquatics, security
+or unmanned aircraft. A drone, a harvester or a UMAC would be wired into this same governance and
+evidence layer, and a robotics action whose effect was never observed would carry `UNKNOWN` rather
+than an assumed success, but that wiring is not built and no robotics evidence has been produced.
 
 ---
 
@@ -236,9 +245,9 @@ Every receipt carries exactly one grade. The grade measures the strength of cryp
 | **E1** | Observed | A sidecar or SDK witnessed the action. Gaps are possible. |
 | **E2** | Enforced | Gateway authorized and routed the action. Credential broker enforced policy. |
 | **E3** | Corroborated | A party other than the deployment confirmed the outcome, through an evidence route the verifier checks outside the bundle: a recorded action, a provider attestation signed by a key the verifier trusts, a provider record that belongs to this action, and no reuse of another action's record. |
-| **E4** | Anchored | Legitimate E3 corroborated evidence plus independently authenticated external anchoring: an RFC 3161 timestamp verified against a trust anchor the verifier supplies, with revocation checked at generation time, plus Merkle inclusion. Re-verifies offline. |
+| **E4** | Anchored | Legitimate E3 corroborated evidence plus independently authenticated external anchoring: an RFC 3161 timestamp verified against a trust anchor the verifier supplies, plus Merkle inclusion. Revocation is checked at the timestamp's generation time when the verifying policy requires it. Re-verifies offline. |
 
-**E4 (Anchored) - capability, and what it needs:** CRL/OCSP revocation at generation time, persisted TSA endpoint provenance and strict-mode anchoring are implemented and independently verified, and each receipt exports as a bundle (TSA token plus signed case-head commitment) that a third party re-verifies offline with zero trust in the operator. Anchoring is one requirement of E4, not a substitute for corroboration, so a timestamp on its own establishes nothing above the rung its own evidence already supports. The released platform supports hardened E4 evidence when the required corroboration and external anchoring conditions are satisfied. Where a receipt was issued before the hardened model, it remains at the grade the current verifier establishes, which for the project's demonstration record is **E2 Enforced** (see [ALPHA_STATUS.md](ALPHA_STATUS.md)).
+**E4 (Anchored) - capability, and what it needs:** Revocation checking at the timestamp's generation time, persisted TSA endpoint provenance and strict-mode anchoring are implemented and independently verified. The verifier performs the revocation check when the verifying policy requires it (STRICT mode or any policy that asks for it) and fails closed when a required answer cannot be obtained; a STANDARD policy does not check revocation and the verifier's own documentation says so rather than leaving it implied. Each receipt exports as a bundle (TSA token plus signed case-head commitment) that a third party re-verifies offline with zero trust in the operator. Anchoring is one requirement of E4, not a substitute for corroboration, so a timestamp on its own establishes nothing above the rung its own evidence already supports. The released platform supports hardened E4 evidence when the required corroboration and external anchoring conditions are satisfied. Where a receipt was issued before the hardened model, it remains at the grade the current verifier establishes, which for the project's demonstration record is **E2 Enforced** (see [ALPHA_STATUS.md](ALPHA_STATUS.md)).
 
 **Post-quantum hybrid signing.** Receipts are signed with an Ed25519 signature and an ML-DSA-65 signature over the same bytes and the declared suite travels inside the bytes both signatures cover. The published [verifier](https://github.com/narko4u/witnessos-verifier) performs both halves, names the declared suite in its verdict and refuses a record whose declared hybrid suite is missing a half, so a hybrid receipt cannot be downgraded to its classical half after the fact. On 2026-10-04 a hybrid receipt was verified at exit 0 from the record and two public keys alone, in an environment where none of Empire Labs' software is installed. **The default is Ed25519 only.** A fresh deployment provisions one Ed25519 ledger key, and that is what Foundation v1.0.0 ships as its default suite. ML-DSA-65 and the Ed25519 + ML-DSA-65 hybrid are supported and proven: the gateway emits a composite manifest when a second ML-DSA-65 ledger key is provisioned, and the released verifier validates both halves end to end. Hybrid is an operator choice, not the default, and no surface should describe it otherwise.
 
@@ -334,9 +343,9 @@ WitnessOS is currently in **Phase F - Design Partner Alpha**. Here's the path to
 
 ### Current: Design Partner Alpha ✅
 - Single design partner, invitation-only onboarding
-- Maximum grade the engine can issue: E4 Anchored in strict mode with CRL/OCSP revocation and TSA endpoint provenance, gated on legitimate E3 corroboration. Gateway v0.1.0 implements the hardened corroboration path; historical demonstration receipts remain E2 Enforced where that is what the current verifier establishes
+- Maximum grade the engine can issue: E4 Anchored in strict mode with revocation-at-generation-time checking and TSA endpoint provenance, gated on legitimate E3 corroboration. Gateway v1.0.5 implements the hardened corroboration path; historical demonstration receipts remain E2 Enforced where that is what the current verifier establishes
 - Gmail governed sends (sandbox), Stripe test-mode operations
-- Full security review complete (R0-R7.1; the v0.1.0 engine suite is 855 passed, 2 skipped, and CI gates it)
+- Full security review complete (R0-R7.1; the current engine suite at v1.0.5 is 1181 passed, 1 skipped, 5 deselected, and CI gates it)
 - **Live proof:** 2026-09-05: a receipt anchored by a real RFC 3161 timestamp authority (revocation-verified at issuance) whose timestamp and Merkle inclusion proof independently re-verify offline from the export bundle with zero trust in the operator; plus the 2026-09-04 full-loop gateway-mediated send (credentialless agent request, human approval bound to exact content, gateway-held OAuth execution, provider acknowledgment) verified via the WitnessOS CLI verifier. The anchoring capability is proven. The corroboration behind that receipt is our own record of the provider response, and the record predates the hardened model, so it grades **E2 Enforced**. See [ALPHA_STATUS.md](ALPHA_STATUS.md).
 - **Status:** Active. One design partner onboarded, operational review in progress.
 
@@ -363,7 +372,7 @@ The public repo ([SPEC.md](SPEC.md), [SECURITY.md](SECURITY.md), [THREAT-ASSESSM
 - Multi-tenant cloud deployment
 - Full operator dashboard with approval workflows
 - SLA and compliance reporting
-- E4 anchoring with CRL/OCSP revocation infrastructure (implemented and independently verified in Gateway v0.1.0; hardened E4 issuance applies when independent provider corroboration and authenticated anchoring are both satisfied; enterprise TSA wiring for client deployments in this phase)
+- E4 anchoring with revocation-checked-at-generation-time infrastructure (implemented and independently verified in Gateway v1.0.5; hardened E4 issuance applies when independent provider corroboration and authenticated anchoring are both satisfied; enterprise TSA wiring for client deployments in this phase)
 - Customer-managed KMS/HSM, SSO, enterprise RBAC
 - 7-year audit retention, compliance packs
 

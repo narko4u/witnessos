@@ -11,17 +11,17 @@
 <meta property="og:title" content="WitnessOS | Every agent action, provable.">
 <meta property="og:description" content="WitnessOS is the runtime governance layer for autonomous agents, providing deterministic policy, governed approval and independently timestamped evidence.">
 <meta property="og:url" content="https://witnessos.com.au/">
-<meta property="og:image" content="https://narko4u.github.io/witnessos/witnessos-logo.png">
+<meta property="og:image" content="https://witnessos.com.au/assets/witnessos-logo.webp">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="400">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="WitnessOS | Every agent action, provable.">
 <meta name="twitter:description" content="WitnessOS is the runtime governance layer for autonomous agents, providing deterministic policy, governed approval and independently timestamped evidence.">
-<meta name="twitter:image" content="https://narko4u.github.io/witnessos/witnessos-logo.png">
+<meta name="twitter:image" content="https://witnessos.com.au/assets/witnessos-logo.webp">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"WitnessOS","url":"https://witnessos.com.au/","description":"WitnessOS is the runtime governance layer for autonomous agents, providing deterministic policy, governed approval and independently timestamped evidence.","applicationCategory":"SecurityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"AUD"},"author":{"@type":"Organization","name":"Empire Labs Pty Ltd","url":"https://www.empirelabs.com.au/"},"publisher":{"@type":"Organization","name":"Empire Labs Pty Ltd","url":"https://www.empirelabs.com.au/"}}
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is WitnessOS?","acceptedAnswer":{"@type":"Answer","text":"WitnessOS is the runtime governance layer for autonomous agents, developed by Empire Labs Pty Ltd. It sits between an agent wanting to act and the agent being allowed to act, applying deterministic policy, human approval and tamper-evident evidence to every governed action."}},{"@type":"Question","name":"What is an agent transaction?","acceptedAnswer":{"@type":"Answer","text":"An agent transaction is any governed action an autonomous agent performs, such as a payment, refund or message. WitnessOS records each one as a signed, chained evidence receipt with an independent timestamp, so the transaction can be verified later without trusting the operator."}},{"@type":"Question","name":"How does WitnessOS handle AI commerce and payments?","acceptedAnswer":{"@type":"Answer","text":"WitnessOS governs payment and commerce actions through connectors, including x402 payments, Stripe refunds and messaging. Evidence receipts are produced before a connector runs, giving AI commerce the audit trail it needs: what was spent, who approved it, and proof the record was not altered."}},{"@type":"Question","name":"What does E4 evidence mean?","acceptedAnswer":{"@type":"Answer","text":"E4 is the top grade on the public WitnessOS evidence ladder. It requires legitimate E3 corroborated evidence plus independently authenticated external anchoring: an RFC 3161 timestamp from an authority the verifier trusts, with revocation checked at generation time, and it re-verifies offline with zero trust in Empire Labs. It requires legitimate E3 corroborated evidence plus independently authenticated external anchoring. WitnessOS Verifier validates the timestamp token itself, including the Time Stamping Authority's certificate chain and revocation at the moment of stamping. Retention and custody are reported separately and never move the grade."}},{"@type":"Question","name":"Is WitnessOS an agent operating system?","acceptedAnswer":{"@type":"Answer","text":"No. WitnessOS is not an operating system for machines. It is the operating layer for governed agent action, the kernel between the agent wants to and the agent may. It governs, approves and proves actions rather than running the agent itself."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is WitnessOS?","acceptedAnswer":{"@type":"Answer","text":"WitnessOS is the runtime governance layer for autonomous agents, developed by Empire Labs Pty Ltd. It sits between an agent wanting to act and the agent being allowed to act, applying deterministic policy, human approval and tamper-evident evidence to every governed action."}},{"@type":"Question","name":"What is an agent transaction?","acceptedAnswer":{"@type":"Answer","text":"An agent transaction is any governed action an autonomous agent performs, such as a payment, refund or message. WitnessOS records each one as a signed, chained evidence receipt with an independent timestamp, so the transaction can be verified later without trusting the operator."}},{"@type":"Question","name":"How does WitnessOS handle AI commerce and payments?","acceptedAnswer":{"@type":"Answer","text":"WitnessOS governs payment and commerce actions through connectors, including x402 payments, Stripe refunds and messaging. Evidence receipts are produced before a connector runs, giving AI commerce the audit trail it needs: what was spent, who approved it, and proof the record was not altered."}},{"@type":"Question","name":"What does E4 evidence mean?","acceptedAnswer":{"@type":"Answer","text":"E4 is the top grade on the public WitnessOS evidence ladder. It requires legitimate E3 corroborated evidence plus independently authenticated external anchoring: an RFC 3161 timestamp from an authority the verifier trusts, with revocation checked at the timestamp's generation time where the policy requires it and it re-verifies offline with zero trust in Empire Labs. WitnessOS Verifier validates the timestamp token itself, including the Time Stamping Authority's certificate chain and revocation at the moment of stamping. Retention and custody are reported separately and never move the grade."}},{"@type":"Question","name":"Is WitnessOS an agent operating system?","acceptedAnswer":{"@type":"Answer","text":"No. WitnessOS is not an operating system for machines. It is the operating layer for governed agent action, the kernel between the agent wants to and the agent may. It governs, approves and proves actions rather than running the agent itself."}}]}</script>
 <style>
 :root{color-scheme:dark;--bg:#07101d;--panel:#0d1a2b;--line:#23415f;--text:#f4f8ff;--muted:#a8bbce;--accent:#55c7ff;--good:#7ce7c0;--max:1180px}
 *{box-sizing:border-box}
@@ -271,7 +271,7 @@ footer{flex-direction:column}
 <b>E4</b>
 <div>
 <strong>Anchored</strong>
-<span>On top of E3 corroboration: an RFC 3161 timestamp authenticated against a trust anchor the verifier supplies, revocation checked at generation time, plus Merkle inclusion. Re-verifies offline.</span>
+<span>On top of E3 corroboration: an RFC 3161 timestamp authenticated against a trust anchor the verifier supplies, revocation checked at the timestamp's generation time when the policy requires it, plus Merkle inclusion. Re-verifies offline.</span>
 </div>
 </div>
 </div>
@@ -342,7 +342,7 @@ footer{flex-direction:column}
 <span class="connector-chip">Stripe <span>refunds</span></span>
 <span class="connector-chip">Gmail/Workspace <span>messaging</span></span>
 </div>
-<p style="color:var(--good);margin:12px 0 0;font-size:14px">Status: all three lanes are governed and anchored. Published receipts grade E2: E4 requires legitimate E3 corroborated evidence plus independently authenticated external anchoring. WitnessOS Gateway v0.1.0 and witnessos-verifier v0.3.5 introduce the hardened Evidence Grade model.</p>
+<p style="color:var(--good);margin:12px 0 0;font-size:14px">Status: all three lanes are governed and anchored. Published receipts grade E2: E4 requires legitimate E3 corroborated evidence plus independently authenticated external anchoring. WitnessOS Gateway v1.0.5 and witnessos-verifier v1.1.1 are the current releases implementing the hardened Evidence Grade model.</p>
 </div>
 </section>
 <section id="compliance">
@@ -396,7 +396,7 @@ footer{flex-direction:column}
 </div>
 <div class="faq-item">
 <h3>What does E4 evidence mean?</h3>
-<p>E4 is the top grade on the public WitnessOS evidence ladder. It requires legitimate E3 corroborated evidence plus independently authenticated external anchoring: an RFC 3161 timestamp from an authority the verifier trusts, with revocation checked at generation time, and it re-verifies offline with zero trust in Empire Labs. It requires legitimate E3 corroborated evidence plus independently authenticated external anchoring. WitnessOS Verifier validates the timestamp token itself, including the Time Stamping Authority's certificate chain and revocation at the moment of stamping. Retention and custody are reported separately and never move the grade.</p>
+<p>E4 is the top grade on the public WitnessOS evidence ladder. It requires legitimate E3 corroborated evidence plus independently authenticated external anchoring: an RFC 3161 timestamp from an authority the verifier trusts, with revocation checked at the timestamp's generation time where the policy requires it and it re-verifies offline with zero trust in Empire Labs. WitnessOS Verifier validates the timestamp token itself, including the Time Stamping Authority's certificate chain and revocation at the moment of stamping. Retention and custody are reported separately and never move the grade.</p>
 </div>
 <div class="faq-item">
 <h3>Is WitnessOS an agent operating system?</h3>
@@ -425,7 +425,7 @@ footer{flex-direction:column}
 <article class="cap">
 <code>ROADMAP</code>
 <h3><a href="roadmap.html">Shipped and next</a></h3>
-<p>Hardened E4 evidence released in WitnessOS Gateway v0.1.0 and witnessos-verifier v0.3.5. Published demonstration receipts predate it and verify at E2, with the connector layer and trust network ahead.</p>
+<p>Hardened E4 evidence released in WitnessOS Gateway v1.0.5 and witnessos-verifier v1.1.1. Published demonstration receipts predate it and verify at E2, with the connector layer and trust network ahead.</p>
 </article>
 </div>
 <style>#explore .cap h3 a{color:var(--text)}#explore .cap h3 a:hover{color:var(--accent)}.explore-grid{grid-template-columns:repeat(4,1fr)}@media(max-width:980px){.explore-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.explore-grid{grid-template-columns:1fr}}</style>

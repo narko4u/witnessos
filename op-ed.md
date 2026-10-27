@@ -90,4 +90,4 @@ The age of blind trust is over. The age of governed autonomy begins now.
 
 ---
 
-*WitnessOS is a runtime governance platform for autonomous AI agents, developed by Empire Labs Pty Ltd. Patent pending AU 2026906017. Learn more at narko4u.github.io/witnessos or contact contact@empirelabs.com.au.*
+*WitnessOS is a runtime governance platform for autonomous AI agents, developed by Empire Labs Pty Ltd. Patent pending AU 2026906017. Learn more at witnessos.com.au or contact contact@empirelabs.com.au.*

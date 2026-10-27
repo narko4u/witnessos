@@ -101,4 +101,4 @@ WitnessOS is not a logging tool. It is not a monitoring dashboard. It is not a m
 ---
 
 *For press inquiries: contact@empirelabs.com.au*
-*WitnessOS Manifesto: https://narko4u.github.io/witnessos/manifesto.html*
+*WitnessOS Manifesto: https://witnessos.com.au/manifesto.html*

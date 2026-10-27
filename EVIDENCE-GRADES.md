@@ -125,7 +125,7 @@ bundle alone, the verifier caps the grade and states the reason.
 | E1 | That at least one event was recorded by something other than the acting agent, and that every event carries a valid signature under a key the bundle publishes. This is a check on the record's shape, not on who wrote it. | A trust decision naming who the instrumentation speaks for. The reference verifier has no such input yet, so it reports E1 as observed-in-the-record and says plainly that the observer's identity was not authenticated. |
 | E2 | That a policy decision and an authorisation both precede the action in the same case, in addition to chain, ledger, manifest and batch integrity. | That the enforcement point is genuinely non-bypassable. That is a property of the gateway's execution path, not of a file. |
 | E3 | That a provider attestation is signed by a key the operator provisions under `provider_keys` in the verifier's trust policy (or `WITNESSOS_PROVIDER_KEYS_FILE` for standalone CLI use), that the key is not one of the bundle's own signing keys, that it follows an executed action in the same case, that the provider record it names is bound to this action and carries substantive provider facts, and that the record has not already been spent on a different action. | An independently obtained provider key. A key inside the bundle proves signature consistency, never identity. |
-| E4 | E3 plus Merkle inclusion and an RFC 3161 timestamp verified against an operator-supplied trust anchor, with revocation checked at generation time. | Nothing further. Anchoring never substitutes for E3. Retention is reported separately and is not part of this test. |
+| E4 | E3 plus Merkle inclusion and an RFC 3161 timestamp verified against an operator-supplied trust anchor, with revocation checked at the timestamp's generation time when the policy requires it. | Nothing further. Anchoring never substitutes for E3. Retention is reported separately and is not part of this test. |
 
 Two consequences are worth stating plainly, because both were once assumed rather than
 checked:
@@ -161,7 +161,7 @@ The two consequences are absolute, and no combination of the items above changes
   It cannot supply a corroboration the record never had.
 
 This is the position WitnessOS publishes about its own deployment: **the released platform,
-WitnessOS Gateway v1.0.0 with witnessos-verifier v1.0.0, supports hardened E4 Anchored evidence
+WitnessOS Gateway v1.0.5 with witnessos-verifier v1.1.1, supports hardened E4 Anchored evidence
 when the required independent corroboration and authenticated external anchoring conditions are
 satisfied.** Historical demonstration receipts issued before the hardened model remain at the
 grade the current verifier establishes, which for the project's published demonstration record is
@@ -287,7 +287,10 @@ for any grade claim. X41 is present as an adapter and is likewise not a referenc
 connector that records dispatch but cannot observe the effect does not corroborate anything, and
 the ladder caps accordingly.
 
-No AtlasOS integration is complete or asserted here. AtlasOS is not a consumer of this release yet.
+No AtlasOS integration claim is made in the grade definitions themselves. The integration that
+exists is in the AtlasOS repository: it vendors witnessos-sdk 0.1.2 and calls the Gateway over HTTP
+with signed caller envelopes, pinning the Gateway's robot-action status contract by digest. What it
+does not have is a robotics deployment, so no grade in this document rests on one.
 
 ## 8. How to cite
 

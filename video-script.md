@@ -22,7 +22,7 @@
 | **1:04** | The scene shifts. A split screen again - but this time it's different. Left side: a person at a desk, calm, confident. Right side: 9 agent icons working in parallel. The text "9 AGENTS. 1 BUSINESS. 100% PROVABLE." appears. | **VO:** This is not a thought experiment. 9 autonomous agents running a real business today. On WitnessOS. |
 | **1:10** | The camera pulls back. The agent icons and the human merge into a single unified field - man and machine, side by side, governed by the same evidence. The WitnessOS logo appears at center. | **VO:** Partnership requires proof. WitnessOS delivers it. |
 | **1:16** | Logo animation. Tagline appears below: "Guardrails for Autonomous AI." Below that, smaller: "Patent pending AU 2026906017. Empire Labs Pty Ltd." | **VO:** The age of blind trust is over. The age of governed autonomy begins now. |
-| **1:22** | Fade to final frame: "narko4u.github.io/witnessos" | **VO:** narko4u.github.io/witnessos |
+| **1:22** | Fade to final frame: "witnessos.com.au" | **VO:** witnessos.com.au |
 | **1:25** | End. | - |
 
 ---

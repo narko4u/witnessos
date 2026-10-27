@@ -88,7 +88,7 @@ Any agent framework. One endpoint change. No SDKs, no lock-in.
 
 Start free. Prove your agents.
 
-→ narko4u.github.io/witnessos
+→ witnessos.com.au
 
 Patent pending AU 2026906017. Built by Empire Labs Pty Ltd.
 
@@ -124,7 +124,7 @@ The doomers and accelerationsists are both wrong. There is a third way: governed
 
 WitnessOS by Empire Labs Pty Ltd. Patent pending AU 2026906017.
 
-narko4u.github.io/witnessos
+witnessos.com.au
 
 #AutonomousAI #AISafety #AIGovernance #WitnessOS #RuntimeGovernance #AI #Tech
 
