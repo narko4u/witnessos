@@ -13,7 +13,7 @@
 - Action permits with JTI redemption and DPoP binding
 - Event-sourced lifecycle with all 11 event types
 - Hash-chained receipts with Merkle checkpointing
-- Hardened E3 corroboration path and RFC 3161 external anchoring with offline re-verification, released as Gateway v1.0.5 with witnessos-verifier v1.1.1
+- Hardened E3 corroboration path and RFC 3161 external anchoring with offline re-verification, released as Gateway v1.1.0 with witnessos-verifier v1.2.0
 - Independent CLI verifier (`witnessos verify`)
 - RBAC with separation of duties
 - Kill-switch and financial caps
@@ -39,7 +39,7 @@ Current Alpha operates under these constraints:
 ## Evidence Grade Precision
 
 - **E3 (Corroborated):** A party other than the deployment, whose identity a verifier establishes from its own trust input, confirmed the outcome. The verifier appraises an executed action, a provider attestation signed under a trusted key, a provider record that identifies the effect, a binding between that record and this action, substantive provider facts, and no reuse of that record on another action. A provider event type on its own is not corroboration: a gateway record of an acknowledgement it wrote itself is the deployment's own account, and it caps at E2 Enforced.
-- **Hardened E4 is supported** by Gateway v1.0.5 and witnessos-verifier v1.1.1 when the required independent corroboration and authenticated anchoring conditions are satisfied.
+- **Hardened E4 is supported** by Gateway v1.1.0 and witnessos-verifier v1.2.0 when the required independent corroboration and authenticated anchoring conditions are satisfied.
 - **Historical demonstration receipts** issued before the hardened model remain E2 where that is what the current verifier establishes.
 - **Stripe operations:** Test mode only during Alpha. Does not constitute proof of a live financial transaction.
 - **E4 (Anchored):** E4 presupposes legitimate E3 corroborated evidence and adds independently authenticated external anchoring. The implementation authenticates the timestamp's certificate path against a trust anchor the verifier supplies, checks revocation at the timestamp's generation time when the verifying policy requires it and fails closed if a required answer is unavailable and carries Merkle inclusion, exported as a bundle (TSA token plus signed case-head commitment) that a third party re-verifies offline with zero trust in the operator. Anchoring is not a substitute for corroboration and an unrecognised grade value is a failure rather than a new rung. Retention and custody are reported as attributes: a deployment may verify them, leave them unverified or require them by policy and none of that lifts E3 to E4. Independent review proceeds through the design-partner alpha.

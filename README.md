@@ -41,8 +41,8 @@ This is the **public marketing site and documentation** for WitnessOS - a creden
 
 The **gateway engine** (source code, tests, scripts) is proprietary and maintained in a **private repository**, protected while the patent is pending. Access is available under NDA for qualified partners, security researchers, and investors - see [Evaluating the Gateway](#evaluating-the-gateway).
 
-**Hardened Evidence Grade release.** WitnessOS Gateway v1.0.5 and
-[witnessos-verifier v1.1.1](https://github.com/narko4u/witnessos-verifier/releases/tag/v1.1.1)
+**Hardened Evidence Grade release.** WitnessOS Gateway v1.1.0 and
+[witnessos-verifier v1.2.0](https://github.com/narko4u/witnessos-verifier/releases/tag/v1.2.0)
 are the current releases that implement the hardened model. The verifier is public; Gateway release
 notes are available to partners under NDA. WitnessOS can produce independently
 verifiable E4 evidence for governed agent actions, where E4 requires legitimate E3 corroborated
@@ -339,9 +339,9 @@ WitnessOS is currently in **Phase F - Design Partner Alpha**. Here's the path to
 
 ### Current: Design Partner Alpha ✅
 - Single design partner, invitation-only onboarding
-- Maximum grade the engine can issue: E4 Anchored in strict mode with revocation-at-generation-time checking and TSA endpoint provenance, gated on legitimate E3 corroboration. Gateway v1.0.5 implements the hardened corroboration path; historical demonstration receipts remain E2 Enforced where that is what the current verifier establishes
+- Maximum grade the engine can issue: E4 Anchored in strict mode with revocation-at-generation-time checking and TSA endpoint provenance, gated on legitimate E3 corroboration. Gateway v1.1.0 implements the hardened corroboration path; historical demonstration receipts remain E2 Enforced where that is what the current verifier establishes
 - Gmail governed sends (sandbox), Stripe test-mode operations
-- Full security review complete (R0-R7.1; the current engine suite at v1.0.5 is 1181 passed, 1 skipped, 5 deselected, and CI gates it)
+- Full security review complete (R0-R7.1; the current engine suite at v1.1.0 is 1575 passed, 1 skipped, 5 deselected. CI gates it)
 - **Live proof:** 2026-09-05: a receipt anchored by a real RFC 3161 timestamp authority (revocation-verified at issuance) whose timestamp and Merkle inclusion proof independently re-verify offline from the export bundle with zero trust in the operator; plus the 2026-09-04 full-loop gateway-mediated send (credentialless agent request, human approval bound to exact content, gateway-held OAuth execution, provider acknowledgment) verified via the WitnessOS CLI verifier. The anchoring capability is proven. The corroboration behind that receipt is our own record of the provider response, and the record predates the hardened model, so it grades **E2 Enforced**. See [ALPHA_STATUS.md](ALPHA_STATUS.md).
 - **Status:** Active. One design partner onboarded, operational review in progress.
 
@@ -368,7 +368,7 @@ The public repo ([SPEC.md](SPEC.md), [SECURITY.md](SECURITY.md), [THREAT-ASSESSM
 - Multi-tenant cloud deployment
 - Full operator dashboard with approval workflows
 - SLA and compliance reporting
-- E4 anchoring with revocation-checked-at-generation-time infrastructure (implemented and independently verified in Gateway v1.0.5; hardened E4 issuance applies when independent provider corroboration and authenticated anchoring are both satisfied; enterprise TSA wiring for client deployments in this phase)
+- E4 anchoring with revocation-checked-at-generation-time infrastructure (implemented and independently verified in Gateway v1.1.0; hardened E4 issuance applies when independent provider corroboration and authenticated anchoring are both satisfied; enterprise TSA wiring for client deployments in this phase)
 - Customer-managed KMS/HSM, SSO, enterprise RBAC
 - 7-year audit retention, compliance packs
 

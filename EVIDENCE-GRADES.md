@@ -161,7 +161,7 @@ The two consequences are absolute, and no combination of the items above changes
   It cannot supply a corroboration the record never had.
 
 This is the position WitnessOS publishes about its own deployment: **the released platform,
-WitnessOS Gateway v1.0.5 with witnessos-verifier v1.1.1, supports hardened E4 Anchored evidence
+WitnessOS Gateway v1.1.0 with witnessos-verifier v1.2.0, supports hardened E4 Anchored evidence
 when the required independent corroboration and authenticated external anchoring conditions are
 satisfied.** Historical demonstration receipts issued before the hardened model remain at the
 grade the current verifier establishes, which for the project's published demonstration record is
