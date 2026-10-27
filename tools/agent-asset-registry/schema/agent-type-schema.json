@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/narko4u/witnessos-agent-asset-registry/main/schema/agent-type-schema.json",
+  "title": "Agent Type Entry",
+  "description": "Schema defining the structure of an AI agent type entry in the Agent Asset Registry",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Unique identifier for the agent type, in kebab-case",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "examples": ["llm-chat-agent", "fintech-trading-agent"]
+    },
+    "name": {
+      "description": "Human-readable name of the agent type",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 128,
+      "examples": ["LLM Chat Agent", "Fintech Trading Agent"]
+    },
+    "description": {
+      "description": "Detailed description of the agent type, its purpose, and typical use cases",
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 2000
+    },
+    "category": {
+      "description": "Category grouping for the agent type. Must match the directory under registry/agent_types/",
+      "type": "string",
+      "enum": ["general-purpose", "workflow", "industry"]
+    },
+    "vendor": {
+      "description": "Identifier referencing a vendor definition in registry/vendors/",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "capabilities": {
+      "description": "List of capabilities or functions the agent type can perform",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 200
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "risk_profile": {
+      "description": "Assessed risk level of the agent type based on autonomy, access, and potential impact",
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+    "known_behaviors": {
+      "description": "Documented behavioral patterns observed in this agent type",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pattern": {
+            "description": "Short label or identifier for the behavior pattern",
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 128
+          },
+          "severity": {
+            "description": "Severity level of the behavior",
+            "type": "string",
+            "enum": ["info", "low", "medium", "high", "critical"]
+          },
+          "description": {
+            "description": "Detailed description of the behavior pattern, including triggers and outcomes",
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 2000
+          }
+        },
+        "required": ["pattern", "severity", "description"],
+        "additionalProperties": false
+      },
+      "uniqueItems": true
+    },
+    "detection_signatures": {
+      "description": "List of detection signatures that can identify this agent type in runtime environments",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 500
+      },
+      "uniqueItems": true
+    },
+    "first_seen": {
+      "description": "Date when this agent type was first observed in the wild or documented",
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "references": {
+      "description": "URL references to documentation, research papers, vendor pages, or related resources",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri",
+        "pattern": "^https?://"
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": ["id", "name", "description", "category", "vendor", "capabilities", "risk_profile"],
+  "allOf": [
+    {
+      "description": "Ensure category matches the subdirectory structure convention",
+      "if": {
+        "properties": { "category": { "const": "general-purpose" } }
+      },
+      "then": {
+        "properties": {
+          "capabilities": {
+            "description": "General-purpose agents should typically have broad capability sets"
+          }
+        }
+      }
+    },
+    {
+      "description": "High and critical risk profiles must include known_behaviors",
+      "if": {
+        "properties": { "risk_profile": { "enum": ["high", "critical"] } }
+      },
+      "then": {
+        "required": ["known_behaviors"]
+      }
+    }
+  ],
+  "additionalProperties": false
+}

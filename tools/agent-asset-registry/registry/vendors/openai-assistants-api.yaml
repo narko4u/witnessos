@@ -1,0 +1,39 @@
+id: openai-assistants-api
+name: OpenAI Assistants API
+description: OpenAI's managed agent framework — Assistants with tool use, code interpreter, knowledge retrieval, and function calling capabilities.
+type: vendor-platform
+category: platform
+risk_profile: medium
+known_behaviors:
+  - pattern: api_key_exposure
+    severity: high
+    description: API keys for platform can be exposed in agent configurations
+  - pattern: unauthorized_assistant_creation
+    severity: medium
+    description: Assistants may be created without administrative oversight
+capabilities:
+  - code_interpreter
+  - knowledge_retrieval
+  - function_calling
+  - file_search
+  - persistent_threads
+  - streaming_responses
+api_endpoints:
+  - https://api.openai.com/v1/assistants
+  - https://api.openai.com/v1/threads
+  - https://api.openai.com/v1/threads/*/runs
+default_port: 443
+protocol: https
+auth_method: api_key
+known_agent_types:
+  - llm-chat-agent
+  - code-assistant
+  - research-agent
+risk_considerations:
+  - API key management and rotation
+  - Thread persistence across sessions
+  - Function call permissions
+  - Knowledge base access control
+references:
+  - https://platform.openai.com/docs/assistants/overview
+  - https://platform.openai.com/docs/api-reference/assistants

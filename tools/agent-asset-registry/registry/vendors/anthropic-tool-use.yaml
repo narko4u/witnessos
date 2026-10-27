@@ -1,0 +1,36 @@
+id: anthropic-tool-use
+name: Anthropic Tool Use
+description: Anthropic's agent framework enabling Claude to use external tools, APIs, and execute multi-step workflows with structured outputs.
+type: vendor-platform
+category: platform
+risk_profile: medium
+known_behaviors:
+  - pattern: extended_thinking_abuse
+    severity: medium
+    description: Extended thinking mode can be used for unauthorized analysis
+  - pattern: computer_use_escalation
+    severity: critical
+    description: Computer use capabilities enable direct system interaction
+capabilities:
+  - tool_use
+  - structured_output
+  - extended_thinking
+  - multi_step_workflows
+  - computer_use_beta
+api_endpoints:
+  - https://api.anthropic.com/v1/messages
+default_port: 443
+protocol: https
+auth_method: api_key
+known_agent_types:
+  - llm-chat-agent
+  - code-assistant
+  - research-agent
+risk_considerations:
+  - Tool permission scope
+  - Extended thinking token consumption
+  - Computer use capabilities
+  - Multi-step workflow validation
+references:
+  - https://docs.anthropic.com/en/docs/build-with-claude/tool-use
+  - https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking

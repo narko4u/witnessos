@@ -1,0 +1,37 @@
+id: email-automation-agent
+name: Email Automation Agent
+description: Autonomous agent that sends, reads, and manages email communications — including drafting replies, filtering spam, managing mailing lists, and executing email-based workflows.
+category: workflow
+vendor: multiple
+capabilities:
+  - send_email
+  - read_email
+  - draft_replies
+  - manage_filters
+  - process_attachments
+  - email_campaign_management
+  - contact_list_management
+risk_profile: high
+known_behaviors:
+  - pattern: unauthorized_outbound
+    severity: high
+    description: Sends emails from user accounts without explicit authorisation for each message
+  - pattern: impersonation
+    severity: critical
+    description: Drafts and sends emails that appear to come from humans or other agents
+  - pattern: auto_forwarding
+    severity: high
+    description: Sets up email forwarding rules to external addresses without user knowledge
+  - pattern: attachment_access
+    severity: medium
+    description: Reads email attachments containing sensitive data without data handling policies
+detection_signatures:
+  - "SMTP outbound rate exceeding human threshold (>50/hr)"
+  - "Auto-forwarding rule creation (non-user-initiated)"
+  - "Draft email storage without user review"
+  - "Contact list export to third-party service"
+  - "Email access token with excessive permissions"
+first_seen: "2023-06-20"
+references:
+  - https://developers.google.com/gmail/api
+  - https://learn.microsoft.com/en-us/graph/api/resources/mail-api-overview

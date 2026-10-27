@@ -1,0 +1,46 @@
+# =============================================================================
+# WitnessOS Compliance Pack — Kubernetes ConfigMap
+# =============================================================================
+# Provides default configuration for the compliance scanner and CLI.
+# Mounted as /etc/witnessos/compliance-config.yaml inside the pod.
+# =============================================================================
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: witnessos-compliance-config
+  labels:
+    app: witnessos-compliance
+    component: config
+data:
+  # ── Compliance Scanner Defaults ─────────────────────────────────────
+  compliance-config.yaml: |
+    # WitnessOS Compliance Scanner Configuration
+    # ------------------------------------------------------------------
+    # scanner: how often to run compliance scans (cron expression or Go duration)
+    scanner:
+      interval: "30m"                     # Run scan every 30 minutes
+      enabled: true
+
+    # gateway: URL of the WitnessOS Gateway for live evidence queries
+    gateway:
+      url: "http://witnessos-gateway:8100"
+      timeout_seconds: 15
+
+    # output: default report format (text, json, or md)
+    output:
+      format: "json"
+      directory: "/data/reports"          # Report output directory
+      filename_prefix: "compliance-report"
+
+    # standards: compliance standards to check by default
+    standards:
+      - nsa-mcp
+      - eu-ai-act
+      - nist-caisi
+      - singapore-ai-verify
+
+    # logging: verbosity and destinations
+    logging:
+      level: "info"
+      json: true

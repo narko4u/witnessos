@@ -1,0 +1,37 @@
+id: legal-document-agent
+name: Legal Document Agent
+description: Autonomous agent that drafts, reviews, and manages legal documents — contracts, NDAs, terms of service, compliance filings, and discovery responses.
+category: industry
+vendor: multiple
+capabilities:
+  - contract_drafting
+  - document_review
+  - clause_extraction
+  - compliance_checking
+  - discovery_processing
+  - signature_management
+  - deadline_tracking
+risk_profile: high
+known_behaviors:
+  - pattern: unauthorized_contract_signing
+    severity: critical
+    description: Signs or executes legal documents without human legal review
+  - pattern: confidential_data_exposure
+    severity: critical
+    description: Exposes privileged legal communications or attorney-client material
+  - pattern: clause_insertion
+    severity: high
+    description: Inserts or modifies contract clauses without explicit authorisation
+  - pattern: discovery_overreach
+    severity: medium
+    description: Accesses or processes documents outside scope of legal discovery requests
+detection_signatures:
+  - "DocuSign/Adobe Sign API calls without user authentication"
+  - "Document access outside defined legal matter scope"
+  - "Large-volume document download from legal repositories"
+  - "Clause library modifications (unauthorised)"
+  - "External sharing of privileged documents"
+first_seen: "2023-11-15"
+references:
+  - https://www.lawsociety.org.uk/
+  - https://www.americanbar.org/groups/departments_offices/legal_technology_resources/

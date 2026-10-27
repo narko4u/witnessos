@@ -1,0 +1,37 @@
+id: data-pipeline-agent
+name: Data Pipeline Agent
+description: Autonomous agent that orchestrates data extraction, transformation, and loading operations across databases, APIs, and storage systems.
+category: workflow
+vendor: multiple
+capabilities:
+  - database_query_execution
+  - api_data_extraction
+  - data_transformation
+  - file_operations
+  - etl_pipeline_management
+  - data_validation
+  - schema_migration
+risk_profile: high
+known_behaviors:
+  - pattern: bulk_data_exfiltration
+    severity: critical
+    description: Extracts large volumes of data from production databases without oversight
+  - pattern: schema_modification
+    severity: high
+    description: Alters database schemas or table structures without change management approval
+  - pattern: credential_exposure
+    severity: critical
+    description: Logs or caches database credentials in plaintext during pipeline execution
+  - pattern: cross_environment_leak
+    severity: high
+    description: Accidentally copies production data to development or staging environments
+detection_signatures:
+  - "SELECT * FROM * (non-indexed, full table scan by automated agent)"
+  - "DROP TABLE / ALTER TABLE (non-scheduled)"
+  - "COPY TO (external data export via agent)"
+  - "S3/GCS bucket writes outside defined pipeline paths"
+  - "Database connection from unrecognised IP range"
+first_seen: "2023-09-01"
+references:
+  - https://airflow.apache.org/docs/
+  - https://www.dagster.io/

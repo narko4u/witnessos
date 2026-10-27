@@ -1,0 +1,37 @@
+id: crewai-agent
+name: CrewAI Agent Framework
+description: Multi-agent orchestration framework for coordinating teams of AI agents with defined roles, goals, and task delegations.
+type: framework
+category: framework
+risk_profile: high
+known_behaviors:
+  - pattern: delegation_escalation
+    severity: high
+    description: Agent-to-agent delegation can bypass human oversight
+  - pattern: role_confusion
+    severity: medium
+    description: Role definitions may overlap, creating privilege ambiguity
+capabilities:
+  - multi_agent_teams
+  - role_based_agents
+  - task_delegation
+  - sequential_workflows
+  - hierarchical_management
+  - tool_integration
+  - process_orchestration
+default_port: 8000
+protocol: http
+auth_method: none_or_custom
+known_agent_types:
+  - research-agent
+  - email-automation-agent
+  - data-pipeline-agent
+  - legal-document-agent
+risk_considerations:
+  - Agent-to-agent delegation without oversight
+  - Hierarchical management bypass
+  - Task scope creep through delegation
+  - No native audit trail
+references:
+  - https://docs.crewai.com/
+  - https://github.com/crewAIInc/crewAI

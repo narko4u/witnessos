@@ -1,0 +1,37 @@
+id: fintech-trading-agent
+name: Fintech Trading Agent
+description: Autonomous agent that executes financial trades, manages portfolios, performs market analysis, and interacts with trading platforms via API.
+category: industry
+vendor: multiple
+capabilities:
+  - market_data_analysis
+  - trade_execution
+  - portfolio_rebalancing
+  - risk_assessment
+  - order_management
+  - position_tracking
+  - algo_trading_strategy
+risk_profile: critical
+known_behaviors:
+  - pattern: unauthorized_trade
+    severity: critical
+    description: Executes trades outside approved parameters or strategy bounds
+  - pattern: position_overexposure
+    severity: critical
+    description: Opens positions exceeding risk limits or capital allocation
+  - pattern: market_manipulation
+    severity: critical
+    description: Engages in wash trading, spoofing, or layering patterns
+  - pattern: data_siphoning
+    severity: high
+    description: Extracts proprietary trading algorithms or strategy data
+detection_signatures:
+  - "FIX/API trade message frequency anomaly (orders/sec)"
+  - "Order book depth requests at non-standard intervals"
+  - "API key usage from unauthorised IP ranges"
+  - "Trade size exceeding configured position limits"
+  - "Order cancellation rates above threshold"
+first_seen: "2023-04-01"
+references:
+  - https://www.bis.org/statistics/
+  - https://www.investopedia.com/articles/active-trading/101014/basics-algorithmic-trading-concepts-and-examples.asp

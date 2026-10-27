@@ -1,0 +1,25 @@
+# =============================================================================
+# WitnessOS Compliance Pack — Docker Compose
+# =============================================================================
+# Usage:
+#   docker compose build        # Build the CLI image
+#   docker compose run witnessos-cli --help          # Show help
+#   docker compose run witnessos-cli list            # List available standards
+#   docker compose run witnessos-cli report -s nsa-mcp  # Generate a report
+#
+# Reports are written to the host-mounted ./data/ directory.
+# =============================================================================
+
+services:
+  witnessos-cli:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: witnessos-compliance:0.1.0
+    container_name: witnessos-cli
+    restart: unless-stopped
+    volumes:
+      # Mount host directory for report output (WORKDIR is /data in the image)
+      - ./data:/data
+    # Default command; override with `docker compose run witnessos-cli <args>`
+    command: ["--help"]

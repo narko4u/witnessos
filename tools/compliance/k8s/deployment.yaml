@@ -1,0 +1,101 @@
+# =============================================================================
+# WitnessOS Compliance Pack — Kubernetes Deployment
+# =============================================================================
+# Deploys the compliance scanner as a single-replica service.
+# The ConfigMap provides scanner configuration at runtime.
+# =============================================================================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: witnessos-compliance
+  labels:
+    app: witnessos-compliance
+    component: scanner
+    version: "0.1.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: witnessos-compliance
+  template:
+    metadata:
+      labels:
+        app: witnessos-compliance
+        component: scanner
+    spec:
+      containers:
+        - name: witnessos-compliance
+          # Built from docker/Dockerfile — see docker-compose.yml for build instructions
+          image: witnessos-compliance:0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          env:
+            - name: COMPLIANCE_CONFIG_PATH
+              value: /etc/witnessos/compliance-config.yaml
+          # ── Liveness Probe ───────────────────────────────────────────
+          # Checks that the /health endpoint responds (container is alive).
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+          # ── Readiness Probe ──────────────────────────────────────────
+          # Checks that the /health endpoint responds (container is ready for traffic).
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 2
+            successThreshold: 1
+          # ── Resource Limits ──────────────────────────────────────────
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+          # ── Volume Mounts ────────────────────────────────────────────
+          volumeMounts:
+            - name: config
+              mountPath: /etc/witnessos
+              readOnly: true
+            - name: report-data
+              mountPath: /data
+      # ── Volumes ──────────────────────────────────────────────────────
+      volumes:
+        - name: config
+          configMap:
+            name: witnessos-compliance-config
+        - name: report-data
+          emptyDir: {}
+---
+# ── Service ───────────────────────────────────────────────────────────
+# Exposes port 8080 for the compliance scanner's HTTP endpoint (health checks).
+apiVersion: v1
+kind: Service
+metadata:
+  name: witnessos-compliance
+  labels:
+    app: witnessos-compliance
+    component: scanner
+spec:
+  selector:
+    app: witnessos-compliance
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  type: ClusterIP

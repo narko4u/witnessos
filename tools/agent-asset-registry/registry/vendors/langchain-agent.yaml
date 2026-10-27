@@ -1,0 +1,37 @@
+id: langchain-agent
+name: LangChain Agent Framework
+description: Open-source framework for building agent applications with LangGraph, tool chains, memory systems, and multi-agent orchestration.
+type: framework
+category: framework
+risk_profile: high
+known_behaviors:
+  - pattern: unrestricted_tool_execution
+    severity: high
+    description: Custom tools are executed without sandboxing by default
+  - pattern: chain_data_leakage
+    severity: high
+    description: Data passed between chains may be exposed to intermediate systems
+capabilities:
+  - agent_orchestration
+  - tool_chaining
+  - memory_management
+  - multi_agent_systems
+  - custom_tool_integration
+  - streaming
+  - state_graphs
+default_port: 8000
+protocol: http
+auth_method: none_or_custom
+known_agent_types:
+  - llm-chat-agent
+  - research-agent
+  - email-automation-agent
+  - data-pipeline-agent
+risk_considerations:
+  - Open deployment by default
+  - No built-in governance
+  - Custom tool security depends on implementation
+  - Multi-agent communication channels
+references:
+  - https://python.langchain.com/docs/
+  - https://langchain-ai.github.io/langgraph/

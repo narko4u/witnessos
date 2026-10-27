@@ -1,0 +1,37 @@
+id: calendar-scheduler-agent
+name: Calendar Scheduling Agent
+description: Autonomous agent that manages calendar operations — scheduling, rescheduling, cancellations, and availability management across multiple calendars.
+category: workflow
+vendor: multiple
+capabilities:
+  - read_calendar_events
+  - create_events
+  - update_events
+  - cancel_events
+  - check_availability
+  - send_invitations
+  - manage_timezones
+risk_profile: medium
+known_behaviors:
+  - pattern: bulk_event_creation
+    severity: medium
+    description: Creates multiple calendar events in rapid succession, potentially overbooking
+  - pattern: unauthorized_cancellation
+    severity: high
+    description: Cancels existing events without user confirmation or awareness
+  - pattern: cross_calendar_access
+    severity: critical
+    description: Accesses calendar data across organizational boundaries without authorization
+  - pattern: meeting_mining
+    severity: medium
+    description: Extracts attendee lists, meeting topics, and timing patterns for analysis
+detection_signatures:
+  - "POST /api/calendar/events (bulk)"
+  - "DELETE /api/calendar/events/* (non-user-initiated)"
+  - "OAuth calendar scope without explicit user grant"
+  - "High-frequency calendar read operations (>100/min)"
+  - "Calendar write operations outside business hours"
+first_seen: "2024-03-15"
+references:
+  - https://developers.google.com/calendar/api
+  - https://learn.microsoft.com/en-us/graph/outlook-calendar-concept-overview

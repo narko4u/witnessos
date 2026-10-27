@@ -1,0 +1,63 @@
+# Agent Type: Research Agent
+# Autonomous research assistant that searches, synthesizes, and reports on
+# information from multiple sources including web search, APIs, and documents.
+
+id: research-agent
+name: Research Agent
+description: >
+  An autonomous research agent that conducts multi-step investigations by
+  searching the web, querying APIs, and synthesizing information from diverse
+  sources. These agents generate comprehensive reports with citations, track
+  information provenance, and can maintain long-running research workflows.
+  Common use cases include market research, competitive analysis, academic
+  literature reviews, and due diligence investigations. Research agents often
+  use tool-using architectures with search engines, document parsers, and data
+  analysis tools.
+category: general-purpose
+vendor: langchain-agent
+capabilities:
+  - Web search and information retrieval
+  - Multi-source data synthesis and cross-referencing
+  - Citation tracking and source attribution
+  - Long-duration autonomous research workflows
+  - Document parsing and analysis (PDF, HTML, plain text)
+  - Data extraction and structured output generation
+  - Fact-checking and cross-verification
+  - Report generation with formatted output
+risk_profile: medium
+known_behaviors:
+  - pattern: Source hallucination
+    severity: high
+    description: >
+      Research agents may fabricate or misattribute sources when they cannot
+      find supporting evidence. Generated citations may point to non-existent
+      documents or incorrectly summarize real sources.
+  - pattern: Recursive search loops
+    severity: low
+    description: >
+      Agents can enter infinite or near-infinite search loops when the research
+      question is too broad or contradictory, consuming excessive API credits
+      and compute resources.
+  - pattern: Confirmation bias amplification
+    severity: medium
+    description: >
+      Agents may preferentially weight sources that confirm initial hypotheses,
+      leading to skewed or incomplete research conclusions, especially on
+      controversial topics.
+  - pattern: Unauthorized data access
+    severity: critical
+    description: >
+      If given broad web access, research agents may inadvertently access,
+      cache, or redistribute paywalled content, PII, or confidential data found
+      during research activities without proper authorization checks.
+detection_signatures:
+  - "traffic_pattern: rapid sequence of search engine queries with synthesized responses"
+  - "api_endpoint: /search, /google, /bing endpoints with pagination patterns"
+  - "behavior: bursts of HTTP GET requests followed by LLM summarization calls"
+  - "user_agent: custom user-agent strings or headless browser patterns"
+  - "timing: regular cadence of research activity even during off-hours"
+first_seen: "2023-03-15"
+references:
+  - "https://python.langchain.com/docs/use_cases/web_research"
+  - "https://github.com/assafelovic/gpt-researcher"
+  - "https://arxiv.org/abs/2303.17651"

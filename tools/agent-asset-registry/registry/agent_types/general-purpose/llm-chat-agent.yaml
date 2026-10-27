@@ -1,0 +1,61 @@
+# Agent Type: LLM Chat Agent
+# General-purpose conversational agent powered by a large language model.
+# Capable of open-domain dialogue, task completion via natural language,
+# and integration with external tools through function calling.
+
+id: llm-chat-agent
+name: LLM Chat Agent
+description: >
+  A general-purpose conversational agent that uses a large language model to
+  understand and generate human-like text responses. These agents can engage in
+  open-domain dialogue, answer questions, follow instructions, and perform tasks
+  through natural language interfaces. Many implementations support function
+  calling, allowing the agent to interact with external APIs, databases, and
+  tools. Common deployment patterns include customer support chatbots, personal
+  assistants, and front-line interaction layers in multi-agent systems.
+category: general-purpose
+vendor: openai-assistants-api
+capabilities:
+  - Natural language understanding and generation
+  - Context-aware multi-turn conversation
+  - Function/tool calling for external API integration
+  - Document analysis and summarization
+  - Code generation and explanation
+  - Multi-language support
+  - Instruction following and task completion
+risk_profile: medium
+known_behaviors:
+  - pattern: Prompt injection susceptibility
+    severity: high
+    description: >
+      Chat agents with general-purpose LLM backends can be vulnerable to prompt
+      injection attacks where user inputs override system instructions. This can
+      lead to unintended behavior, data exposure, or unauthorized actions.
+  - pattern: Context window overflow
+    severity: medium
+    description: >
+      Extended conversations may exceed the model's context window, causing
+      earlier instructions or context to be forgotten. This can result in
+      inconsistent behavior or loss of critical constraints.
+  - pattern: Hallucination of tool outputs
+    severity: high
+    description: >
+      When using function calling, the agent may hallucinate or fabricate API
+      responses rather than executing real calls, especially under ambiguity or
+      when rate-limited. This can lead to incorrect downstream decisions.
+  - pattern: Role confusion in multi-agent settings
+    severity: medium
+    description: >
+      In systems with multiple chat agents, role boundaries can blur, leading to
+      agents overriding each other's constraints or competing for resources.
+detection_signatures:
+  - "user_agent: contains 'assistant' or 'openai' in conversational API patterns"
+  - "api_endpoint: /v1/chat/completions or similar LLM inference endpoints"
+  - "behavior: high frequency of natural language queries to external APIs"
+  - "traffic_pattern: conversational turn-taking with >500ms inter-request latency"
+  - "header: 'x-request-id' or 'openai-*' custom headers in API calls"
+first_seen: "2022-11-30"
+references:
+  - "https://platform.openai.com/docs/assistants/overview"
+  - "https://arxiv.org/abs/2211.09217"
+  - "https://learn.microsoft.com/en-us/azure/ai-services/openai/"
