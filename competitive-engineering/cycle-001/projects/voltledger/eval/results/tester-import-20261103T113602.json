@@ -1,0 +1,92 @@
+{
+  "gate": "tester-import",
+  "run_at": "2026-11-03T11:36:02+00:00",
+  "cases": 6,
+  "checks": 31,
+  "failed": 0,
+  "results": [
+    {
+      "profile": "generic_csv",
+      "fixture": "generic_pass.csv",
+      "total_rows": 4,
+      "accepted": 4,
+      "rejected": [],
+      "file_sha256": "fdab9952c1c0bc7d5cdc829fccb15b21ba007ce5921bd613b1e1381a3326706d"
+    },
+    {
+      "profile": "generic_csv",
+      "fixture": "generic_rejects.csv",
+      "total_rows": 7,
+      "accepted": 1,
+      "rejected": [
+        [
+          3,
+          "duplicate asset id"
+        ],
+        [
+          4,
+          "item_tag is empty"
+        ],
+        [
+          5,
+          "bad date: 03/11/2026"
+        ],
+        [
+          6,
+          "unknown result: MAYBE"
+        ],
+        [
+          7,
+          "unknown class: kitchen"
+        ],
+        [
+          8,
+          "bad date: 2026-02-30"
+        ]
+      ],
+      "file_sha256": "8989050258d0cd5b6b4af32b028c9ca51dc58ad10ecbeb7048ebbd34a66c0a0e"
+    },
+    {
+      "profile": "generic_csv_no_header",
+      "fixture": "no_header.csv",
+      "total_rows": 3,
+      "accepted": 3,
+      "rejected": [],
+      "file_sha256": "eadd63878815348a46e80c61274732cd813c3af2ec5547b9974b8f42fb69f985"
+    },
+    {
+      "profile": "generic_csv_day_first",
+      "fixture": "dmy_dates.csv",
+      "total_rows": 3,
+      "accepted": 3,
+      "rejected": [],
+      "file_sha256": "b1d311f3b8218f67d0bc67eeea04b240705de77a52688454e8403331a531309f"
+    },
+    {
+      "profile": "generic_csv_day_first",
+      "fixture": "generic_pass.csv",
+      "total_rows": 4,
+      "accepted": 0,
+      "rejected": [
+        [
+          2,
+          "bad date: 2026-11-03"
+        ],
+        [
+          3,
+          "bad date: 2026-11-03"
+        ],
+        [
+          4,
+          "bad date: 2026-11-03"
+        ],
+        [
+          5,
+          "bad date: 2026-10-31"
+        ]
+      ],
+      "file_sha256": "fdab9952c1c0bc7d5cdc829fccb15b21ba007ce5921bd613b1e1381a3326706d"
+    }
+  ],
+  "failures": []
+}
