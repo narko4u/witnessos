@@ -22,8 +22,10 @@ token "<empty>".
 Escapes: \\ -> \\\\, newline -> \\n, tab -> \\t. Nothing else is escaped.
 """
 
+import datetime
 import hashlib
 import io
+import json
 import os
 import sys
 
@@ -559,6 +561,87 @@ def esc(text):
     return text.replace("\\", "\\\\").replace("\n", "\\n").replace("\t", "\\t")
 
 
+MANIFEST = os.path.join(OUT_DIR, "MANIFEST.json")
+
+
+def read_json(path):
+    with io.open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def guard_frozen(path, body, digest):
+    """The corpus is acceptance evidence. Changing it needs a version, a reason
+    and the old file kept. Regenerating it because code changed is refused."""
+    if not os.path.exists(path):
+        return
+    current = io.open(path, encoding="utf-8").read()
+    if current == body:
+        print("corpus unchanged")
+        return
+
+    manifest = read_json(MANIFEST) if os.path.exists(MANIFEST) else {"version": 0, "sha256": ""}
+    version = int(manifest.get("version", 0))
+    args = sys.argv[1:]
+    if "--revise" not in args:
+        old_lines = {l.split("\t")[0]: l for l in current.split("\n") if l}
+        new_lines = {l.split("\t")[0]: l for l in body.split("\n") if l}
+        changed = [cid for cid in sorted(set(old_lines) | set(new_lines))
+                   if old_lines.get(cid) != new_lines.get(cid)]
+        print(f"REFUSED: corpus v{version} is frozen at {manifest.get('sha256', '')[:16]}...")
+        print(f"{len(changed)} of {len(new_lines) - 1} cases would change: {', '.join(changed[:12])}")
+        print('Re-run with --revise "<what changed and why>" to publish a new version.')
+        raise SystemExit(1)
+
+    i = args.index("--revise")
+    reason = args[i + 1] if len(args) > i + 1 else ""
+    if not reason.strip():
+        raise SystemExit("--revise needs a reason in words")
+
+    archive = os.path.join(OUT_DIR, f"corpus.v{version}.tsv")
+    if os.path.exists(archive):
+        raise SystemExit(f"{archive} already exists; the old corpus is never overwritten")
+    with io.open(archive, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(current)
+    with io.open(os.path.join(OUT_DIR, f"corpus.v{version}.sha256"), "w", encoding="utf-8") as fh:
+        fh.write(hashlib.sha256(current.encode("utf-8")).hexdigest() + f"  corpus.v{version}.tsv\n")
+
+    old_lines = {l.split("\t")[0]: l for l in current.split("\n") if l}
+    new_lines = {l.split("\t")[0]: l for l in body.split("\n") if l}
+    changed = [cid for cid in sorted(set(old_lines) | set(new_lines))
+               if old_lines.get(cid) != new_lines.get(cid)]
+
+    note = [
+        "",
+        f"## v{version + 1}, {datetime.date.today().isoformat()}",
+        "",
+        f"- reason: {reason.strip()}",
+        f"- old: v{version}, {len(old_lines) - 1} cases, sha256 {hashlib.sha256(current.encode('utf-8')).hexdigest()}",
+        f"- new: v{version + 1}, {len(new_lines) - 1} cases, sha256 {digest}",
+        f"- changed vectors ({len(changed)}): {', '.join(changed)}",
+        f"- preserved at: corpus.v{version}.tsv",
+    ]
+    with io.open(os.path.join(OUT_DIR, "REVISIONS.md"), "a", encoding="utf-8") as fh:
+        fh.write("\n".join(note) + "\n")
+
+    manifest.update(
+        {
+            "version": version + 1,
+            "file": "corpus.tsv",
+            "sha256": digest,
+            "cases": len(new_lines) - 1,
+            "frozen": datetime.date.today().isoformat(),
+            "status": "IMMUTABLE",
+            "history": manifest.get("history", [])
+            + [{"version": version, "sha256": hashlib.sha256(current.encode("utf-8")).hexdigest(),
+                "cases": len(old_lines) - 1, "reason": reason.strip()}],
+        }
+    )
+    with io.open(MANIFEST, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(manifest, fh, indent=2)
+        fh.write("\n")
+    print(f"published corpus v{version + 1} with {len(changed)} changed vectors")
+
+
 def main():
     check_hand_checks()
     if len(CASES) != 200:
@@ -579,9 +662,10 @@ def main():
 
     body = "\n".join(lines) + "\n"
     out = os.path.join(OUT_DIR, "corpus.tsv")
+    digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+    guard_frozen(out, body, digest)
     with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(body)
-    digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
     with io.open(os.path.join(OUT_DIR, "corpus.sha256"), "w", encoding="utf-8") as fh:
         fh.write(digest + "  corpus.tsv\n")
 

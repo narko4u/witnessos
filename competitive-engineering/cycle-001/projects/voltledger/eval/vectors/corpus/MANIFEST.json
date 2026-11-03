@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "file": "corpus.tsv",
+  "sha256": "40c4afe56db5150a1d6ec003d34847c68a15302ede38129c15d5d74574fc4a3e",
+  "cases": 200,
+  "frozen": "2026-11-03",
+  "baseline_commit": "8638bd9",
+  "tag": "CE001-VOLTLEDGER-PRE-VALIDATION",
+  "status": "IMMUTABLE",
+  "history": []
+}

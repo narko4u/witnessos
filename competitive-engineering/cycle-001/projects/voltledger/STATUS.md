@@ -4,7 +4,7 @@ Updated 2026-11-03, after the parity and tester-import stage. Internal working n
 
 ## Stage
 
-Pilot-ready artefact, unvalidated commercially. Production decision NO-GO pending buyer evidence and the incumbent baseline. See `../../EVIDENCE-PACK.md`.
+Checkpoint `CE001-VOLTLEDGER-PRE-VALIDATION` accepted 2026-11-03 at commit `8638bd9`. Scope locked: no new product surface until an external gate moves. Pilot-ready artefact, unvalidated commercially. Production decision NO-GO pending buyer evidence and the incumbent baseline. See `../../EVIDENCE-PACK.md`.
 
 ## Done
 
@@ -15,7 +15,7 @@ Pilot-ready artefact, unvalidated commercially. Production decision NO-GO pendin
 - Compiled to `apps/capture/core.wasm`, loaded in the browser, with a visible JS fallback.
 - Installable offline PWA: IndexedDB, durable across reload and reconnect, deterministic reconciliation, CSV import validation and export.
 - Browser UX gate `eval/e2e/run_e2e.py`: 13 of 13 checks in Chromium.
-- **200-case corpus frozen and hashed. All four runtimes agree on all 200 cases**: Python oracle, native Rust, JavaScript and the browser running the Rust core as WebAssembly. `python3 eval/gate.py` runs every leg.
+- **200-case corpus frozen at v1 and now enforced**: `MANIFEST.json` holds the digest, the parity gate recomputes it on every run, and the generator refuses to write a changed expectation without `--revise` plus a reason. See `eval/vectors/corpus/REVISIONS.md`. All four runtimes agree on all 200 cases**: Python oracle, native Rust, JavaScript and the browser running the Rust core as WebAssembly. `python3 eval/gate.py` runs every leg.
 - **Tester import layer built as an adapter boundary**: three generic profiles, raw rows retained verbatim, normalised readings stored separately, every rejection named with its line and reason, SHA-256 of the original bytes in the report. Eight Rust tests and a 31-check binary gate.
 - Class-capture defect found by the browser gate and fixed at source.
 - Six external messages sent: five contractor research invitations, one EXTAG demonstration request.

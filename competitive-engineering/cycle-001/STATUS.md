@@ -1,6 +1,6 @@
 # CYCLE-001 STATUS
 
-Updated 2026-11-03, benchmark stage executed. Programme: MOP-EMPIRE-COMPETITIVE-ENGINEERING-001.
+Updated 2026-11-03, benchmark stage executed. Programme: MOP-EMPIRE-COMPETITIVE-ENGINEERING-001. Technical baseline accepted by Eddie on 2026-11-03, see `CHECKPOINT.md` and the tag `CE001-VOLTLEDGER-PRE-VALIDATION`.
 
 ## Stage position
 

@@ -4,6 +4,7 @@
 
 Legs:
 
+  freeze      corpus.tsv against the frozen manifest digest and case count
   oracle      the Python oracle against the frozen corpus (integrity: the oracle
               authored the corpus, so this only proves the file on disk is the
               file that was authored)
@@ -78,6 +79,25 @@ def load_corpus():
     return cases
 
 
+def leg_freeze():
+    """The corpus is acceptance evidence: it must match the frozen manifest."""
+    import hashlib
+    import json
+
+    corpus = os.path.join(HERE, "vectors", "corpus", "corpus.tsv")
+    manifest_path = os.path.join(HERE, "vectors", "corpus", "MANIFEST.json")
+    with open(corpus, "rb") as fh:
+        digest = hashlib.sha256(fh.read()).hexdigest()
+    with open(manifest_path, encoding="utf-8") as fh:
+        manifest = json.load(fh)
+    cases = len(load_corpus())
+    ok = digest == manifest["sha256"] and cases == manifest["cases"]
+    if not ok:
+        print(f"    digest {digest} vs manifest {manifest['sha256']}")
+        print(f"    cases {cases} vs manifest {manifest['cases']}")
+    return ok, f"v{manifest['version']} {manifest['sha256'][:16]}... {cases} cases"
+
+
 def leg_oracle():
     cases = load_corpus()
     bad = [c for c in cases if oracle.dispatch(c[2], c[3]) != c[4]]
@@ -139,6 +159,7 @@ def leg_import():
 
 def main():
     legs = [
+        ("freeze", leg_freeze),
         ("oracle", leg_oracle),
         ("rust", leg_rust),
         ("js", leg_js),
