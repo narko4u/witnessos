@@ -1,0 +1,63 @@
+{
+  "software": "voltledger-eval 0.1.0",
+  "hardware": "Linux 6.6.87.2-microsoft-standard-WSL2 x86_64",
+  "python": "3.14.7",
+  "timestamp": "2026-11-03T19:14:06+1000",
+  "dataset": "/mnt/c/VaultSentinel/HermesGenesis/competitive-engineering/cycle-001/projects/voltledger/eval/dataset/assets.csv",
+  "dataset_sha256": "a35eee68b932cffb0a7f5619df3266f792f23c65db3d0c022c63ada510b6359d",
+  "register_status_counts": {
+    "current": 99,
+    "retest_required": 15,
+    "due_soon": 6
+  },
+  "gates": {
+    "T6_vectors": {
+      "cases": 18,
+      "failures": [],
+      "pass": true
+    },
+    "I01_duplicate_and_bad_rows": {
+      "rejected": [
+        {
+          "row": "AU-1000",
+          "reason": "duplicate asset id"
+        },
+        {
+          "row": "AU-1001",
+          "reason": "duplicate asset id"
+        }
+      ],
+      "pass": true
+    },
+    "T4_pack_build_ms": {
+      "p50": 6.79,
+      "max": 7.7,
+      "records": 500,
+      "pass": true
+    },
+    "T5_evidence": {
+      "verifies_clean": true,
+      "detects_tamper": true,
+      "rejects_wrong_key": true,
+      "pass": true
+    },
+    "T1_T2_per_item_time": {
+      "status": "BLOCKED",
+      "reason": "requires the capture app and human operators; not built in this cycle"
+    },
+    "T3_offline_loss": {
+      "status": "BLOCKED",
+      "reason": "requires device with radio disabled"
+    },
+    "T8_cost_per_1000": {
+      "status": "BLOCKED",
+      "reason": "needs measured labour time; published licence prices alone cannot produce it"
+    },
+    "T9_first_test_minutes": {
+      "status": "BLOCKED",
+      "reason": "requires packaged build"
+    }
+  },
+  "elapsed_s": 0.126,
+  "evidence_pack_head": "6cb273688484d6be4847aed2c2aa83bd5fc4c6444b3bae3e1b6e53f85e86af5e"
+}

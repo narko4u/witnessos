@@ -1,0 +1,201 @@
+case	category	op	payload	expected
+C001	interval_boundary	1	2026-01-31,3	2026-04-30
+C002	interval_boundary	1	2026-01-31,6	2026-07-31
+C003	interval_boundary	1	2026-01-31,12	2027-01-31
+C004	interval_boundary	1	2026-01-31,60	2031-01-31
+C005	interval_boundary	1	2026-03-31,3	2026-06-30
+C006	interval_boundary	1	2026-03-31,6	2026-09-30
+C007	interval_boundary	1	2026-03-31,12	2027-03-31
+C008	interval_boundary	1	2026-03-31,60	2031-03-31
+C009	interval_boundary	1	2026-05-31,3	2026-08-31
+C010	interval_boundary	1	2026-05-31,6	2026-11-30
+C011	interval_boundary	1	2026-05-31,12	2027-05-31
+C012	interval_boundary	1	2026-05-31,60	2031-05-31
+C013	interval_boundary	1	2026-08-31,3	2026-11-30
+C014	interval_boundary	1	2026-08-31,6	2027-02-28
+C015	interval_boundary	1	2026-08-31,12	2027-08-31
+C016	interval_boundary	1	2026-08-31,60	2031-08-31
+C017	interval_boundary	1	2026-10-31,3	2027-01-31
+C018	interval_boundary	1	2026-10-31,6	2027-04-30
+C019	interval_boundary	1	2026-10-31,12	2027-10-31
+C020	interval_boundary	1	2026-10-31,60	2031-10-31
+C021	interval_boundary	1	2026-12-31,3	2027-03-31
+C022	interval_boundary	1	2026-12-31,6	2027-06-30
+C023	interval_boundary	1	2026-12-31,12	2027-12-31
+C024	leap_year	1	2024-02-29,1	2024-03-29
+C025	leap_year	1	2024-02-29,2	2024-04-29
+C026	leap_year	1	2024-02-29,3	2024-05-29
+C027	leap_year	1	2024-02-29,4	2024-06-29
+C028	leap_year	1	2024-02-29,6	2024-08-29
+C029	leap_year	1	2024-02-29,12	2025-02-28
+C030	leap_year	1	2024-02-29,48	2028-02-29
+C031	leap_year	1	2024-02-29,60	2029-02-28
+C032	leap_year	1	2024-02-29,120	2034-02-28
+C033	leap_year	1	2025-02-28,12	2026-02-28
+C034	leap_year	1	2023-02-28,12	2024-02-28
+C035	leap_year	1	2028-02-29,12	2029-02-28
+C036	leap_year	1	2024-01-31,1	2024-02-29
+C037	leap_year	1	2027-02-28,12	2028-02-28
+C038	month_end	1	2026-01-30,1	2026-02-28
+C039	month_end	1	2026-03-30,1	2026-04-30
+C040	month_end	1	2026-05-31,1	2026-06-30
+C041	month_end	1	2026-07-31,1	2026-08-31
+C042	month_end	1	2026-08-31,1	2026-09-30
+C043	month_end	1	2026-10-31,1	2026-11-30
+C044	month_end	1	2026-12-31,1	2027-01-31
+C045	month_end	1	2026-11-30,1	2026-12-30
+C046	month_end	1	2026-09-30,1	2026-10-30
+C047	month_end	1	2026-06-30,1	2026-07-30
+C048	month_end	1	2026-04-30,1	2026-05-30
+C049	month_end	1	2026-02-28,1	2026-03-28
+C050	month_end	1	2026-01-31,2	2026-03-31
+C051	month_end	1	2026-03-31,2	2026-05-31
+C052	month_end	1	2026-05-31,2	2026-07-31
+C053	month_end	1	2026-08-31,2	2026-10-31
+C054	register_state	3	2026-11-03,2026-11-03,30	due_soon
+C055	register_state	3	2026-11-03,2026-11-02,30	due_soon
+C056	register_state	3	2026-11-02,2026-11-03,30	overdue
+C057	register_state	3	2026-11-03,2026-11-03,0	due_soon
+C058	register_state	3	2026-11-04,2026-11-03,0	current
+C059	register_state	3	2026-12-03,2026-11-03,30	due_soon
+C060	register_state	3	2026-12-02,2026-11-03,30	due_soon
+C061	register_state	3	2026-12-04,2026-11-03,30	current
+C062	register_state	3	2026-11-03,2025-11-03,30	current
+C063	register_state	3	2026-01-01,2025-12-31,30	due_soon
+C064	register_state	3	2026-01-31,2026-01-01,30	due_soon
+C065	register_state	3	2026-03-01,2026-01-30,30	due_soon
+C066	register_state	3	2026-02-28,2026-01-29,30	due_soon
+C067	register_state	3	2024-02-29,2024-01-31,29	due_soon
+C068	register_state	3	2024-03-01,2024-01-31,30	due_soon
+C069	register_state	3	2026-11-03,2026-11-03,60	due_soon
+C070	register_state	3	2026-11-20,2026-11-03,30	due_soon
+C071	register_state	3	2026-11-21,2026-11-03,30	due_soon
+C072	register_state	3	2026-12-31,2026-12-01,30	due_soon
+C073	register_state	3	2026-11-03,2026-11-04,30	overdue
+C074	register_state	3	2026-06-30,2026-05-31,30	due_soon
+C075	register_state	3	2026-06-30,2026-06-01,30	due_soon
+C076	zero_invalid_interval	1	2026-11-03,0	ERR months must be a positive integer
+C077	zero_invalid_interval	1	2026-11-03,-3	ERR months must be a positive integer
+C078	zero_invalid_interval	1	2026-11-03,abc	ERR bad input
+C079	zero_invalid_interval	1	2026-11-03,1.5	ERR bad input
+C080	zero_invalid_interval	1	2026-11-03,	ERR bad input
+C081	zero_invalid_interval	1	2026-11-03	ERR bad input
+C082	zero_invalid_interval	1	,12	ERR bad date: 
+C083	zero_invalid_interval	1	2026-11-03,999999	85360-02-03
+C084	zero_invalid_interval	1	2026-02-30,3	ERR not a real date: 2026-02-30
+C085	zero_invalid_interval	1	2026-13-01,3	ERR not a real date: 2026-13-01
+C086	zero_invalid_interval	1	03-11-2026,3	ERR bad date: 03-11-2026
+C087	zero_invalid_interval	1	2026-11-03, 12	2027-11-03
+C088	zero_invalid_interval	1	2026-11-03,+6	2027-05-03
+C089	zero_invalid_interval	1	2026-11-03,0x6	ERR bad input
+C090	duplicate_id	5	item_tag,description,location,class,site\nCAB-001,Drill,Store,construction,Main\nCAB-001,Drill copy,Store,construction,Main\n	ITEM|CAB-001|Drill|Store|construction|Main\nERRROW|3|duplicate asset id\n
+C091	duplicate_id	5	item_tag,description,location,class,site\nCAB-001,Drill,Store,factory,Main\nCAB-002,Grinder,Store,factory,Main\nCAB-001,Drill again,Yard,construction,Main\n	ITEM|CAB-001|Drill|Store|factory|Main\nITEM|CAB-002|Grinder|Store|factory|Main\nERRROW|4|duplicate asset id\n
+C092	duplicate_id	5	item_tag,description,location,class,site\nCAB-001,Drill,Store,factory,Main\nCAB-001,Drill,Store,factory,Main\nCAB-001,Drill,Store,factory,Main\n	ITEM|CAB-001|Drill|Store|factory|Main\nERRROW|3|duplicate asset id\nERRROW|4|duplicate asset id\n
+C093	duplicate_id	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na1|phone-a|1|CAB-001|fail|2026-11-03|factory|replay\n	HDR|1|1|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a1|1|\n
+C094	duplicate_id	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na2|phone-a|2|CAB-001|fail|2026-11-04|factory|\n	HDR|2|1|0\nITEM|CAB-001|fail|2026-11-04|factory|2027-05-04|a2|2|\n
+C095	duplicate_id	4	x|phone-a|1|CAB-001|pass|2026-11-01|factory|\nx|phone-b|9|CAB-002|pass|2026-11-01|factory|\n	HDR|1|1|0\nITEM|CAB-001|pass|2026-11-01|factory|2027-05-01|x|1|\n
+C096	duplicate_id	5	item_tag,description,location,class,site\nCAB-001,Drill,Store,factory,Main\ncab-001,Drill lower,Store,factory,Main\n	ITEM|CAB-001|Drill|Store|factory|Main\nITEM|cab-001|Drill lower|Store|factory|Main\n
+C097	duplicate_id	5	item_tag,description,location,class,site\nCAB-001,Drill,Store,factory,Main\nCAB-002,Grinder,Store,factory,Main\nCAB-002,Grinder two,Store,factory,Main\nCAB-003,Press,Store,factory,Main\n	ITEM|CAB-001|Drill|Store|factory|Main\nITEM|CAB-002|Grinder|Store|factory|Main\nERRROW|4|duplicate asset id\nITEM|CAB-003|Press|Store|factory|Main\n
+C098	duplicate_id	4	dup|phone-a|1|CAB-001|pass|2026-11-03|factory|\ndup|phone-b|2|CAB-002|pass|2026-11-03|factory|\ndup|phone-c|3|CAB-003|pass|2026-11-03|factory|\n	HDR|1|2|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|dup|1|\n
+C099	duplicate_id	5	item_tag,description,location,class,site\nCAB-001,Drill,Store,factory,Main\nCAB-001,Drill,Store,kitchen,Main\n	ITEM|CAB-001|Drill|Store|factory|Main\nERRROW|3|duplicate asset id\n
+C100	duplicate_id	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|first\na1|phone-a|1|CAB-001|pass|2026-11-03|factory|second\n	HDR|1|1|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a1|1|first\n
+C101	duplicate_id	5	item_tag,description,location,class,site\nCAB-001,Drill,Store,factory,Main\n,Noname,Store,factory,Main\nCAB-001,Drill dup,Store,factory,Main\n	ITEM|CAB-001|Drill|Store|factory|Main\nERRROW|3|item_tag is empty\nERRROW|4|duplicate asset id\n
+C102	malformed_date	2	factory,2026-02-30	ERR not a real date: 2026-02-30
+C103	malformed_date	2	factory,2026-13-01	ERR not a real date: 2026-13-01
+C104	malformed_date	2	factory,2026-00-10	ERR not a real date: 2026-00-10
+C105	malformed_date	2	factory,03-11-2026	ERR bad date: 03-11-2026
+C106	malformed_date	2	factory,2026-11-3	ERR bad date: 2026-11-3
+C107	malformed_date	2	factory,	ERR bad date: 
+C108	malformed_date	2	factory,2026-11-31	ERR not a real date: 2026-11-31
+C109	malformed_date	2	factory,1900-02-29	ERR not a real date: 1900-02-29
+C110	malformed_date	2	factory,2024-02-30	ERR not a real date: 2024-02-30
+C111	malformed_date	3	2026-02-30,2026-11-03	ERR not a real date: 2026-02-30
+C112	malformed_date	3	2026-11-03,2026-11-31	ERR not a real date: 2026-11-31
+C113	malformed_date	4	a1|phone-a|1|CAB-001|pass|2026-02-30|factory|\n	ERR not a real date: 2026-02-30
+C114	malformed_date	4	a1|phone-a|1|CAB-001|pass|03/11/2026|factory|\n	ERR bad date: 03/11/2026
+C115	missing_field	5	item_tag,description,location,class\nCAB-001,Drill,Store,factory\n	ERR missing columns: site
+C116	missing_field	5	item_tag,description,location,site\nCAB-001,Drill,Store,Main\n	ERR missing columns: class
+C117	missing_field	5	description,location,class,site\nDrill,Store,factory,Main\n	ERR missing columns: item_tag
+C118	missing_field	5	item_tag,description,location,class,site\n\n	<empty>
+C119	missing_field	5	item_tag,description,location,class,site\nCAB-001,Drill,Store,,Main\n	ERRROW|2|unknown class: blank\n
+C120	missing_field	5	item_tag,description,location,class,site\n,Drill,Store,factory,Main\n	ERRROW|2|item_tag is empty\n
+C121	missing_field	5	item_tag,description,location,class,site\nCAB-001\n	ERRROW|2|unknown class: blank\n
+C122	missing_field	5		ERR empty file
+C123	missing_field	4	|phone-a|1|CAB-001|pass|2026-11-03|factory|\n	ERR opId required
+C124	missing_field	4	a1|phone-a|1||pass|2026-11-03|factory|\n	ERR itemTag required
+C125	missing_field	4	a1|phone-a|1|CAB-001||2026-11-03|factory|\n	ERR bad result: 
+C126	missing_field	4	a1|phone-a|1|CAB-001|pass|2026-11-03||\n	ERR bad class: 
+C127	class_change	4	a1|phone-a|1|CAB-001|pass|2026-05-03|factory|\na2|phone-a|2|CAB-001|pass|2026-11-03|construction|reclassed on site\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|construction|2027-02-03|a2|2|reclassed on site\n
+C128	class_change	4	a1|phone-a|1|CAB-001|pass|2026-11-03|construction|\na2|phone-a|2|CAB-001|pass|2026-08-03|hostile|earlier test\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|construction|2027-02-03|a1|2|\n
+C129	class_change	4	a1|phone-a|1|CAB-001|pass|2026-11-03|office_low_risk|moved to office\na2|phone-a|2|CAB-001|pass|2026-11-03|factory|same day reclass\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a2|2|same day reclass\n
+C130	class_change	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na2|phone-a|2|CAB-002|pass|2026-11-03|hire|\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a1|1|\nITEM|CAB-002|pass|2026-11-03|hire|2027-02-03|a2|1|\n
+C131	class_change	4	a1|phone-a|1|CAB-001|pass|2026-12-31|workshop|\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-12-31|workshop|2027-06-30|a1|1|\n
+C132	class_change	4	a1|phone-a|1|CAB-001|pass|2026-11-03|hire|\na2|phone-a|2|CAB-001|fail|2026-11-04|construction|\n	HDR|2|0|0\nITEM|CAB-001|fail|2026-11-04|construction|2027-02-04|a2|2|\n
+C133	class_change	4	a1|phone-a|1|CAB-001|pass|2026-01-31|construction|\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-01-31|construction|2026-04-30|a1|1|\n
+C134	class_change	4	a1|phone-a|1|CAB-001|pass|2026-02-28|office_flexed|\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-02-28|office_flexed|2027-02-28|a1|1|\n
+C135	class_change	4	a1|phone-a|1|CAB-001|pass|2024-02-29|hostile|\n	HDR|1|0|0\nITEM|CAB-001|pass|2024-02-29|hostile|2025-02-28|a1|1|\n
+C136	class_change	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na2|phone-a|2|CAB-001|pass|2026-11-03|kitchen|bad class later\n	ERR bad class: kitchen
+C137	operator_override	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|override: retest 3 months, manager instruction\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a1|1|override: retest 3 months, manager instruction\n
+C138	operator_override	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|class changed from construction to factory by office\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a1|1|class changed from construction to factory by office\n
+C139	operator_override	4	a1|phone-a|1|CAB-001|fail|2026-11-03|factory|removed from service: plug damaged\n	HDR|1|0|0\nITEM|CAB-001|fail|2026-11-03|factory|2027-05-03|a1|1|removed from service: plug damaged\n
+C140	operator_override	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|tag, with comma\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a1|1|tag, with comma\n
+C141	operator_override	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|quote " inside\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a1|1|quote " inside\n
+C142	operator_override	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na2|phone-a|2|CAB-001|pass|2026-11-03|factory|pass overridden to fail by supervisor\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a2|2|pass overridden to fail by supervisor\n
+C143	operator_override	4	a1|phone-a|1|CAB-001|pass|2026-11-03|hostile|operator selected hostile\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-11-03|hostile|2027-11-03|a1|1|operator selected hostile\n
+C144	operator_override	4	a1|phone-a|1|CAB-001|pass|2026-11-03|office_low_risk|5 year interval applied\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-11-03|office_low_risk|2031-11-03|a1|1|5 year interval applied\n
+C145	operator_override	4	a1|phone-a|1|CAB-001|fail|2026-11-03|construction|operator marked fail without reading\n	HDR|1|0|0\nITEM|CAB-001|fail|2026-11-03|construction|2027-02-03|a1|1|operator marked fail without reading\n
+C146	operator_override	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|note keeps leading space\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a1|1|note keeps leading space\n
+C147	imported_history	4	h1|import|1|CAB-001|pass|2024-11-03|factory|imported from spreadsheet\n	HDR|1|0|0\nITEM|CAB-001|pass|2024-11-03|factory|2025-05-03|h1|1|imported from spreadsheet\n
+C148	imported_history	4	h1|import|1|CAB-001|pass|2025-02-28|construction|\nh2|import|2|CAB-002|fail|2025-08-31|hostile|historic fail\n	HDR|2|0|0\nITEM|CAB-001|pass|2025-02-28|construction|2025-05-28|h1|1|\nITEM|CAB-002|fail|2025-08-31|hostile|2026-08-31|h2|1|historic fail\n
+C149	imported_history	4	h1|import|1|CAB-001|pass|2024-02-29|workshop|leap day test\n	HDR|1|0|0\nITEM|CAB-001|pass|2024-02-29|workshop|2024-08-29|h1|1|leap day test\n
+C150	imported_history	4	h1|import|1|CAB-001|pass|2026-01-31|hire|\nh2|import|2|CAB-001|fail|2026-04-30|hire|\n	HDR|2|0|0\nITEM|CAB-001|fail|2026-04-30|hire|2026-07-30|h2|2|\n
+C151	imported_history	4	h1|import|1|CAB-001|pass|2026-10-31|office_flexed|\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-10-31|office_flexed|2027-10-31|h1|1|\n
+C152	imported_history	4	h1|import|1|CAB-001|pass|2026-05-31|factory|\nh2|import|2|CAB-001|pass|2026-11-30|factory|\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-30|factory|2027-05-30|h2|2|\n
+C153	imported_history	4	h1|import|1|CAB-009|pass|2025-12-31|hostile|\n	HDR|1|0|0\nITEM|CAB-009|pass|2025-12-31|hostile|2026-12-31|h1|1|\n
+C154	imported_history	4	h1|import|1|CAB-001|pass|2026-03-31|construction|\nh2|import|2|CAB-002|pass|2026-03-31|construction|\nh3|import|3|CAB-003|pass|2026-03-31|construction|\n	HDR|3|0|0\nITEM|CAB-001|pass|2026-03-31|construction|2026-06-30|h1|1|\nITEM|CAB-002|pass|2026-03-31|construction|2026-06-30|h2|1|\nITEM|CAB-003|pass|2026-03-31|construction|2026-06-30|h3|1|\n
+C155	imported_history	4	h1|import|1|CAB-001|pass|2020-02-29|office_low_risk|five year test\n	HDR|1|0|0\nITEM|CAB-001|pass|2020-02-29|office_low_risk|2025-02-28|h1|1|five year test\n
+C156	imported_history	4	h1|import|1|CAB-001|pass|2026-08-31|workshop|\nh2|import|2|CAB-002|fail|2026-08-31|workshop|\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-08-31|workshop|2027-02-28|h1|1|\nITEM|CAB-002|fail|2026-08-31|workshop|2027-02-28|h2|1|\n
+C157	reconcile_collision	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na2|phone-b|1|CAB-001|fail|2026-11-03|factory|\n	HDR|2|0|1\nITEM|CAB-001|fail|2026-11-03|factory|2027-05-03|a2|2|\nCONFLICT|CAB-001|2026-11-03|a2|2\n
+C158	reconcile_collision	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na2|phone-b|1|CAB-001|fail|2026-11-03|factory|\na3|phone-c|1|CAB-001|pass|2026-11-03|factory|\n	HDR|3|0|1\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a3|3|\nCONFLICT|CAB-001|2026-11-03|a3|3\n
+C159	reconcile_collision	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na2|phone-b|2|CAB-001|pass|2026-11-03|factory|\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a2|2|\n
+C160	reconcile_collision	4	a1|phone-a|1|CAB-001|fail|2026-11-01|factory|\na2|phone-a|2|CAB-001|fail|2026-11-03|factory|\na3|phone-a|3|CAB-001|pass|2026-11-02|factory|\n	HDR|3|0|0\nITEM|CAB-001|fail|2026-11-03|factory|2027-05-03|a2|3|\n
+C161	reconcile_collision	4	b2|phone-b|5|CAB-002|pass|2026-11-03|factory|\nb1|phone-a|9|CAB-002|pass|2026-11-03|factory|\n	HDR|2|0|0\nITEM|CAB-002|pass|2026-11-03|factory|2027-05-03|b2|2|\n
+C162	reconcile_collision	4	a1|phone-a|2|CAB-001|pass|2026-11-03|factory|\na2|phone-a|1|CAB-001|fail|2026-11-03|factory|\n	HDR|2|0|1\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a1|2|\nCONFLICT|CAB-001|2026-11-03|a1|2\n
+C163	reconcile_collision	4	a1|tablet|1|CAB-001|pass|2026-11-03|factory|\na2|phone-a|1|CAB-001|fail|2026-11-03|factory|\n	HDR|2|0|1\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a1|2|\nCONFLICT|CAB-001|2026-11-03|a1|2\n
+C164	reconcile_collision	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na1|phone-a|1|CAB-001|fail|2026-11-03|factory|\na2|phone-b|1|CAB-001|fail|2026-11-03|factory|\n	HDR|2|1|1\nITEM|CAB-001|fail|2026-11-03|factory|2027-05-03|a2|2|\nCONFLICT|CAB-001|2026-11-03|a2|2\n
+C165	reconcile_collision	4	a1|phone-a|1|CAB-003|pass|2026-11-03|factory|\na2|phone-a|2|CAB-001|pass|2026-11-03|factory|\na3|phone-a|3|CAB-002|pass|2026-11-03|factory|\n	HDR|3|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a2|1|\nITEM|CAB-002|pass|2026-11-03|factory|2027-05-03|a3|1|\nITEM|CAB-003|pass|2026-11-03|factory|2027-05-03|a1|1|\n
+C166	reconcile_collision	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|\na2|phone-a|1|CAB-001|pass|2026-11-03|structural|\n	ERR bad class: structural
+C167	reconcile_collision	4	a1|phone-a|1|CAB-001|pass|2026-11-30|construction|\na2|phone-a|2|CAB-001|pass|2026-12-01|construction|\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-12-01|construction|2027-03-01|a2|2|\n
+C168	reconcile_collision	4	a1|phone-a|1|CAB-001|pass|2026-02-28|factory|\na2|phone-a|2|CAB-001|fail|2026-02-28|factory|\n	HDR|2|0|1\nITEM|CAB-001|fail|2026-02-28|factory|2026-08-28|a2|2|\nCONFLICT|CAB-001|2026-02-28|a2|2\n
+C169	reconcile_collision	4	a1|phone-a|1|CAB-001|pass|2024-02-29|factory|\na2|phone-a|2|CAB-001|fail|2024-02-29|factory|\n	HDR|2|0|1\nITEM|CAB-001|fail|2024-02-29|factory|2024-08-29|a2|2|\nCONFLICT|CAB-001|2024-02-29|a2|2\n
+C170	reconcile_collision	4	a1|phone-a|1|CAB-001|pass|2026-11-03|factory|first device\na2|phone-a|2|CAB-001|pass|2026-11-03|factory|second device\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|a2|2|second device\n
+C171	offline_record	4	c1|phone-a|7|CAB-001|pass|2026-11-03|factory|created offline\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|c1|1|created offline\n
+C172	offline_record	4	c1|phone-b|7|CAB-001|pass|2026-11-03|factory|offline a\nc2|phone-c|1|CAB-001|fail|2026-11-03|factory|offline c\n	HDR|2|0|1\nITEM|CAB-001|fail|2026-11-03|factory|2027-05-03|c2|2|offline c\nCONFLICT|CAB-001|2026-11-03|c2|2\n
+C173	offline_record	4	c1|phone-a|900|CAB-001|pass|2026-11-03|construction|seq high\nc2|phone-a|901|CAB-001|fail|2026-11-03|construction|seq higher\n	HDR|2|0|1\nITEM|CAB-001|fail|2026-11-03|construction|2027-02-03|c2|2|seq higher\nCONFLICT|CAB-001|2026-11-03|c2|2\n
+C174	offline_record	4	c1|phone-z|1|CAB-001|pass|2026-11-03|workshop|\nc2|phone-a|2|CAB-001|fail|2026-11-03|workshop|\n	HDR|2|0|1\nITEM|CAB-001|pass|2026-11-03|workshop|2027-05-03|c1|2|\nCONFLICT|CAB-001|2026-11-03|c1|2\n
+C175	offline_record	4	c3|phone-a|3|CAB-002|pass|2026-11-03|factory|\nc1|phone-a|1|CAB-001|pass|2026-11-03|factory|\nc2|phone-a|2|CAB-001|fail|2026-11-03|factory|\n	HDR|3|0|1\nITEM|CAB-001|fail|2026-11-03|factory|2027-05-03|c2|2|\nITEM|CAB-002|pass|2026-11-03|factory|2027-05-03|c3|1|\nCONFLICT|CAB-001|2026-11-03|c2|2\n
+C176	offline_record	4	c1|phone-a|1|CAB-001|pass|2026-11-02|factory|yesterday offline\nc2|phone-a|2|CAB-001|fail|2026-11-03|factory|today online\n	HDR|2|0|0\nITEM|CAB-001|fail|2026-11-03|factory|2027-05-03|c2|2|today online\n
+C177	offline_record	4	c1|phone-a|0|CAB-001|pass|2026-11-03|factory|seq zero\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|c1|1|seq zero\n
+C178	offline_record	4	c1||1|CAB-001|pass|2026-11-03|factory|no device id\n	HDR|1|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|c1|1|no device id\n
+C179	offline_record	4	c1|phone-a|1|CAB-001|pass|2026-11-03|factory|\nc1|phone-b|1|CAB-002|pass|2026-11-03|factory|\nc2|phone-b|2|CAB-002|fail|2026-11-03|factory|\n	HDR|2|1|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|c1|1|\nITEM|CAB-002|fail|2026-11-03|factory|2027-05-03|c2|1|\n
+C180	offline_record	4	c9|phone-a|9|CAB-001|pass|2026-11-03|office_flexed|\nc10|phone-a|10|CAB-001|pass|2026-11-03|office_flexed|\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|office_flexed|2027-11-03|c10|2|\n
+C181	conflicting_edit	4	e1|phone-a|1|CAB-001|pass|2026-11-03|factory|\ne2|tablet|1|CAB-001|fail|2026-11-03|factory|\n	HDR|2|0|1\nITEM|CAB-001|fail|2026-11-03|factory|2027-05-03|e2|2|\nCONFLICT|CAB-001|2026-11-03|e2|2\n
+C182	conflicting_edit	4	e1|phone-a|1|CAB-001|fail|2026-11-03|factory|\ne2|phone-a|2|CAB-001|pass|2026-11-04|factory|corrected next day\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-04|factory|2027-05-04|e2|2|corrected next day\n
+C183	conflicting_edit	4	e1|phone-a|1|CAB-001|pass|2026-11-03|factory|\ne2|phone-b|1|CAB-001|pass|2026-11-03|construction|class edited\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|construction|2027-02-03|e2|2|class edited\n
+C184	conflicting_edit	4	e1|phone-a|1|CAB-001|pass|2026-11-03|factory|note a\ne2|phone-b|1|CAB-001|pass|2026-11-03|factory|note b\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|e2|2|note b\n
+C185	conflicting_edit	4	e1|phone-a|1|CAB-001|pass|2026-11-03|factory|\ne2|phone-b|1|CAB-001|quit|2026-11-03|factory|bad result value\n	ERR bad result: quit
+C186	conflicting_edit	4	e1|phone-a|1|CAB-001|pass|2026-11-03|factory|\ne2|phone-b|1|CAB-001|pass|2026-11-03||blank class\n	ERR bad class: 
+C187	conflicting_edit	4	e1|phone-a|1|CAB-001|pass|2026-11-03|factory|\ne2|phone-b|1|CAB-001|pass|2026-11-03|factory|extra|pipe\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|e2|2|extra\n
+C188	conflicting_edit	4	e1|phone-a|1|CAB-001|pass|2026-11-03|factory|\ne2|phone-b|1|CAB-001|pass|2026-11-03|factory\n	HDR|2|0|0\nITEM|CAB-001|pass|2026-11-03|factory|2027-05-03|e2|2|\n
+C189	export_parity	6	CAB-001|pass|2026-11-03|factory|2027-05-03||a1\n	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,factory,2027-05-03,,a1\n
+C190	export_parity	6	CAB-001|pass|2026-11-03|factory|2027-05-03|tag, with comma|a1\n	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,factory,2027-05-03,"tag, with comma",a1\n
+C191	export_parity	6	CAB-001|fail|2026-11-03|construction|2027-02-03|quote " inside|a2\nCAB-002|pass|2026-11-03|hostile|2027-11-03||a3\n	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,fail,2026-11-03,construction,2027-02-03,"quote "" inside",a2\nCAB-002,pass,2026-11-03,hostile,2027-11-03,,a3\n
+C192	export_parity	6	CAB-001|pass|2026-11-03|factory|2027-05-03|a1\n	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,factory,2027-05-03,a1,\n
+C193	export_parity	6		item_tag,result,tested_at,class,next_due,note,op_id\n
+C194	export_parity	8	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,factory,2027-05-03,,a1\n	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,factory,2027-05-03,,a1\n
+C195	export_parity	8	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,factory,2026-05-03,,a1\n	ERR row 2: next_due 2026-05-03 does not match 2027-05-03
+C196	export_parity	8	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,factory,2027-05-03,note, a1\n	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,factory,2027-05-03,note,a1\n
+C197	export_parity	8	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,factory,2027-05-03,"tag, with comma",a1\n	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,factory,2027-05-03,"tag, with comma",a1\n
+C198	export_parity	8	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-11-03,kitchen,2027-05-03,,a1\n	ERR row 2: unknown class: kitchen
+C199	export_parity	8	item_tag,result,tested_at,class,next_due,note,op_id\nCAB-001,pass,2026-02-30,factory,2027-05-03,,a1\n	ERR row 2: not a real date: 2026-02-30
+C200	export_parity	8	item_tag,result,tested_at,class\nCAB-001,pass,2026-11-03,factory\n	ERR missing columns: next_due, note, op_id

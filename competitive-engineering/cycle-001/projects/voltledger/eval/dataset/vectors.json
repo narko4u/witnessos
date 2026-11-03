@@ -1,0 +1,32 @@
+{
+  "note": "Judgement lives here, not in the tool. Every expected value was computed by hand. Any disagreement between tool and vector is a defect in the tool until proven otherwise.",
+  "due_date_vectors": [
+    {"id": "V01", "last_test": "2026-01-31", "interval_months": 12, "expected": "2027-01-31", "case": "month end, same day exists"},
+    {"id": "V02", "last_test": "2026-02-28", "interval_months": 12, "expected": "2027-02-28", "case": "non-leap February"},
+    {"id": "V03", "last_test": "2024-02-29", "interval_months": 12, "expected": "2025-02-28", "case": "leap day clamps in non-leap year"},
+    {"id": "V04", "last_test": "2026-08-31", "interval_months": 3, "expected": "2026-11-30", "case": "31st clamps to 30-day month"},
+    {"id": "V05", "last_test": "2026-12-15", "interval_months": 6, "expected": "2027-06-15", "case": "year rollover"},
+    {"id": "V06", "last_test": "2026-03-31", "interval_months": 1, "expected": "2026-04-30", "case": "31st clamps to April"},
+    {"id": "V07", "last_test": "2025-11-30", "interval_months": 12, "expected": "2026-11-30", "case": "30-day month, unchanged"},
+    {"id": "V08", "last_test": "2026-01-01", "interval_months": 24, "expected": "2028-01-01", "case": "24 month cycle"},
+    {"id": "V09", "last_test": "2026-10-31", "interval_months": 3, "expected": "2027-01-31", "case": "31st preserved across quarter"},
+    {"id": "V10", "last_test": "2027-01-31", "interval_months": 1, "expected": "2027-02-28", "case": "31st clamps to February"}
+  ],
+  "status_vectors": [
+    {"id": "S01", "next_due": "2026-11-03", "as_of": "2026-11-03", "window_days": 30, "result": "pass", "expected_status": "due_soon", "case": "due today is not overdue, but is due_soon"},
+    {"id": "S02", "next_due": "2026-11-02", "as_of": "2026-11-03", "window_days": 30, "result": "pass", "expected_status": "overdue", "case": "one day late is overdue"},
+    {"id": "S03", "next_due": "2026-11-20", "as_of": "2026-11-03", "window_days": 30, "result": "pass", "expected_status": "due_soon", "case": "inside window"},
+    {"id": "S04", "next_due": "2026-12-04", "as_of": "2026-11-03", "window_days": 30, "result": "pass", "expected_status": "current", "case": "31 days out is outside a 30 day window"},
+    {"id": "S05", "next_due": "2026-12-03", "as_of": "2026-11-03", "window_days": 30, "result": "pass", "expected_status": "due_soon", "case": "exactly 30 days out is at the window edge"},
+    {"id": "S06", "next_due": "2027-01-01", "as_of": "2026-11-03", "window_days": 30, "result": "fail", "expected_status": "retest_required", "case": "failed result outranks date"},
+    {"id": "S07", "next_due": null, "as_of": "2026-11-03", "window_days": 30, "result": "untested", "expected_status": "untested", "case": "no prior test"},
+    {"id": "S08", "next_due": "2026-11-25", "as_of": "2026-11-03", "window_days": 30, "result": "pass", "expected_status": "due_soon", "case": "22 days out"}
+  ],
+  "integrity_vectors": [
+    {"id": "I01", "case": "duplicate asset id in register", "expected": "rejected with duplicate id listed"},
+    {"id": "I02", "case": "duplicate scan of the same item in one round", "expected": "second scan flagged, not silently overwritten"},
+    {"id": "I03", "case": "item moved between sites mid cycle", "expected": "test date preserved, site history recorded"},
+    {"id": "I04", "case": "corrupted tag payload", "expected": "recorded as unresolved, item not marked tested"},
+    {"id": "I05", "case": "interval_months zero or negative", "expected": "row rejected at import"}
+  ]
+}

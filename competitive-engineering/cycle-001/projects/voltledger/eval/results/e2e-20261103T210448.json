@@ -1,0 +1,81 @@
+{
+  "checks": [
+    {
+      "check": "rust core loaded in wasm",
+      "ok": true,
+      "detail": "engine=rust-wasm parity=8/8"
+    },
+    {
+      "check": "wasm reproduces every vector",
+      "ok": true,
+      "detail": "parity=8/8"
+    },
+    {
+      "check": "register imported",
+      "ok": true,
+      "detail": "30 rows rendered"
+    },
+    {
+      "check": "bad rows do not duplicate the register",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "three captures committed",
+      "ok": true,
+      "detail": "3 records on device"
+    },
+    {
+      "check": "per-item capture under 400ms on desktop engine",
+      "ok": true,
+      "detail": "median 147.8ms"
+    },
+    {
+      "check": "captures survive a reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "shell loads with the network off",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "offline captures survive offline reload and reconnection",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "export has a header and five records",
+      "ok": true,
+      "detail": "6 lines"
+    },
+    {
+      "check": "export carries the computed next due date",
+      "ok": true,
+      "detail": "CAB-001,pass,2026-11-03,factory,2027-05-03,,071ad1e2-fb02-40c1-b731-057a23ca82d0"
+    },
+    {
+      "check": "export records the result",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "no false conflicts on a single device",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "timings_ms": [
+    170.1,
+    135.1,
+    147.8,
+    138.0,
+    134.8
+  ],
+  "engine": "rust-wasm via voltledger-core",
+  "url": "http://127.0.0.1:8123/index.html",
+  "timestamp": "2026-11-03T21:04:48+1000",
+  "passed": 13,
+  "total": 13
+}

@@ -1,0 +1,74 @@
+{
+  "gate": "corpus-200-browser",
+  "run_at": "2026-11-03T11:04:39+00:00",
+  "url": "http://127.0.0.1:8134/index.html",
+  "browser": "chromium 149.0.7827.55",
+  "engine": "rust-wasm",
+  "corpus_sha256": "40c4afe56db5150a1d6ec003d34847c68a15302ede38129c15d5d74574fc4a3e",
+  "cases": 200,
+  "passed": 200,
+  "failed": 0,
+  "by_category": {
+    "interval_boundary": {
+      "cases": 23,
+      "failed": 0
+    },
+    "leap_year": {
+      "cases": 14,
+      "failed": 0
+    },
+    "month_end": {
+      "cases": 16,
+      "failed": 0
+    },
+    "register_state": {
+      "cases": 22,
+      "failed": 0
+    },
+    "zero_invalid_interval": {
+      "cases": 14,
+      "failed": 0
+    },
+    "duplicate_id": {
+      "cases": 12,
+      "failed": 0
+    },
+    "malformed_date": {
+      "cases": 13,
+      "failed": 0
+    },
+    "missing_field": {
+      "cases": 12,
+      "failed": 0
+    },
+    "class_change": {
+      "cases": 10,
+      "failed": 0
+    },
+    "operator_override": {
+      "cases": 10,
+      "failed": 0
+    },
+    "imported_history": {
+      "cases": 10,
+      "failed": 0
+    },
+    "reconcile_collision": {
+      "cases": 14,
+      "failed": 0
+    },
+    "offline_record": {
+      "cases": 10,
+      "failed": 0
+    },
+    "conflicting_edit": {
+      "cases": 8,
+      "failed": 0
+    },
+    "export_parity": {
+      "cases": 12,
+      "failed": 0
+    }
+  },
+  "failures": []
+}

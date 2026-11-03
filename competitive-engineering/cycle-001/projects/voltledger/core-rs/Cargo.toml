@@ -1,0 +1,16 @@
+[package]
+name = "voltledger-core"
+version = "0.1.0"
+edition = "2021"
+description = "Deterministic register rules, reconciliation and evidence for VoltLedger"
+license = "LicenseRef-Proprietary"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+
+[profile.release]
+opt-level = "s"
+lto = true
+panic = "abort"

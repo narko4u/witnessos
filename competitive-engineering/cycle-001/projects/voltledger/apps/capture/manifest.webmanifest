@@ -1,0 +1,14 @@
+{
+  "name": "Test register",
+  "short_name": "Register",
+  "description": "Local-first test and tag register",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#11161c",
+  "theme_color": "#11161c",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
