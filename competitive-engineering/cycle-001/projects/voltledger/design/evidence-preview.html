@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark">
+<title>VoltLedger — Engineering Evidence | Empire Labs</title>
+<style>
+:root{--gold:#c9a84c;--light:#e8d5a3;--bg:#080808;--panel:#101010;--stroke:#2a2a2a;--text:#efefef;--muted:#aaa;--good:#8ebeb1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse 55% 22% at 86% 3%,#33290e66,transparent),var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--light);text-underline-offset:4px}a:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.shell{width:min(1100px,calc(100% - 40px));margin:auto}
+header{border-bottom:1px solid var(--stroke)}
+header .shell{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:76px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:750;font-size:12px;letter-spacing:.16em;line-height:1.4}
+.mark{display:grid;place-items:center;border:1px solid var(--gold);color:var(--gold);border-radius:8px;width:36px;height:36px;font-size:23px}
+.muted{color:var(--muted)}.top-right{font-size:11px;letter-spacing:.08em;text-align:right;color:var(--muted)}
+.pill{display:inline-block;border:1px solid #71603a;color:var(--light);border-radius:99px;padding:4px 11px;margin-left:10px}
+.hero{padding:92px 0 20px}.kicker{font-weight:750;color:var(--gold);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+h1{font-weight:650;letter-spacing:-.075em;font-size:clamp(44px,7vw,82px);line-height:1.07;max-width:940px;margin:21px 0}
+h1 em{color:var(--light);font-style:normal}
+.lead{font-size:clamp(17px,2.1vw,21px);max-width:740px;color:#c9c9c9}
+.metrics{margin:45px 0 17px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--stroke);border-radius:14px;overflow:hidden;gap:1px;background:var(--stroke)}
+.metric{background:var(--panel);padding:24px;min-height:152px}
+.metric b{display:block;font-size:clamp(33px,4vw,48px);letter-spacing:-.06em;line-height:1.2;font-weight:650;font-variant-numeric:tabular-nums}
+.metric:first-child b{color:var(--light)}
+.metric span{display:block;font-size:12px;color:var(--muted);margin-top:9px;line-height:1.5}
+.small{font-size:12px;color:var(--muted)}
+.rule{height:1px;border:0;background:var(--stroke);margin:65px 0}
+h2{font-size:clamp(28px,3.5vw,39px);line-height:1.2;letter-spacing:-.05em;font-weight:650;margin:8px 0 25px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.box{border:1px solid var(--stroke);background:var(--panel);border-radius:13px;padding:28px}
+.box p,.box li{color:#c5c5c5}
+.box ul{padding-left:22px}.box li{margin:9px 0}
+.checks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:23px 0}
+.check{border:1px solid var(--stroke);border-radius:8px;padding:12px 14px;display:flex;justify-content:space-between;gap:10px;font-size:13px;background:#0b0b0b}
+.check strong{color:var(--good);font-size:10px;white-space:nowrap;letter-spacing:.06em}
+h3{font-size:20px;letter-spacing:-.035em;margin:0 0 15px}
+.reproduce{display:grid;grid-template-columns:minmax(225px,.9fr) minmax(0,1.3fr);gap:26px}
+pre,.digest{background:#070707;border:1px solid var(--stroke);border-radius:9px;padding:16px;overflow-wrap:anywhere;white-space:pre-wrap;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;color:#eadfc8}
+footer{border-top:1px solid var(--stroke);margin-top:75px;padding:30px 0 45px;font-size:12px;color:var(--muted)}
+footer .shell{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:780px){.grid,.reproduce{grid-template-columns:1fr}.checks{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}.hero{padding-top:60px}}
+@media(max-width:450px){.checks{grid-template-columns:1fr}.top-right{font-size:10px}.pill{margin-left:0;display:block;text-align:center}.metric{padding:18px;min-height:130px}.box{padding:19px}.hero{padding-top:50px}}
+</style>
+</head>
+<body>
+<header><div class="shell"><div class="brand"><span class="mark" aria-hidden="true">V</span><span>VOLTLEDGER<br><span class="muted" style="font-size:9px">BY EMPIRE LABS</span></span></div><div class="top-right">ENGINEERING EVIDENCE <span class="pill">PRE-PILOT</span></div></div></header>
+<main class="shell">
+<section class="hero" aria-labelledby="title"><div class="kicker">COMPETITIVE ENGINEERING / CYCLE 001</div>
+<h1 id="title">An inspection record should <em>stand on its own.</em></h1>
+<p class="lead">VoltLedger is a local-first Australian test-and-tag prototype built around independently checkable inspection evidence. The deterministic core has passed cross-runtime tests. Real-world and commercial validation remain open.</p>
+<div class="metrics">
+<div class="metric"><b>200/200</b><span>Frozen scenarios matched across each of four tested runtime paths</span></div>
+<div class="metric"><b>6</b><span>Mandatory test-gate legs, including integrity and import checks</span></div>
+<div class="metric"><b>31/31</b><span>Recorded generic tester-import checks passed</span></div>
+<div class="metric"><b>0</b><span>Verified commercial pilots claimed at this checkpoint</span></div>
+</div>
+<p class="small">Sovereign-reported gate run, 4 November 2026, Chromium 149.0.7827.55 using Rust-WASM. This preview has not independently rerun that test suite.</p></section>
+<hr class="rule">
+<section aria-labelledby="gate-title"><div class="kicker">ENGINEERING CHECKPOINT</div><h2 id="gate-title">Six mandatory gates.</h2>
+<div class="checks">
+<div class="check"><span>Corpus freeze</span><strong>PASS</strong></div>
+<div class="check"><span>Python oracle</span><strong>200/200</strong></div>
+<div class="check"><span>Native Rust</span><strong>200/200</strong></div>
+<div class="check"><span>JavaScript</span><strong>200/200</strong></div>
+<div class="check"><span>Browser / Rust-WASM</span><strong>200/200</strong></div>
+<div class="check"><span>Generic CSV importer</span><strong>31/31</strong></div>
+</div>
+<div class="grid">
+<div class="box"><div class="kicker">WHAT THE TESTS SUPPORT</div><h3>Deterministic behavioural parity</h3><p>Across the frozen corpus, reference outputs matched the tested implementations. The browser gate checks the Rust-WASM engine rather than accepting an unverified fallback. Missing test legs block acceptance.</p></div>
+<div class="box"><div class="kicker">KNOWN LIMITATIONS</div><h3>Not proof of field or commercial readiness</h3><ul><li>No matched speed or cost comparison against TagVault</li><li>No verified branded tester export</li><li>No guarantee against every offline loss scenario</li><li>No regulatory approval or certification claimed</li><li>No demonstrated buyer willingness to pay</li></ul></div>
+</div></section>
+<hr class="rule">
+<section aria-labelledby="rep-title"><div class="kicker">INDEPENDENT REPRODUCTION</div><h2 id="rep-title">Check the actual bytes.</h2>
+<div class="box reproduce">
+<div><h3>Frozen corpus v1</h3><p>Frozen 3 November 2026, 200 cases. The digest provides an immutable comparison target for new runs.</p><div class="kicker">CORPUS SHA-256</div><div class="digest">40c4afe56db5150a1d6ec003d34847c68a15302ede38129c15d5d74574fc4a3e</div></div>
+<div><div class="kicker">RE-RUN PROCEDURE</div><pre>git checkout ce001-voltledger
+cd competitive-engineering/cycle-001/projects/voltledger
+sha256sum eval/vectors/corpus/corpus.tsv
+python3 eval/gate.py</pre><p class="small">Rust, Node and Chromium test dependencies must be present; missing legs fail. Capture new run ID, commit, toolchain and full output. The post-checkpoint gate-race fix is local commit 2645bc0, not asserted to exist in the public or remote checkpoint.</p><p><a href="https://github.com/narko4u/witnessos/blob/ce001-voltledger/competitive-engineering/cycle-001/projects/voltledger/eval/vectors/corpus/MANIFEST.json">Frozen manifest</a> · <a href="https://github.com/narko4u/witnessos/blob/ce001-voltledger/competitive-engineering/cycle-001/projects/voltledger/eval/gate.py">Six-leg gate source</a></p><p class="small">Project links may require permission. This is an internal prospect/demo design; public release requires separate review.</p></div></div>
+</section>
+<hr class="rule">
+<section class="grid" aria-label="Release status">
+<div class="box"><div class="kicker">NEXT TEST</div><h2>Pilot build: GO.</h2><p>Validate a real tester export and demonstrate the workflow with actual operators before claiming field readiness.</p></div>
+<div class="box"><div class="kicker">RELEASE BOUNDARY</div><h2>Production: NO-GO.</h2><p>Buyer evidence, incumbent baseline, security and field gates remain open. Functional parity is not a commercial success claim.</p></div>
+</section></main>
+<footer><div class="shell"><span>VOLTLEDGER / EMPIRE LABS PTY LTD</span><span>Internal pre-pilot evidence preview — no compliance or performance certification implied.</span></div></footer>
+</body></html>
