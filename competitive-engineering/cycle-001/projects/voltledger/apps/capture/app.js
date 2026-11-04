@@ -134,7 +134,12 @@ async function saveResult(result) {
   const tag = $("#tag").value.trim();
   if (!tag) { banner("Scan or type a tag first", "bad"); return; }
   const item = state.items.get(tag);
-  if (!item) { banner(`Tag ${tag} is not in the register`, "bad"); return; }
+  if (!item) {
+    $("#newAsset").open = true;
+    banner(`Tag ${tag} is new. Add the equipment details first.`, "warn");
+    $("#newDescription").focus();
+    return;
+  }
   const classKey = $("#class").value || item.classKey;
   const seq = state.seq + 1;
   const op = {
@@ -157,6 +162,51 @@ async function saveResult(result) {
   $("#note").value = "";
   banner(`${tag} ${result} in ${ms.toFixed(0)}ms`, "ok");
   $("#tag").focus();
+}
+
+// ---- on-site asset registration -----------------------------------------
+// This path uses the existing IndexedDB items store; no new data model or server.
+async function addNewAsset() {
+  const itemTag = $("#tag").value.trim();
+  const description = $("#newDescription").value.trim();
+  const location = $("#newLocation").value.trim();
+  const site = $("#newSite").value.trim();
+  const classKey = $("#class").value;
+  if (!itemTag || itemTag.length > 64 || /[|\r\n]/.test(itemTag)) {
+    banner("Enter a valid tag ID (maximum 64 characters, no line breaks).", "bad");
+    $("#tag").focus();
+    return;
+  }
+  if (!description) {
+    banner("Enter a description of the equipment.", "bad");
+    $("#newDescription").focus();
+    return;
+  }
+  if (!INTERVALS_MONTHS[classKey]) {
+    banner("Choose a valid environment class.", "bad");
+    return;
+  }
+  if (state.items.has(itemTag)) {
+    banner("That tag already exists in the register.", "warn");
+    return;
+  }
+  const item = { itemTag, description, location, site, classKey };
+  try {
+    const db = await openDb();
+    const t = tx(db, ["items"], "readwrite");
+    t.t.objectStore("items").add(item);
+    await t.done;
+    state.items.set(itemTag, item);
+    $("#newAsset").open = false;
+    $("#newDescription").value = "";
+    $("#newLocation").value = "";
+    $("#newSite").value = "";
+    recompute();
+    syncClassFromTag();
+    banner("Asset added locally. Now record its test result.", "ok");
+  } catch (err) {
+    banner("Could not save asset: " + String(err?.message || err), "bad");
+  }
 }
 
 // ---- camera --------------------------------------------------------------
@@ -246,6 +296,7 @@ function syncClassFromTag() {
 $("#tag").addEventListener("input", syncClassFromTag);
 $("#tag").addEventListener("change", syncClassFromTag);
 
+$("#addAssetSave").addEventListener("click", addNewAsset);
 $("#pass").addEventListener("click", () => saveResult("pass"));
 $("#fail").addEventListener("click", () => saveResult("fail"));
 $("#scan").addEventListener("click", startScan);
