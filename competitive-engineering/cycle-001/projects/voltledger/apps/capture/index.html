@@ -61,10 +61,12 @@
    <button id="scanstop" class="button-muted hidden" type="button">Stop camera</button>
    <video id="video" class="hidden" playsinline muted aria-label="Live barcode scanner"></video>
    <p class="hint">Scanning uses your camera if supported. Manual entry always works.</p>
+   <div class="form-divider"></div>
+   <div class="form-grid"><div><label for="class">Environment class</label><select id="class"></select></div><div><label for="tested">Test date</label><input id="tested" type="date"></div></div>
    <details class="asset-drawer" id="newAsset">
      <summary><svg><use href="#i-add"/></svg> New tag? Add equipment to this register</summary>
      <div class="asset-drawer-body">
-       <p>Enter the tag above, then record the equipment details once. The asset is saved on this phone.</p>
+       <p>Enter the tag and select its environment class above, then save the equipment details. The asset stays on this phone.</p>
        <label for="newDescription">Equipment description</label>
        <input id="newDescription" maxlength="180" placeholder="e.g. 240V extension lead">
        <div class="form-grid">
@@ -74,8 +76,6 @@
        <button id="addAssetSave" type="button" class="button-add"><svg><use href="#i-add"/></svg> Save equipment</button>
      </div>
    </details>
-   <div class="form-divider"></div>
-   <div class="form-grid"><div><label for="class">Environment class</label><select id="class"></select></div><div><label for="tested">Test date</label><input id="tested" type="date"></div></div>
    <label for="note">Inspection notes <span class="label-optional">OPTIONAL</span></label><textarea id="note" rows="2" placeholder="Add a note about the test"></textarea>
    <div class="outcome-label">RECORD TEST OUTCOME</div>
    <div class="big"><button id="pass" type="button"><svg><use href="#i-check"/></svg>PASS</button><button id="fail" type="button"><svg><use href="#i-close"/></svg>FAIL</button></div>
