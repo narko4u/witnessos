@@ -91,8 +91,9 @@ function escapeHtml(value) {
 
 function rowFor(item, rec) {
   const today = toIso(new Date());
-  const st = rec ? status(rec.nextDue, today) : "untested";
-  const label = { overdue: "OVERDUE", due_soon: "DUE SOON", current: "OK", untested: "NOT TESTED" }[st];
+  // Failed tests must never appear OK just because their due date is current.
+  const st = rec ? (rec.result === "fail" ? "failed" : status(rec.nextDue, today)) : "untested";
+  const label = { failed: "FAILED", overdue: "OVERDUE", due_soon: "DUE SOON", current: "OK", untested: "NOT TESTED" }[st];
   return `<li class="row s-${st}" data-tag="${escapeHtml(item.itemTag)}">
       <div class="tag">${escapeHtml(item.itemTag)}</div>
       <div class="desc">${escapeHtml(item.description || "no description")}<span class="loc">${escapeHtml(item.location || "")}</span></div>
@@ -102,14 +103,14 @@ function rowFor(item, rec) {
 
 function render() {
   const items = [...state.items.values()];
-  const counts = { overdue: 0, due_soon: 0, current: 0, untested: 0 };
+  const counts = { failed: 0, overdue: 0, due_soon: 0, current: 0, untested: 0 };
   const today = toIso(new Date());
   for (const item of items) {
     const rec = state.records.get(item.itemTag);
-    counts[rec ? status(rec.nextDue, today) : "untested"] += 1;
+    counts[rec ? (rec.result === "fail" ? "failed" : status(rec.nextDue, today)) : "untested"] += 1;
   }
   $("#counts").textContent =
-    `${counts.overdue} overdue | ${counts.due_soon} due soon | ${counts.current} current | ${counts.untested} untested`;
+    `${counts.overdue} overdue | ${counts.due_soon} due soon | ${counts.current} current | ${counts.untested} untested | ${counts.failed} failed`;
   $("#items").innerHTML = items.map((i) => rowFor(i, state.records.get(i.itemTag))).join("") ||
     `<li class="row empty">Import a register or add the first item.</li>`;
   $("#outbox").textContent = `${state.ops.length} records on device`;
@@ -174,7 +175,8 @@ async function startScan() {
   $("#scan").classList.add("hidden");
   $("#scanstop").classList.remove("hidden");
   const loop = async () => {
-    if (!detector || !video.videoWidth) { requestAnimationFrame(loop); return; }
+    if (!detector) return;
+    if (!video.videoWidth) { requestAnimationFrame(loop); return; }
     try {
       const codes = await detector.detect(video);
       if (codes.length) {
