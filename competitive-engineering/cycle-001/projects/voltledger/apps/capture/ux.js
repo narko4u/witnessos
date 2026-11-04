@@ -29,7 +29,7 @@ ready(() => {
         return [key, match ? Number(match[1]) : 0];
       }),
     );
-    const total = values.overdue + values["due soon"] + values.failed + values.current + values.untested + values.failed;
+    const total = values.overdue + values["due soon"] + values.current + values.untested + values.failed;
     const saved = Number.parseInt(outbox.textContent, 10) || 0;
     $("#assetTotal").textContent = String(total);
     $("#attentionTotal").textContent = String(values.overdue + values["due soon"] + values.failed);
