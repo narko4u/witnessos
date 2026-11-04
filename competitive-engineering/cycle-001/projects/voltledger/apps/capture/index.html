@@ -1,124 +1,102 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-AU">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#11161c">
-<meta name="description" content="Local-first test and tag register">
-<title>Test register</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080b0a">
+<meta name="description" content="VoltLedger: local-first electrical test and tag records, offline on your phone. Pilot software.">
+<title>VoltLedger | Field Register</title>
 <link rel="manifest" href="./manifest.webmanifest">
-<style>
-  :root { color-scheme: dark; --bg:#11161c; --panel:#1a222b; --line:#2a3542; --ink:#e8eef5;
-          --mute:#93a2b3; --ok:#3ddc84; --warn:#ffb020; --bad:#ff5c5c; }
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body { margin:0; background:var(--bg); color:var(--ink);
-         font:16px/1.35 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-         padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); }
-  header { position:sticky; top:0; background:var(--bg); border-bottom:1px solid var(--line);
-           padding:10px 14px; z-index:5; }
-  h1 { font-size:15px; margin:0 0 4px; letter-spacing:.02em; text-transform:uppercase; color:var(--mute); }
-  .stats { display:flex; gap:10px; flex-wrap:wrap; font-size:12px; color:var(--mute); }
-  .net { font-weight:700; }
-  .net.up { color:var(--ok); } .net.down { color:var(--warn); }
-  main { padding:12px 14px 120px; }
-  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; margin-bottom:12px; }
-  label { display:block; font-size:12px; color:var(--mute); margin:8px 0 4px; text-transform:uppercase;
-          letter-spacing:.04em; }
-  input, select, button, textarea { font:inherit; width:100%; border-radius:10px; }
-  input, select, textarea { background:#0e141a; color:var(--ink); border:1px solid var(--line);
-                            padding:12px; min-height:46px; }
-  input#tag { font-size:20px; font-weight:700; letter-spacing:.03em; }
-  button { border:1px solid var(--line); background:#22303d; color:var(--ink); padding:12px;
-           min-height:46px; cursor:pointer; }
-  button:active { transform:translateY(1px); }
-  .big { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
-  .big button { min-height:74px; font-size:20px; font-weight:800; letter-spacing:.03em; border-width:2px; }
-  #pass { border-color:var(--ok); color:var(--ok); }
-  #fail { border-color:var(--bad); color:var(--bad); }
-  .row { display:grid; grid-template-columns:76px 1fr auto; gap:8px; align-items:center;
-         padding:10px 6px; border-bottom:1px solid var(--line); list-style:none; }
-  .row.empty { display:block; color:var(--mute); }
-  .tag { font-family: ui-monospace, monospace; font-size:13px; color:var(--mute); }
-  .desc { font-size:14px; } .loc { display:block; font-size:11px; color:var(--mute); }
-  .due { text-align:right; font-size:12px; font-family:ui-monospace, monospace; }
-  .pill { display:block; font-size:10px; font-weight:800; margin-top:2px; }
-  .s-overdue .pill { color:var(--bad); } .s-due_soon .pill { color:var(--warn); }
-  .s-current .pill { color:var(--ok); } .s-untested .pill { color:var(--mute); }
-  ul#items { margin:0; padding:0; }
-  .banner { position:fixed; left:14px; right:14px; bottom:calc(14px + env(safe-area-inset-bottom));
-            padding:12px; border-radius:10px; background:#22303d; border:1px solid var(--line);
-            font-size:14px; z-index:20; }
-  .banner.ok { border-color:var(--ok); } .banner.bad { border-color:var(--bad); }
-  .banner.warn { border-color:var(--warn); }
-  .banner.hidden { display:none; }
-  #video { width:100%; border-radius:10px; background:#000; }
-  .hidden { display:none; }
-  .tools { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
-  .tools button { font-size:13px; }
-  .hint { font-size:11px; color:var(--mute); margin-top:6px; }
-  #conflicts { color:var(--warn); font-weight:700; }
-</style>
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="stylesheet" href="./ui.css">
 </head>
 <body>
-<header>
-  <h1>Test register</h1>
-  <div class="stats">
-    <span id="counts">0 items</span>
-    <span id="outbox">0 records</span>
-    <span id="net" class="net">offline ready</span>
-    <span id="conflicts"></span>
-  </div>
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="svg-defs">
+  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M7 3H5a2 2 0 0 0-2 2v2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M4 12h16M7 9h1m3 0h1m3 0h2"/></symbol>
+  <symbol id="i-add" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12M3 6h2M3 12h2M3 18h2"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 0v6h5M8 13h8M8 17h8"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24"><path d="M4 20v-3m5 3v-7m5 7V9m5 11V4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v13m-5-5 5 5 5-5M4 19v2h16v-2"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 21V8m-5 5 5-5 5 5M4 5V3h16v2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="7"/><path d="m16 16 5 5"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-13h-7z"/></symbol>
+</svg>
+<a href="#capture" class="skip-link">Skip to inspection</a>
+<header class="mast">
+ <div class="shell mast-inner">
+  <a class="brand" href="#home" aria-label="VoltLedger home">
+   <span class="brandmark"><svg><use href="#i-zap"/></svg></span>
+   <span><strong>VOLT<span class="brandgold">LEDGER</span></strong><small>FIELD REGISTER <i></i> PILOT</small></span>
+  </a>
+  <div class="mast-right"><span id="net" class="net" role="status" aria-live="polite">Checking network</span><button id="install" class="install" type="button">Install app</button></div>
+ </div>
 </header>
+<main class="shell">
+ <section id="home" class="welcome" aria-labelledby="welcome-heading">
+   <div class="eyebrow"><span class="eyebrow-line"></span> WORKSITE DASHBOARD</div>
+   <div class="heading-row"><div><h1 id="welcome-heading">Ready for the <em>next inspection.</em></h1><p>Local-first test records, right where the work happens.</p></div><div class="today" id="todayLabel">TODAY</div></div>
+   <div class="stat-grid">
+     <article class="stat"><span class="stat-head">ASSETS IN REGISTER <svg><use href="#i-list"/></svg></span><strong id="assetTotal">0</strong><span class="stat-foot">Known tagged equipment</span></article>
+     <article class="stat attention"><span class="stat-head">NEEDS ATTENTION <span class="tiny-dot"></span></span><strong id="attentionTotal">0</strong><span class="stat-foot">Due soon or overdue</span></article>
+     <article class="stat"><span class="stat-head">SAVED ON THIS PHONE <svg><use href="#i-check"/></svg></span><strong id="savedTotal">0</strong><span class="stat-foot">Locally committed test records</span></article>
+   </div>
+   <div class="quick-grid">
+     <a href="#capture" class="quick-primary" id="quickScan"><span class="quick-icon"><svg><use href="#i-scan"/></svg></span><span><strong>Scan equipment tag</strong><small>Identify equipment and record a result</small></span><svg class="quick-arrow"><use href="#i-arrow"/></svg></a>
+     <a href="#register" class="quick-secondary"><span class="quick-icon"><svg><use href="#i-list"/></svg></span><span><strong>View register</strong><small>Find equipment and due dates</small></span><svg class="quick-arrow"><use href="#i-arrow"/></svg></a>
+   </div>
+   <div class="info-rail"><svg><use href="#i-signal"/></svg><span>Designed to capture locally when reception drops. <strong>Nothing uploads automatically.</strong></span></div>
+ </section>
 
-<main>
-  <div class="card">
-    <label for="tag">Tag or asset id</label>
-    <input id="tag" inputmode="text" autocomplete="off" autocapitalize="characters"
-           placeholder="Scan or type" enterkeyhint="go">
-    <div class="tools">
-      <button id="scan" type="button">Scan tag</button>
-      <button id="scanstop" type="button" class="hidden">Stop camera</button>
-    </div>
-    <video id="video" class="hidden" playsinline muted></video>
-
-    <label for="class">Environment class</label>
-    <select id="class"></select>
-
-    <label for="tested">Tested on</label>
-    <input id="tested" type="date">
-
-    <label for="note">Note (optional)</label>
-    <textarea id="note" rows="2" placeholder="Only if something needs explaining"></textarea>
-
-    <div class="big">
-      <button id="pass" type="button">PASS</button>
-      <button id="fail" type="button">FAIL</button>
-    </div>
-    <p class="hint">The record is written to this device before the button stops moving.
-      Nothing is sent anywhere until you export.</p>
+ <section id="capture" class="workspace" aria-labelledby="capture-heading">
+  <div class="section-top"><div><div class="eyebrow">01 / CAPTURE</div><h2 id="capture-heading">New inspection</h2></div><span class="section-caption">FIELD ENTRY</span></div>
+  <div class="panel capture-panel">
+   <div class="panel-head"><div class="panel-orb"><svg><use href="#i-scan"/></svg></div><div><strong>Identify equipment</strong><span>Use the existing tag ID, or scan its barcode</span></div></div>
+   <label for="tag">Equipment tag / Asset ID</label>
+   <div class="input-action"><input id="tag" inputmode="text" autocomplete="off" autocapitalize="characters" placeholder="e.g. CAB-001" enterkeyhint="next"><button id="scan" type="button" class="scan-btn"><svg><use href="#i-scan"/></svg><span>Scan</span></button></div>
+   <button id="scanstop" class="button-muted hidden" type="button">Stop camera</button>
+   <video id="video" class="hidden" playsinline muted aria-label="Live barcode scanner"></video>
+   <p class="hint">Scanning uses your camera if supported. Manual entry always works.</p>
+   <div class="form-divider"></div>
+   <div class="form-grid"><div><label for="class">Environment class</label><select id="class"></select></div><div><label for="tested">Test date</label><input id="tested" type="date"></div></div>
+   <label for="note">Inspection notes <span class="label-optional">OPTIONAL</span></label><textarea id="note" rows="2" placeholder="Add a note about the test"></textarea>
+   <div class="outcome-label">RECORD TEST OUTCOME</div>
+   <div class="big"><button id="pass" type="button"><svg><use href="#i-check"/></svg>PASS</button><button id="fail" type="button"><svg><use href="#i-close"/></svg>FAIL</button></div>
+   <p class="save-note"><svg><use href="#i-check"/></svg> Saved on this device before confirmation. Retest dates are calculated by the existing core rules; confirm the appropriate testing interval for each site.</p>
   </div>
+ </section>
 
-  <div class="card">
-    <ul id="items"></ul>
-    <p class="hint">Due dates come from the environment class and are recalculated from the
-      record, never typed by hand.</p>
+ <section id="register" class="workspace" aria-labelledby="register-heading">
+  <div class="section-top"><div><div class="eyebrow">02 / REGISTER</div><h2 id="register-heading">Equipment register</h2></div><span class="section-caption">LOCAL DATA</span></div>
+  <div class="panel register-panel">
+   <div class="register-summary"><span id="counts">0 items</span><span id="conflicts" role="status"></span></div>
+   <label for="searchAssets">Search equipment</label><div class="search-field"><svg><use href="#i-search"/></svg><input id="searchAssets" autocomplete="off" placeholder="Tag, equipment or location"></div>
+   <ul id="items" aria-label="Equipment records"></ul>
+   <p class="hint">Calculated due status is a register aid; it is not an independent determination of regulatory requirements.</p>
   </div>
+ </section>
 
-  <div class="card">
-    <label>Register</label>
-    <div class="tools">
-      <button id="importbtn" type="button" onclick="document.getElementById('import').click()">Import CSV</button>
-      <button id="export" type="button">Export CSV</button>
-    </div>
-    <div class="tools">
-      <button id="template" type="button">Blank template</button>
-    </div>
-    <input id="import" type="file" accept=".csv,text/csv" class="hidden">
+ <section id="reports" class="workspace" aria-labelledby="reports-heading">
+  <div class="section-top"><div><div class="eyebrow">03 / DATA</div><h2 id="reports-heading">Import & export</h2></div><span class="section-caption">ON-DEVICE</span></div>
+  <div class="data-grid">
+    <div class="panel data-card"><div class="data-icon"><svg><use href="#i-download"/></svg></div><h3>Export test results</h3><p>Download a CSV of recorded results and their computed due dates.</p><button id="export" type="button" class="button-outline">Export CSV <svg><use href="#i-download"/></svg></button></div>
+    <div class="panel data-card"><div class="data-icon"><svg><use href="#i-upload"/></svg></div><h3>Import asset register</h3><p>Load an existing five-column register. Invalid rows are rejected.</p><button id="importbtn" type="button" class="button-outline" onclick="document.getElementById('import').click()">Choose CSV <svg><use href="#i-upload"/></svg></button><input id="import" type="file" accept=".csv,text/csv" class="visually-hidden"><button id="template" type="button" class="button-link">Download register template</button></div>
   </div>
+  <div class="foot-note"><strong id="outbox">0 records on device</strong><span>•</span><span id="engineLabel">Checking local core</span></div>
+  <p class="disclaimer">Pre-pilot build. No brand-specific tester import, automated cloud sync, regulatory certification or production support is claimed. Do not use as the sole legally required record without validation.</p>
+ </section>
 </main>
-
-<div id="banner" class="banner hidden"></div>
-
+<nav class="bottom-nav" aria-label="Primary">
+  <a href="#home" class="nav-current" data-nav="home"><svg><use href="#i-home"/></svg><span>Home</span></a>
+  <a href="#capture" data-nav="capture"><svg><use href="#i-scan"/></svg><span>Capture</span></a>
+  <a href="#register" data-nav="register"><svg><use href="#i-list"/></svg><span>Register</span></a>
+  <a href="#reports" data-nav="reports"><svg><use href="#i-file"/></svg><span>Reports</span></a>
+</nav>
+<div id="banner" class="banner hidden" role="status" aria-live="polite"></div>
 <script type="module" src="./app.js"></script>
-</body>
-</html>
+<script type="module" src="./ux.js"></script>
+</body></html>
