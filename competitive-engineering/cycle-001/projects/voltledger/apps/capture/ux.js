@@ -23,18 +23,18 @@ ready(() => {
   function inspectUiState() {
     const bodyText = counts.textContent || "";
     const values = Object.fromEntries(
-      ["overdue", "due soon", "current", "untested"].map((key) => {
+      ["overdue", "due soon", "current", "untested", "failed"].map((key) => {
         const re = new RegExp("(\\d+)\\s+" + key.replace(" ", "\\s+"), "i");
         const match = bodyText.match(re);
         return [key, match ? Number(match[1]) : 0];
       }),
     );
-    const total = values.overdue + values["due soon"] + values.current + values.untested;
+    const total = values.overdue + values["due soon"] + values.failed + values.current + values.untested + values.failed;
     const saved = Number.parseInt(outbox.textContent, 10) || 0;
     $("#assetTotal").textContent = String(total);
-    $("#attentionTotal").textContent = String(values.overdue + values["due soon"]);
+    $("#attentionTotal").textContent = String(values.overdue + values["due soon"] + values.failed);
     $("#savedTotal").textContent = String(saved);
-    $("#attentionTotal").parentElement.classList.toggle("has-attention", values.overdue + values["due soon"] > 0);
+    $("#attentionTotal").parentElement.classList.toggle("has-attention", values.overdue + values["due soon"] + values.failed > 0);
 
     const engine = document.body.dataset.engine;
     if (engine === "rust-wasm") {
