@@ -1,14 +1,23 @@
 {
-  "name": "Test register",
-  "short_name": "Register",
-  "description": "Local-first test and tag register",
+  "name": "VoltLedger Field Register",
+  "short_name": "VoltLedger",
+  "description": "Local-first field test-and-tag register for Australian electricians. Pre-pilot.",
+  "id": "./index.html",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": [
+    "standalone"
+  ],
   "orientation": "portrait",
-  "background_color": "#11161c",
-  "theme_color": "#11161c",
+  "background_color": "#090c0b",
+  "theme_color": "#090c0b",
   "icons": [
-    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
   ]
 }
