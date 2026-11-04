@@ -10,7 +10,6 @@ const core = wasm.ok ? wasm : jsCore;
 // The browser's own entry point to the wire, whichever engine won. The corpus
 // gate calls this so it scores what this page actually runs.
 const runWire = (op, input) => (wasm.ok ? wasm.rawDispatch(op, input) : jsWire.dispatch(op, input));
-window.__volt = { engine: () => document.body.dataset.engine, run: runWire };
 const { status, reconcile, importItems, testsToCsv, INTERVALS_MONTHS, CLASS_LABELS, toIso } = core;
 
 const $ = (sel) => document.querySelector(sel);
@@ -85,13 +84,18 @@ function recompute() {
 
 // ---- rendering -----------------------------------------------------------
 
+// Render untrusted CSV fields as text, never executable HTML.
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
 function rowFor(item, rec) {
   const today = toIso(new Date());
   const st = rec ? status(rec.nextDue, today) : "untested";
   const label = { overdue: "OVERDUE", due_soon: "DUE SOON", current: "OK", untested: "NOT TESTED" }[st];
-  return `<li class="row s-${st}" data-tag="${item.itemTag}">
-      <div class="tag">${item.itemTag}</div>
-      <div class="desc">${item.description || "no description"}<span class="loc">${item.location || ""}</span></div>
+  return `<li class="row s-${st}" data-tag="${escapeHtml(item.itemTag)}">
+      <div class="tag">${escapeHtml(item.itemTag)}</div>
+      <div class="desc">${escapeHtml(item.description || "no description")}<span class="loc">${escapeHtml(item.location || "")}</span></div>
       <div class="due">${rec ? rec.nextDue : "-"}<span class="pill">${label}</span></div>
     </li>`;
 }
@@ -158,7 +162,9 @@ async function saveResult(result) {
 
 let detector = null;
 async function startScan() {
-  if (!("BarcodeDetector" in window)) { banner("No camera decoder in this browser, type the tag", "bad"); return; }
+  if (!("BarcodeDetector" in window)) { banner("Camera scanning is unsupported here. Type the tag instead.", "warn"); return; }
+  if (!navigator.mediaDevices?.getUserMedia) { banner("Camera needs HTTPS or localhost. Type the tag instead.", "warn"); return; }
+  try {
   const supported = await window.BarcodeDetector.getSupportedFormats();
   const formats = ["qr_code", "code_128", "code_39", "ean_13"].filter((f) => supported.includes(f));
   detector = new window.BarcodeDetector({ formats: formats.length ? formats : supported });
@@ -181,6 +187,10 @@ async function startScan() {
     requestAnimationFrame(loop);
   };
   loop();
+  } catch (err) {
+    stopScan();
+    banner(`Camera unavailable: ${err?.message || "permission not granted"}. Enter the tag manually.`, "warn");
+  }
 }
 
 function stopScan() {
@@ -258,6 +268,8 @@ if ("serviceWorker" in navigator) {
 await loadAll();
 document.body.dataset.engine = core.ok ? "rust-wasm" : "js-fallback";
 document.body.dataset.parity = wasm.ok ? `${wasm.parity.total}/${wasm.parity.total}` : wasm.reason;
+// Only publish the browser test probe AFTER the live engine is recorded.
+window.__volt = { engine: () => document.body.dataset.engine, run: runWire };
 banner(
   core.ok ? `core rust-wasm, vectors ${wasm.parity.total}/${wasm.parity.total}` : `js fallback: ${wasm.reason}`,
   core.ok ? "ok" : "warn",
