@@ -290,7 +290,7 @@ function download(name, text) {
 // still override it afterwards, and the override is what gets recorded.
 function syncClassFromTag() {
   const item = state.items.get($("#tag").value.trim());
-  if (item) $("#class").value = item.classKey;
+  $("#class").value = item ? item.classKey : "";
 }
 
 $("#tag").addEventListener("input", syncClassFromTag);
@@ -310,7 +310,7 @@ window.addEventListener("online", render);
 window.addEventListener("offline", render);
 
 const classSelect = $("#class");
-classSelect.innerHTML = Object.entries(INTERVALS_MONTHS)
+classSelect.innerHTML = '<option value="" selected disabled>Select site environment</option>' + Object.entries(INTERVALS_MONTHS)
   .map(([k, m]) => `<option value="${k}">${CLASS_LABELS[k]} (${m} months)</option>`).join("");
 $("#tested").value = toIso(new Date());
 
